@@ -1,5 +1,6 @@
-import React from "react";
-import { NavLink } from "react-router";
+import React, { use } from "react";
+import { Link, NavLink } from "react-router";
+import { AuthContext } from "../../Context/AuthContext";
 
 const Navbar = () => {
   const links = (
@@ -54,8 +55,8 @@ const Navbar = () => {
             <img src="https://via.placeholder.com/150" alt="User" />
           </div>
         </div>
-        <button className="btn btn-primary btn-sm">Login</button>
-        <button className="btn btn-outline btn-sm">Register</button>
+        <Link to='/login' className="btn btn-primary btn-sm">Login</Link>
+        <Link to='/register' className="btn btn-outline btn-sm">Register</Link>
       </div>
     </div>
   );

@@ -3,6 +3,8 @@ import RouteLayout from "../RouteLayout/RouteLayout";
 import Home from "../Home/Home";
 import Meals from "../Page/Meals/Meals";
 import DashboardLayout from "../Dashboard/DashboardLayout/DashboardLayout";
+import Register from "../Auth/Register";
+import Login from "../Auth/Login";
 
 export const router = createBrowserRouter([
     {
@@ -22,5 +24,14 @@ export const router = createBrowserRouter([
                 element: <DashboardLayout></DashboardLayout>
             }
         ]
-    }
+    },
+    {
+        path: '/register',
+        Component: Register
+    },
+    {
+        path: '/login',
+        Component: Login
+    },
+     
 ])
