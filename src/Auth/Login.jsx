@@ -1,4 +1,5 @@
 import React from "react";
+import GoogleLogin from "./googleLogin";
 
 const Login = () => {
   return (
@@ -42,7 +43,7 @@ const Login = () => {
           >
             Login
           </button>
-
+          <GoogleLogin></GoogleLogin>
           {/* Register Link */}
           <p className="text-center text-white/80 text-sm mt-4">
             Don't have an account?{" "}
