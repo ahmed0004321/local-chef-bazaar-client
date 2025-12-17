@@ -4,12 +4,12 @@ import useAxiosSecure from "../../Hooks/AxiosSecure";
 import Loading from "../../Components/Loading/Loading";
 import { Link } from "react-router";
 
-const Meals = () => {
+const MealForHome = () => {
   const axiosSecure = useAxiosSecure();
   const { data: meals = [], isLoading } = useQuery({
     queryKey: ["meals"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/meals");
+      const res = await axiosSecure.get("/mealForHome");
       return res.data;
     },
   });
@@ -69,4 +69,4 @@ const Meals = () => {
   );
 };
 
-export default Meals;
+export default MealForHome;

@@ -7,7 +7,7 @@ const RouteLayout = () => {
     return (
         <div className='max-w-7xl mx-auto min-h-screen flex flex-col'>
             <Navbar></Navbar>
-            <div className='flex-1'>
+            <div className='flex-1 mt-17'>
                 <Outlet></Outlet>
             </div>
             <Footer></Footer>

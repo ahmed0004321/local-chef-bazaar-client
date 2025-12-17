@@ -1,11 +1,27 @@
 import React, { use } from "react";
 import { AuthContext } from "../Context/AuthContext";
+import { useLocation, useNavigate } from "react-router";
 
 const GoogleLogin = () => {
-    const {googleSignIn} = use(AuthContext);
+  const { googleSignIn } = use(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const handleGoogleSign = () => {
+    googleSignIn()
+      .then((result) => {
+        console.log(result.user);
+        navigate(location?.state ? location?.state : "/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div>
-      <button onClick={googleSignIn} className="btn w-full bg-white text-black border-[#e5e5e5]">
+      <button
+        onClick={handleGoogleSign}
+        className="btn w-full bg-white text-black border-[#e5e5e5]"
+      >
         <svg
           aria-label="Google logo"
           width="16"

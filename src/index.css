@@ -2,6 +2,7 @@
 @plugin "daisyui";
 
 .active {
-  color: hsl(var(--p));
+  color: white;
+  background: #f38b0c;
   font-weight: bold;
 }
