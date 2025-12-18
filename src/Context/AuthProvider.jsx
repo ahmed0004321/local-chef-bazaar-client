@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import {
-    createUserWithEmailAndPassword,
+  createUserWithEmailAndPassword,
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
@@ -19,27 +19,35 @@ const AuthProvider = ({ children }) => {
   };
   //register
   const createUser = (email, password) => {
-      setLoading(true);
-      return createUserWithEmailAndPassword(auth, email, password);
+    setLoading(true);
+    return createUserWithEmailAndPassword(auth, email, password);
   };
   //signIn
-    const signInUser = (email, password) => {
-        setLoading(true);
-        return signInWithEmailAndPassword(auth, email, password);
-    };
+  const signInUser = (email, password) => {
+    setLoading(true);
+    return signInWithEmailAndPassword(auth, email, password);
+  };
   const updateUserProfile = (profile) => {
     setLoading(true);
     return updateProfile(auth.currentUser, profile);
-};
-//sign Out
-    const logOut = () => {
-        setLoading(true)
-        return signOut(auth);
-    }
+  };
+  //sign Out
+  const logOut = () => {
+    setLoading(true);
+    return signOut(auth);
+  };
   //observer
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        const token = await currentUser.getIdToken();
+
+        setUser({ ...currentUser, accessToken: token });
+        setLoading(false);
+      } else {
+        setUser(null);
+        console.log(" No user logged in");
+      }
       setLoading(false);
     });
     return () => unsubscribe();
@@ -52,9 +60,11 @@ const AuthProvider = ({ children }) => {
     createUser,
     googleSignIn,
     user,
-    loading
+    loading,
   };
-  return <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

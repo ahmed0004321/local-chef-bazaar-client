@@ -8,12 +8,15 @@ import { AuthContext } from "../../Context/AuthContext";
 
 const MealDetails = () => {
   const [reviews, setReviews] = useState([]);
+  const [quantity, setQuantity] = useState(1);
+  const [userAddress, setUserAddress] = useState("");
   console.log(reviews);
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
   const { user } = use(AuthContext);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
 
   const { data: mealDetails = {}, isLoading } = useQuery({
     queryKey: ["mealDetails", id],
@@ -22,6 +25,9 @@ const MealDetails = () => {
       return res.data;
     },
   });
+
+  // Calculate total price based on quantity
+  const totalPrice = (mealDetails.price * quantity).toFixed(2);
 
   //for review
   const submitReview = async (e) => {
@@ -66,6 +72,73 @@ const MealDetails = () => {
         title: "Failed to submit review",
         text: error.message,
       });
+    }
+  };
+
+  // Handle order submission
+  const handleOrderSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!userAddress.trim()) {
+      Swal.fire({
+        icon: "warning",
+        title: "Address Required",
+        text: "Please enter your delivery address",
+      });
+      return;
+    }
+
+    // Show confirmation
+    const result = await Swal.fire({
+      title: "Confirm Order",
+      html: `
+        <p>Your total price is <strong>৳${totalPrice}</strong></p>
+        <p>Do you want to confirm the order?</p>
+      `,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#10b981",
+      cancelButtonColor: "#ef4444",
+      confirmButtonText: "Yes, Confirm!",
+      cancelButtonText: "Cancel",
+    });
+
+    if (result.isConfirmed) {
+      const orderData = {
+        foodId: mealDetails._id,
+        mealName: mealDetails.foodName,
+        price: mealDetails.price,
+        quantity: quantity,
+        chefId: mealDetails.chefId,
+        paymentStatus: "Pending",
+        userEmail: user?.email,
+        userAddress: userAddress,
+        orderStatus: "pending",
+      };
+      console.log(orderData);
+      try {
+        const res = await axiosSecure.post("/myOrders", orderData);
+        console.log(res.data);
+
+        Swal.fire({
+          icon: "success",
+          title: "Order placed successfully!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+
+        // Reset and close modal
+        setIsOrderModalOpen(false);
+        setQuantity(1);
+        setUserAddress("");
+      } catch (error) {
+        console.error(error);
+        Swal.fire({
+          icon: "error",
+          title: "Failed to place order",
+          text: error.message,
+        });
+      }
     }
   };
 
@@ -152,7 +225,10 @@ const MealDetails = () => {
                 </div>
               </div>
               <div className="space-y-3">
-                <button className="w-full py-4 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 text-white text-lg font-bold hover:from-green-600 hover:to-emerald-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
+                <button
+                  onClick={() => setIsOrderModalOpen(true)}
+                  className="w-full py-4 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 text-white text-lg font-bold hover:from-green-600 hover:to-emerald-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+                >
                   🛒 Order Now
                 </button>
                 <button className="w-full py-4 rounded-xl backdrop-blur-md bg-white/10 text-white font-semibold hover:bg-white/20 transition-all duration-300 border border-white/20 shadow-lg">
@@ -382,7 +458,7 @@ const MealDetails = () => {
         </div>
       </div>
 
-      {/* Modal JSX */}
+      {/* Review Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-md relative">
@@ -426,6 +502,159 @@ const MealDetails = () => {
                 Submit Review
               </button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Order Modal - Cart Style */}
+      {isOrderModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-hidden shadow-2xl">
+            {/* Header */}
+            <div className="px-6 py-4 bg-gradient-to-r from-green-500 to-emerald-500 text-white">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-bold flex items-center gap-2">
+                  🛒 Your Cart
+                </h2>
+                <button
+                  onClick={() => {
+                    setIsOrderModalOpen(false);
+                    setQuantity(1);
+                    setUserAddress("");
+                  }}
+                  className="text-white hover:bg-white/20 rounded-full w-8 h-8 flex items-center justify-center text-2xl font-bold transition"
+                >
+                  &times;
+                </button>
+              </div>
+            </div>
+
+            <div className="overflow-y-auto max-h-[calc(90vh-140px)]">
+              {/* Cart Item Section */}
+              <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4">
+                  Order Details
+                </h3>
+
+                <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4">
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="flex-1">
+                      <h4 className="font-bold text-gray-800 dark:text-white text-lg">
+                        {mealDetails.foodName}
+                      </h4>
+                      <p className="text-green-600 dark:text-green-400 font-semibold mt-1">
+                        ৳{mealDetails.price} each
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Quantity Controls */}
+                  <div className="flex items-center justify-between mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
+                    <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">
+                      Quantity
+                    </span>
+                    <div className="flex items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                        className="w-8 h-8 bg-gray-200 dark:bg-gray-600 rounded-lg text-lg font-bold hover:bg-gray-300 dark:hover:bg-gray-500 transition"
+                      >
+                        -
+                      </button>
+                      <input
+                        type="number"
+                        value={quantity}
+                        min="1"
+                        onChange={(e) =>
+                          setQuantity(Math.max(1, Number(e.target.value) || 1))
+                        }
+                        className="w-16 text-center p-2 border rounded-lg dark:bg-gray-600 dark:border-gray-500 font-semibold"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setQuantity(quantity + 1)}
+                        className="w-8 h-8 bg-gray-200 dark:bg-gray-600 rounded-lg text-lg font-bold hover:bg-gray-300 dark:hover:bg-gray-500 transition"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Order Summary */}
+              <div className="p-6 bg-gray-50 dark:bg-gray-700/30 border-b border-gray-200 dark:border-gray-700">
+                <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4">
+                  Order Summary
+                </h3>
+
+                <div className="space-y-3">
+                  <div className="flex justify-between text-gray-600 dark:text-gray-300">
+                    <span>Subtotal ({quantity} items)</span>
+                    <span className="font-semibold">৳{totalPrice}</span>
+                  </div>
+                  <div className="flex justify-between text-gray-600 dark:text-gray-300">
+                    <span>Delivery Fee</span>
+                    <span className="font-semibold text-green-600 dark:text-green-400">
+                      FREE
+                    </span>
+                  </div>
+                  <div className="pt-3 border-t border-gray-300 dark:border-gray-600">
+                    <div className="flex justify-between items-center">
+                      <span className="text-lg font-bold text-gray-800 dark:text-white">
+                        Total
+                      </span>
+                      <span className="text-2xl font-bold text-green-600 dark:text-green-400">
+                        ৳{totalPrice}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Delivery Information Form */}
+              <form onSubmit={handleOrderSubmit} className="p-6 space-y-4">
+                <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-4">
+                  Delivery Information
+                </h3>
+
+                {/* Email (Read-only) */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    value={user?.email}
+                    readOnly
+                    className="w-full p-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400"
+                  />
+                </div>
+
+                {/* Delivery Address (Required Input) */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                    Delivery Address *
+                  </label>
+                  <textarea
+                    value={userAddress}
+                    onChange={(e) => setUserAddress(e.target.value)}
+                    rows={3}
+                    placeholder="Enter your full delivery address..."
+                    className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-700 focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                    required
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  className="w-full py-4 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold text-lg hover:from-green-600 hover:to-emerald-600 shadow-lg hover:shadow-xl transition-all duration-200"
+                >
+                  ✅ Place Order - ৳{totalPrice}
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       )}

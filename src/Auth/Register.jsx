@@ -6,10 +6,12 @@ import { AuthContext } from "../Context/AuthContext";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Loading from "../Components/Loading/Loading";
+import useAxiosSecure from "../Hooks/AxiosSecure";
 
 const Register = () => {
   const { createUser, updateUserProfile, loading } = use(AuthContext);
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 
   const {
     register,
@@ -33,7 +35,7 @@ const Register = () => {
     const profileImg = data.photo[0];
 
     createUser(data.email, data.password)
-      .then((result) => {
+      .then(() => {
         const formData = new FormData();
         formData.append("image", profileImg);
 
@@ -43,11 +45,24 @@ const Register = () => {
         axios
           .post(image_API_URL, formData)
           .then((res) => {
+            const photoURL = res.data.data.url;
+            //create user in the database
+            const userInfo = {
+              email: data.email,
+              displayName: data.name,
+              photoURL: photoURL
+            }
+            axiosSecure.post('/users', userInfo)
+            .then(res => {
+              if(res.data.insertedId){
+                console.log('user created in the database');
+              }
+            })
+
             const updateProfileData = {
               displayName: data.name,
-              photoURL: res.data.data.display_url,
+              photoURL: photoURL
             };
-
             updateUserProfile(updateProfileData)
               .then(() => {
                 Swal.fire({
