@@ -50,7 +50,7 @@ const Meals = () => {
 
             <div className="flex items-center justify-between mt-4">
               <span className="text-lg font-bold text-white">
-                ৳ {meal.price}
+                $ {meal.price}
               </span>
 
               <span className="text-sm text-yellow-300">

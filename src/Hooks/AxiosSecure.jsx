@@ -9,7 +9,7 @@ const axiosSecure = axios.create({
 
 const useAxiosSecure = () => {
     const navigate = useNavigate();
-    const {user, logOut, loading} = use(AuthContext);
+    const {user, setUser, logOut, loading} = use(AuthContext);
     //client side theke jwt token ta pathacci server side e 
     //to intercept request
     useEffect(() => {
@@ -24,10 +24,11 @@ const useAxiosSecure = () => {
             return response;
         }, (error) => {
             console.log(error);
-            const statusCode = error.status;
+            const statusCode = error.response?.status;
             if(statusCode === 401 || statusCode === 403){
                 logOut()
                 .then(() => {
+                    setUser(null);
                     navigate('/login');
                 })
             }

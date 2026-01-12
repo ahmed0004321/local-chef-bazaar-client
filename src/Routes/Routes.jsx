@@ -7,6 +7,9 @@ import Register from "../Auth/Register";
 import Login from "../Auth/Login";
 import PrivateRoutes from "./PrivateRoutes";
 import MealDetails from "../Page/MealDetails/MealDetails";
+import MyProfile from "../Dashboard/MyProfile/MyProfile";
+import MyOrderPage from "../Dashboard/MyOrderPage/MyOrderPage";
+import MyReviewPage from "../Dashboard/MyReviewPage/MyReviewPage";
 
 export const router = createBrowserRouter([
   {
@@ -29,14 +32,6 @@ export const router = createBrowserRouter([
           </PrivateRoutes>
         ),
       },
-      {
-        path: "/dashboard",
-        element: (
-          <PrivateRoutes>
-            <DashboardLayout></DashboardLayout>
-          </PrivateRoutes>
-        ),
-      },
     ],
   },
   {
@@ -46,5 +41,34 @@ export const router = createBrowserRouter([
   {
     path: "/login",
     Component: Login,
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoutes>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoutes>
+    ),
+    children: [
+      {
+        index: true,
+        path: '/dashboard/myProfile',
+        element: <PrivateRoutes>
+          <MyProfile></MyProfile>
+        </PrivateRoutes>
+      },
+      {
+        path: '/dashboard/myOrders',
+        element: <PrivateRoutes>
+          <MyOrderPage></MyOrderPage>
+        </PrivateRoutes>
+      },
+      {
+        path: "/dashboard/myReviews",
+        element: <PrivateRoutes>
+          <MyReviewPage></MyReviewPage>
+        </PrivateRoutes>
+      }
+    ]
   },
 ]);

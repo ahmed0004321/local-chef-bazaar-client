@@ -14,6 +14,7 @@ const MealDetails = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
   const { user } = use(AuthContext);
+  console.log(user?.data?.email);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
@@ -111,7 +112,7 @@ const MealDetails = () => {
         quantity: quantity,
         chefId: mealDetails.chefId,
         paymentStatus: "Pending",
-        userEmail: user?.email,
+        userEmail: user?.data?.email,
         userAddress: userAddress,
         orderStatus: "pending",
       };
@@ -162,6 +163,20 @@ const MealDetails = () => {
       </div>
     );
   }
+
+  const handleFavoriteMeal = async () => {
+    try {
+      const res = await axiosSecure.post(`/favMeal/${id}`);
+      console.log("Favorite added:", res.data.message);
+    } catch (error) {
+      // Check if the error is a duplicate (409)
+      if (error.response && error.response.status === 409) {
+        console.log("Meal already exists in favorites");
+      } else {
+        console.error("Error adding favorite:", error);
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen py-8 px-4">
@@ -231,7 +246,10 @@ const MealDetails = () => {
                 >
                   🛒 Order Now
                 </button>
-                <button className="w-full py-4 rounded-xl backdrop-blur-md bg-white/10 text-white font-semibold hover:bg-white/20 transition-all duration-300 border border-white/20 shadow-lg">
+                <button
+                  onClick={handleFavoriteMeal}
+                  className="w-full py-4 rounded-xl backdrop-blur-md bg-white/10 text-white font-semibold hover:bg-white/20 transition-all duration-300 border border-white/20 shadow-lg"
+                >
                   ❤️ Add to Favorites
                 </button>
               </div>
@@ -275,9 +293,7 @@ const MealDetails = () => {
           {/* Ingredients Card */}
           <div className="lg:col-span-2 backdrop-blur-lg bg-white/10 border border-white/20 rounded-3xl p-6 shadow-2xl">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-2xl">
-                🥘
-              </div>
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center text-2xl"></div>
               <div>
                 <h3 className="text-2xl font-bold text-white">Ingredients</h3>
                 <p className="text-sm text-gray-400">
@@ -304,9 +320,7 @@ const MealDetails = () => {
           {/* Delivery Information */}
           <div className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-3xl p-6 shadow-2xl">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-2xl">
-                🚚
-              </div>
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-2xl"></div>
               <h3 className="text-2xl font-bold text-white">
                 Delivery Details
               </h3>
@@ -414,7 +428,7 @@ const MealDetails = () => {
               onClick={() => setIsModalOpen(true)}
               className="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold hover:from-blue-600 hover:to-purple-600 transition-all duration-300 shadow-lg"
             >
-              ✍️ Write a Review
+              Write a Review
             </button>
           </div>
 
@@ -540,10 +554,10 @@ const MealDetails = () => {
                   <div className="flex justify-between items-start mb-3">
                     <div className="flex-1">
                       <h4 className="font-bold text-gray-800 dark:text-white text-lg">
-                        {mealDetails.foodName}
+                        {mealDetails?.foodName}
                       </h4>
                       <p className="text-green-600 dark:text-green-400 font-semibold mt-1">
-                        ৳{mealDetails.price} each
+                        ৳{mealDetails?.price} each
                       </p>
                     </div>
                   </div>
@@ -625,7 +639,7 @@ const MealDetails = () => {
                   </label>
                   <input
                     type="email"
-                    value={user?.email}
+                    defaultValue={user?.data?.email}
                     readOnly
                     className="w-full p-3 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400"
                   />

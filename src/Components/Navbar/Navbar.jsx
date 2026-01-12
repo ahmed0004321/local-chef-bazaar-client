@@ -1,5 +1,5 @@
 import { use } from "react";
-import { Link, NavLink, useNavigate } from "react-router";
+import { Link, NavLink } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
 
 const Navbar = () => {
@@ -70,7 +70,7 @@ const Navbar = () => {
             <div className="flex items-center gap-2">
               <div className="avatar">
                 <div className="w-10 rounded-full">
-                  <img src={user?.photoURL} alt="User" />
+                  <img src={user?.data?.photoURL} alt="User" />
                 </div>
               </div>
               <div className="flex items-center gap-1">

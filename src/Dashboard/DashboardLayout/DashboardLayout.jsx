@@ -1,100 +1,124 @@
-import React from "react";
-import { Link } from "react-router";
+import React, { use } from "react";
+import { Link, Outlet } from "react-router";
+import { AuthContext } from "../../Context/AuthContext";
 
 const DashboardLayout = () => {
+  const { user } = use(AuthContext);
+console.log(user?.data?.role);
   return (
-    <div className="drawer lg:drawer-open">
+    <div className="drawer lg:drawer-open min-h-screen bg-neutral-950">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content">
+
+      {/* Page Content */}
+      <div className="drawer-content flex flex-col">
         {/* Navbar */}
-        <nav className="navbar w-full bg-base-300">
-          <label
-            htmlFor="my-drawer-4"
-            aria-label="open sidebar"
-            className="btn btn-square btn-ghost"
-          >
-            {/* Sidebar toggle icon */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              strokeLinejoin="round"
-              strokeLinecap="round"
-              strokeWidth="2"
-              fill="none"
-              stroke="currentColor"
-              className="my-1.5 inline-block size-4"
+        <nav className="navbar sticky top-0 z-20 bg-transparent backdrop-blur-md border-b border-neutral-700/40">
+          <div className="flex-none lg:hidden">
+            <label
+              htmlFor="my-drawer-4"
+              aria-label="open sidebar"
+              className="btn btn-square btn-ghost hover:bg-neutral-800/40"
             >
-              <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
-              <path d="M9 4v16"></path>
-              <path d="M14 10l2 2l-2 2"></path>
-            </svg>
-          </label>
-          <div className="px-4 font-bold">Dashboard</div>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="size-6 text-neutral-300"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </label>
+          </div>
+
+          <div className="flex-1 px-4">
+            <h1 className="text-lg font-medium text-neutral-200">Dashboard</h1>
+          </div>
         </nav>
-        {/* Page content here */}
-        <div className="p-4">Page Content</div>
+
+        <main className="p-6">
+          <div className="rounded-xl bg-transparent backdrop-blur-md border border-neutral-700/40 p-6">
+            <Outlet />
+          </div>
+        </main>
       </div>
 
-      <div className="drawer-side is-drawer-close:overflow-visible">
-        <label
-          htmlFor="my-drawer-4"
-          aria-label="close sidebar"
-          className="drawer-overlay"
-        ></label>
-        <div className="flex min-h-full flex-col items-start bg-base-200 is-drawer-close:w-14 is-drawer-open:w-64">
-          {/* Sidebar content here */}
-          <ul className="menu w-full grow">
-            {/* List item */}
-            <li>
-              <Link to='/'
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Homepage"
-              >
-                {/* Home icon */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  strokeWidth="2"
-                  fill="none"
-                  stroke="currentColor"
-                  className="my-1.5 inline-block size-4"
-                >
-                  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
-                  <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-                </svg>
-                <span className="is-drawer-close:hidden">Homepage</span>
-              </Link>
-            </li>
+      {/* Sidebar */}
+      <div className="drawer-side">
+        <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
 
-            {/* List item */}
-            <li>
-              <button
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Settings"
-              >
-                {/* Settings icon */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  strokeWidth="2"
-                  fill="none"
-                  stroke="currentColor"
-                  className="my-1.5 inline-block size-4"
+        <aside className="w-72 min-h-full bg-transparent backdrop-blur-md border-r border-neutral-700/40">
+          <div className="px-6 py-5 border-b border-neutral-700/40">
+            <h2 className="text-sm font-medium text-neutral-200">
+              LocalChefBazaar
+            </h2>
+          </div>
+
+          {/* Menu */}
+          <div className="px-4 py-6">
+            <h3 className="px-3 text-xs uppercase tracking-wide text-neutral-400 mb-3">
+              Main Menu
+            </h3>
+
+            <ul className="space-y-1">
+              {/* Always visible */}
+              <li>
+                <Link
+                  to="/"
+                  className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
                 >
-                  <path d="M20 7h-9"></path>
-                  <path d="M14 17H5"></path>
-                  <circle cx="17" cy="17" r="3"></circle>
-                  <circle cx="7" cy="7" r="3"></circle>
-                </svg>
-                <span className="is-drawer-close:hidden">Settings</span>
-              </button>
-            </li>
-          </ul>
-        </div>
+                  Homepage
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/dashboard/myProfile"
+                  className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
+                >
+                  My Profile
+                </Link>
+              </li>
+
+              {/* Only for CUSTOMER */}
+              {user?.data?.role === "customer" && (
+                <>
+                  <li>
+                    <Link
+                      to="/dashboard/myOrders"
+                      className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
+                    >
+                      My Orders
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      to="/dashboard/myReviews"
+                      className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
+                    >
+                      My Reviews
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      to="/dashboard/favoriteMeals"
+                      className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
+                    >
+                      Favorite Meals
+                    </Link>
+                  </li>
+                </>
+              )}
+            </ul>
+          </div>
+        </aside>
       </div>
     </div>
   );

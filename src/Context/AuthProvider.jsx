@@ -10,48 +10,73 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../Firebase/firebase.config";
+import axios from "axios";
 const googleProvider = new GoogleAuthProvider();
+
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  // const [role, setRole] = useState("");
+  // console.log(user?.data?.role);
+  // Google sign in
   const googleSignIn = () => {
     return signInWithPopup(auth, googleProvider);
   };
-  //register
+
+  // Register
   const createUser = (email, password) => {
-    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
-  //signIn
+
+  // Login
   const signInUser = (email, password) => {
-    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
-  const updateUserProfile = (profile) => {
-    setLoading(true);
-    return updateProfile(auth.currentUser, profile);
+
+  // Update profile
+  const updateUserProfile = async (profile, name) => {
+    const img = {
+      photoURL: profile,
+      displayName: name
+    };
+    const res = await updateProfile(auth.currentUser, img);
+    setUser(auth.currentUser);
+    console.log(res, img);
   };
-  //sign Out
+
+  // Logout
   const logOut = () => {
-    setLoading(true);
     return signOut(auth);
   };
-  //observer
+
+  // Auth state observer
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        const token = await currentUser.getIdToken();
-
-        setUser({ ...currentUser, accessToken: token });
-        setLoading(false);
+        //   const userInfo = {
+        //     email: data.email,
+        //     displayName: data.name,
+        //     photoURL,
+        //     status: "active",
+        //     address: data.address,
+        //     chefId: "",
+        //   };
+        if (currentUser?.photoURL) {
+          const user = await axios.post(
+            "http://localhost:3000/users",
+            currentUser
+          );
+          setUser(user);
+          console.log(user);
+        }
       } else {
         setUser(null);
-        console.log(" No user logged in");
       }
       setLoading(false);
     });
+
     return () => unsubscribe();
-  }, []);
+  }, [auth.currentUser]);
 
   const authInfo = {
     signInUser,
@@ -61,7 +86,9 @@ const AuthProvider = ({ children }) => {
     googleSignIn,
     user,
     loading,
+    setUser
   };
+
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
   );
