@@ -39,14 +39,12 @@ const Register = () => {
       const formData = new FormData();
       formData.append("image", data.photo[0]);
 
-      const image_API_URL = `https://api.imgbb.com/1/upload?expiration=600&key=${
-        import.meta.env.VITE_image_host
-      }`;
+      const image_API_URL = `https://api.imgbb.com/1/upload?expiration=600&key=${import.meta.env.VITE_image_host}`;
       const imgRes = await axios.post(image_API_URL, formData);
       
       // 1️⃣ Create user
       await createUser(data.email, data.password);
-      await updateUserProfile (imgRes.data.data.url, data?.name);
+      await updateUserProfile (data.name, imgRes.data.data.url);
       // 5️⃣ Success message
       await Swal.fire({
         title: "Registration Successful!",
@@ -198,8 +196,6 @@ const Register = () => {
             {isSubmitting ? "Creating account..." : "Register"}
           </button>
 
-          {/* Google Login */}
-          <GoogleLogin />
 
           {/* Login Link */}
           <p className="text-center text-white/80 text-sm mt-4">

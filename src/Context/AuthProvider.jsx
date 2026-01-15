@@ -34,10 +34,10 @@ const AuthProvider = ({ children }) => {
   };
 
   // Update profile
-  const updateUserProfile = async (profile, name) => {
+  const updateUserProfile = async (name, photoURL) => {
     const img = {
-      photoURL: profile,
-      displayName: name
+      displayName: name,
+      photoURL: photoURL,
     };
     const res = await updateProfile(auth.currentUser, img);
     setUser(auth.currentUser);
@@ -53,14 +53,6 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        //   const userInfo = {
-        //     email: data.email,
-        //     displayName: data.name,
-        //     photoURL,
-        //     status: "active",
-        //     address: data.address,
-        //     chefId: "",
-        //   };
         if (currentUser?.photoURL) {
           const user = await axios.post(
             "http://localhost:3000/users",

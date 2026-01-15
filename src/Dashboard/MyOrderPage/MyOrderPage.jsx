@@ -17,107 +17,6 @@ const MyOrderPage = () => {
         },
       });
       console.log(order);
-//   const orders = [
-//     {
-//       _id: "1",
-//       foodName: "Spicy Chicken Biriyani",
-//       orderStatus: "pending",
-//       price: 220,
-//       quantity: 2,
-//       deliveryTime: "30 minutes",
-//       chefName: "Chef Rahim",
-//       chefId: "CH-009",
-//       paymentStatus: "Pending",
-//     },
-//     {
-//       _id: "2",
-//       foodName: "Grilled Chicken Salad",
-//       orderStatus: "delivered",
-//       price: 350,
-//       quantity: 1,
-//       deliveryTime: "25 minutes",
-//       chefName: "Chef John",
-//       chefId: "CH-014",
-//       paymentStatus: "Paid",
-//     },
-//     {
-//       _id: "2",
-//       foodName: "Grilled Chicken Salad",
-//       orderStatus: "delivered",
-//       price: 350,
-//       quantity: 1,
-//       deliveryTime: "25 minutes",
-//       chefName: "Chef John",
-//       chefId: "CH-014",
-//       paymentStatus: "Paid",
-//     },
-//     {
-//       _id: "2",
-//       foodName: "Grilled Chicken Salad",
-//       orderStatus: "delivered",
-//       price: 350,
-//       quantity: 1,
-//       deliveryTime: "25 minutes",
-//       chefName: "Chef John",
-//       chefId: "CH-014",
-//       paymentStatus: "Paid",
-//     },
-//     {
-//       _id: "2",
-//       foodName: "Grilled Chicken Salad",
-//       orderStatus: "delivered",
-//       price: 350,
-//       quantity: 1,
-//       deliveryTime: "25 minutes",
-//       chefName: "Chef John",
-//       chefId: "CH-014",
-//       paymentStatus: "Paid",
-//     },
-//     {
-//       _id: "2",
-//       foodName: "Grilled Chicken Salad",
-//       orderStatus: "delivered",
-//       price: 350,
-//       quantity: 1,
-//       deliveryTime: "25 minutes",
-//       chefName: "Chef John",
-//       chefId: "CH-014",
-//       paymentStatus: "Paid",
-//     },
-//     {
-//       _id: "2",
-//       foodName: "Grilled Chicken Salad",
-//       orderStatus: "delivered",
-//       price: 350,
-//       quantity: 1,
-//       deliveryTime: "25 minutes",
-//       chefName: "Chef John",
-//       chefId: "CH-014",
-//       paymentStatus: "Paid",
-//     },
-//     {
-//       _id: "2",
-//       foodName: "Grilled Chicken Salad",
-//       orderStatus: "delivered",
-//       price: 350,
-//       quantity: 1,
-//       deliveryTime: "25 minutes",
-//       chefName: "Chef John",
-//       chefId: "CH-014",
-//       paymentStatus: "Paid",
-//     },
-//     {
-//       _id: "2",
-//       foodName: "Grilled Chicken Salad",
-//       orderStatus: "delivered",
-//       price: 350,
-//       quantity: 1,
-//       deliveryTime: "25 minutes",
-//       chefName: "Chef John",
-//       chefId: "CH-014",
-//       paymentStatus: "Paid",
-//     },
-//   ];
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -132,7 +31,7 @@ const MyOrderPage = () => {
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {order.map((order) => (
+        {order?.map((order) => (
           <div
             key={order._id}
             className="backdrop-blur-lg bg-white/10 border border-white/20 rounded-2xl shadow-lg p-5 hover:scale-[1.02] transition-transform duration-300"
@@ -165,11 +64,7 @@ const MyOrderPage = () => {
               {order.created_at}
             </p>
 
-            {/* Chef Info */}
-            <p className="text-sm text-gray-200">
-              <span className="font-medium">Chef Name:</span>{" "}
-              {order.chefName}
-            </p>
+             
 
             <p className="text-sm text-gray-200">
               <span className="font-medium">Chef ID:</span>{" "}

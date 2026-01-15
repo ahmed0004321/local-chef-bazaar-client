@@ -44,9 +44,9 @@ const MealDetails = () => {
     const reviewData = {
       text: reviewText,
       rating: rating,
-      userName: user?.displayName,
-      userEmail: user?.email,
-      userImage: user?.photoURL,
+      userName: user?.data?.displayName,
+      userEmail: user?.data?.email,
+      userImage: user?.data?.photoURL,
     };
 
     try {
@@ -166,14 +166,32 @@ const MealDetails = () => {
 
   const handleFavoriteMeal = async () => {
     try {
-      const res = await axiosSecure.post(`/favMeal/${id}`);
+      const res = await axiosSecure.post(`/favMeal/${id}`, {
+        email: user?.data?.email,
+      });
       console.log("Favorite added:", res.data.message);
+      Swal.fire({
+        title: "Favorite Meal Added!",
+        text: "Your comment has been updated successfully.",
+        icon: "success",
+        confirmButtonText: "OK",
+        background: "#1f2937",
+        color: "#ffffff",
+      });
     } catch (error) {
       // Check if the error is a duplicate (409)
       if (error.response && error.response.status === 409) {
         console.log("Meal already exists in favorites");
       } else {
-        console.error("Error adding favorite:", error);
+        Swal.fire({
+          title: "sorry!",
+          text: "Favorite meal already exist.",
+          icon: "error",
+          confirmButtonText: "OK",
+          background: "#1f2937",
+          color: "#ffffff",
+        });
+        console.error("Error adding favorite");
       }
     }
   };

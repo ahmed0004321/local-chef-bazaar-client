@@ -6,7 +6,7 @@ const DashboardLayout = () => {
   const { user } = use(AuthContext);
 console.log(user?.data?.role);
   return (
-    <div className="drawer lg:drawer-open min-h-screen bg-neutral-950">
+    <div className="drawer lg:drawer-open min-h-screen">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
 
       {/* Page Content */}

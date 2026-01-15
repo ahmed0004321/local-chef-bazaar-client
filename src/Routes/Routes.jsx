@@ -10,6 +10,7 @@ import MealDetails from "../Page/MealDetails/MealDetails";
 import MyProfile from "../Dashboard/MyProfile/MyProfile";
 import MyOrderPage from "../Dashboard/MyOrderPage/MyOrderPage";
 import MyReviewPage from "../Dashboard/MyReviewPage/MyReviewPage";
+import FavMeals from "../Dashboard/FavMeals/FavMeals";
 
 export const router = createBrowserRouter([
   {
@@ -67,6 +68,12 @@ export const router = createBrowserRouter([
         path: "/dashboard/myReviews",
         element: <PrivateRoutes>
           <MyReviewPage></MyReviewPage>
+        </PrivateRoutes>
+      },
+      {
+        path: "/dashboard/favoriteMeals",
+        element: <PrivateRoutes>
+           <FavMeals></FavMeals>
         </PrivateRoutes>
       }
     ]

@@ -121,8 +121,6 @@ const Login = () => {
             Login
           </button>
 
-          {/* Google Login */}
-          <GoogleLogin />
 
           {/* Register Link */}
           <p className="text-center text-white/80 text-sm mt-4">
