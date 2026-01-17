@@ -13,6 +13,8 @@ import MyReviewPage from "../Dashboard/MyReviewPage/MyReviewPage";
 import FavMeals from "../Dashboard/FavMeals/FavMeals";
 import CreateMeal from "../Dashboard/Chef/CreateMeal";
 import MyMeals from "../Dashboard/Chef/MyMeals";
+import ManageOrders from "../Dashboard/Chef/OrderRequests";
+import OrderRequests from "../Dashboard/Chef/OrderRequests";
 
 export const router = createBrowserRouter([
   {
@@ -88,6 +90,12 @@ export const router = createBrowserRouter([
         path: "/dashboard/myMeals",
         element: <PrivateRoutes>
           <MyMeals></MyMeals>
+        </PrivateRoutes>
+      },
+      {
+        path: "/dashboard/orderRequest",
+        element: <PrivateRoutes>
+          <OrderRequests></OrderRequests>
         </PrivateRoutes>
       }
     ]

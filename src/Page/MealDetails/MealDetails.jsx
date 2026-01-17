@@ -156,14 +156,6 @@ const MealDetails = () => {
     fetchReviews();
   }, [axiosSecure, id]);
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loading></Loading>
-      </div>
-    );
-  }
-
   const handleFavoriteMeal = async () => {
     try {
       const res = await axiosSecure.post(`/favMeal/${id}`, {
@@ -195,6 +187,13 @@ const MealDetails = () => {
       }
     }
   };
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loading></Loading>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen py-8 px-4">

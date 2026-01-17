@@ -1,10 +1,18 @@
 import React, { use } from "react";
 import { Link, Outlet } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
+import Loading from "../../Components/Loading/Loading";
 
 const DashboardLayout = () => {
-  const { user } = use(AuthContext);
+  const { user, loading } = use(AuthContext);
   console.log(user?.data?.role);
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loading></Loading>
+      </div>
+    );
+  }
   return (
     <div className="drawer lg:drawer-open min-h-screen">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -99,10 +107,10 @@ const DashboardLayout = () => {
 
                   <li>
                     <Link
-                      to="/dashboard/manageOrders"
+                      to="/dashboard/orderRequest"
                       className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
                     >
-                      Manage Orders
+                      Order Requests
                     </Link>
                   </li>
                 </>

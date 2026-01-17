@@ -22,21 +22,13 @@ const MyReviewPage = () => {
     enabled: !!user?.data?.email,
     queryFn: async () => {
       const res = await axiosSecure.get(
-        `/dashboard/myReview?email=${user?.data?.email}`
+        `/dashboard/myReview?email=${user?.data?.email}`,
       );
       return res.data;
     },
   });
 
   console.log(review);
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loading></Loading>
-      </div>
-    );
-  }
 
   const handleOpen = (rev) => {
     setCurrentReview(rev);
@@ -120,6 +112,14 @@ const MyReviewPage = () => {
       }
     });
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loading></Loading>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
