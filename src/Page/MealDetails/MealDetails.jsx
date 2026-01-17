@@ -108,7 +108,7 @@ const MealDetails = () => {
       const orderData = {
         foodId: mealDetails._id,
         mealName: mealDetails.foodName,
-        price: mealDetails.price,
+        price: totalPrice,
         quantity: quantity,
         chefId: mealDetails.chefId,
         paymentStatus: "Pending",

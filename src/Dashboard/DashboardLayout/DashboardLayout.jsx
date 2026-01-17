@@ -4,7 +4,7 @@ import { AuthContext } from "../../Context/AuthContext";
 
 const DashboardLayout = () => {
   const { user } = use(AuthContext);
-console.log(user?.data?.role);
+  console.log(user?.data?.role);
   return (
     <div className="drawer lg:drawer-open min-h-screen">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
@@ -66,7 +66,7 @@ console.log(user?.data?.role);
             </h3>
 
             <ul className="space-y-1">
-              {/* Always visible */}
+              {/* Homepage always at top */}
               <li>
                 <Link
                   to="/"
@@ -76,6 +76,39 @@ console.log(user?.data?.role);
                 </Link>
               </li>
 
+              {/* Only for CHEF */}
+              {user?.data?.role === "chef" && (
+                <>
+                  <li>
+                    <Link
+                      to="/dashboard/createMeals"
+                      className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
+                    >
+                      Create Meals
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      to="/dashboard/myMeals"
+                      className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
+                    >
+                      My Meals
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      to="/dashboard/manageOrders"
+                      className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
+                    >
+                      Manage Orders
+                    </Link>
+                  </li>
+                </>
+              )}
+
+              {/* My Profile visible to all */}
               <li>
                 <Link
                   to="/dashboard/myProfile"

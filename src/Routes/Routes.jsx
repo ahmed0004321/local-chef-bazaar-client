@@ -11,6 +11,8 @@ import MyProfile from "../Dashboard/MyProfile/MyProfile";
 import MyOrderPage from "../Dashboard/MyOrderPage/MyOrderPage";
 import MyReviewPage from "../Dashboard/MyReviewPage/MyReviewPage";
 import FavMeals from "../Dashboard/FavMeals/FavMeals";
+import CreateMeal from "../Dashboard/Chef/CreateMeal";
+import MyMeals from "../Dashboard/Chef/MyMeals";
 
 export const router = createBrowserRouter([
   {
@@ -74,6 +76,18 @@ export const router = createBrowserRouter([
         path: "/dashboard/favoriteMeals",
         element: <PrivateRoutes>
            <FavMeals></FavMeals>
+        </PrivateRoutes>
+      },
+      {
+        path: "/dashboard/createMeals",
+        element: <PrivateRoutes>
+          <CreateMeal></CreateMeal>
+        </PrivateRoutes>
+      },
+      {
+        path: "/dashboard/myMeals",
+        element: <PrivateRoutes>
+          <MyMeals></MyMeals>
         </PrivateRoutes>
       }
     ]
