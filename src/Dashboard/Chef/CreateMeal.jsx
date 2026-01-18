@@ -123,6 +123,8 @@ const CreateMeal = () => {
             </label>
             <input
               type="text"
+              readOnly
+              defaultValue={user?.data?.displayName}
               {...register("chefName", { required: true })}
               className="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/70"
               placeholder="Chef Rahim"
@@ -232,8 +234,9 @@ const CreateMeal = () => {
             </label>
             <input
               type="text"
-              value="CHEF-XXXX"
+              defaultValue={user?.data?.chefId}
               readOnly
+              {...register("chefId", { required: true })}
               className="w-full px-4 py-3 bg-white/10 border border-white/30 rounded-lg text-white/70"
             />
           </div>
