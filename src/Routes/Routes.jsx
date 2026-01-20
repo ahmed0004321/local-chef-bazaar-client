@@ -15,6 +15,9 @@ import CreateMeal from "../Dashboard/Chef/CreateMeal";
 import MyMeals from "../Dashboard/Chef/MyMeals";
 import ManageOrders from "../Dashboard/Chef/OrderRequests";
 import OrderRequests from "../Dashboard/Chef/OrderRequests";
+import ManageUser from "../Dashboard/Admin/ManageUser";
+import ManageRequest from "../Dashboard/Admin/ManageRequest";
+import PlatformStatistic from "../Dashboard/Admin/PlatformStatistic";
 
 export const router = createBrowserRouter([
   {
@@ -96,6 +99,24 @@ export const router = createBrowserRouter([
         path: "/dashboard/orderRequest",
         element: <PrivateRoutes>
           <OrderRequests></OrderRequests>
+        </PrivateRoutes>
+      },
+      {
+        path: "/dashboard/manageUser",
+        element: <PrivateRoutes>
+          <ManageUser></ManageUser>
+        </PrivateRoutes>
+      },
+      {
+        path: "/dashboard/manageRequest",
+        element: <PrivateRoutes>
+          <ManageRequest></ManageRequest>
+        </PrivateRoutes>
+      },
+      {
+        path: "/dashboard/platformStatistic",
+        element: <PrivateRoutes>
+          <PlatformStatistic></PlatformStatistic>
         </PrivateRoutes>
       }
     ]

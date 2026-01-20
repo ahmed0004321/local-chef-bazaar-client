@@ -157,6 +157,38 @@ const DashboardLayout = () => {
                   </li>
                 </>
               )}
+
+              {/* Only for ADMIN */}
+              {user?.data?.role === "admin" && (
+                <>
+                  <li>
+                    <Link
+                      to="/dashboard/manageUser"
+                      className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
+                    >
+                      Manage Users
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      to="/dashboard/manageRequest"
+                      className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
+                    >
+                      Manage Requests
+                    </Link>
+                  </li>
+
+                  <li>
+                    <Link
+                      to="/dashboard/platformStatistic"
+                      className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
+                    >
+                      Platform Statistics
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </aside>
