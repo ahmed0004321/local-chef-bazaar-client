@@ -1,32 +1,36 @@
 import React, { use } from "react";
-import { Link, Outlet } from "react-router";
+import { NavLink, Outlet } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
 import Loading from "../../Components/Loading/Loading";
 
 const DashboardLayout = () => {
   const { user, loading } = use(AuthContext);
-  console.log(user?.data?.role);
+
+  // --- ACTIVE TOGGLE DESIGN LOGIC ---
+  const navLinkStyles = ({ isActive }) =>
+    `flex items-center px-4 py-2.5 rounded-xl transition-all duration-300 group ${
+      isActive
+        ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/20 translate-x-2" // Active State
+        : "text-neutral-400 hover:bg-neutral-800/60 hover:text-neutral-200" // Inactive State
+    }`;
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loading></Loading>
+        <Loading />
       </div>
     );
   }
+
   return (
     <div className="drawer lg:drawer-open min-h-screen">
       <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
 
       {/* Page Content */}
       <div className="drawer-content flex flex-col">
-        {/* Navbar */}
-        <nav className="navbar sticky top-0 z-20 bg-transparent backdrop-blur-md border-b border-neutral-700/40">
+        <nav className="navbar sticky top-0 z-20 backdrop-blur-md border-b border-neutral-800">
           <div className="flex-none lg:hidden">
-            <label
-              htmlFor="my-drawer-4"
-              aria-label="open sidebar"
-              className="btn btn-square btn-ghost hover:bg-neutral-800/40"
-            >
+            <label htmlFor="my-drawer-4" className="btn btn-square btn-ghost">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="size-6 text-neutral-300"
@@ -43,14 +47,13 @@ const DashboardLayout = () => {
               </svg>
             </label>
           </div>
-
           <div className="flex-1 px-4">
             <h1 className="text-lg font-medium text-neutral-200">Dashboard</h1>
           </div>
         </nav>
 
         <main className="p-6">
-          <div className="rounded-xl bg-transparent backdrop-blur-md border border-neutral-700/40 p-6">
+          <div className="rounded-2xl border border-neutral-800 p-6 min-h-[80vh]">
             <Outlet />
           </div>
         </main>
@@ -60,132 +63,112 @@ const DashboardLayout = () => {
       <div className="drawer-side">
         <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
 
-        <aside className="w-72 min-h-full bg-transparent backdrop-blur-md border-r border-neutral-700/40">
-          <div className="px-6 py-5 border-b border-neutral-700/40">
-            <h2 className="text-sm font-medium text-neutral-200">
+        <aside className="w-72 min-h-full bg-[#161926] border-r border-neutral-800">
+          <div className="px-6 py-8">
+            <h2 className="text-xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
               LocalChefBazaar
             </h2>
           </div>
 
-          {/* Menu */}
-          <div className="px-4 py-6">
-            <h3 className="px-3 text-xs uppercase tracking-wide text-neutral-400 mb-3">
+          <div className="px-4">
+            <h3 className="px-4 text-[10px] uppercase tracking-[2px] text-neutral-500 mb-4 font-bold">
               Main Menu
             </h3>
 
-            <ul className="space-y-1">
-              {/* Homepage always at top */}
+            <ul className="space-y-2">
               <li>
-                <Link
-                  to="/"
-                  className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
-                >
+                <NavLink to="/" end className={navLinkStyles}>
+                  <span className="w-1.5 h-1.5 rounded-full bg-current mr-3 opacity-0 group-[.active]:opacity-100 transition-opacity" />
                   Homepage
-                </Link>
+                </NavLink>
               </li>
 
-              {/* Only for CHEF */}
+              {/* CHEF Section */}
               {user?.data?.role === "chef" && (
                 <>
                   <li>
-                    <Link
+                    <NavLink
                       to="/dashboard/createMeals"
-                      className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
+                      className={navLinkStyles}
                     >
                       Create Meals
-                    </Link>
+                    </NavLink>
                   </li>
-
                   <li>
-                    <Link
-                      to="/dashboard/myMeals"
-                      className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
-                    >
+                    <NavLink to="/dashboard/myMeals" className={navLinkStyles}>
                       My Meals
-                    </Link>
+                    </NavLink>
                   </li>
-
                   <li>
-                    <Link
+                    <NavLink
                       to="/dashboard/orderRequest"
-                      className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
+                      className={navLinkStyles}
                     >
                       Order Requests
-                    </Link>
+                    </NavLink>
                   </li>
                 </>
               )}
 
-              {/* My Profile visible to all */}
               <li>
-                <Link
-                  to="/dashboard/myProfile"
-                  className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
-                >
+                <NavLink to="/dashboard/myProfile" className={navLinkStyles}>
                   My Profile
-                </Link>
+                </NavLink>
               </li>
 
-              {/* Only for CUSTOMER */}
+              {/* CUSTOMER Section */}
               {user?.data?.role === "customer" && (
                 <>
                   <li>
-                    <Link
-                      to="/dashboard/myOrders"
-                      className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
-                    >
+                    <NavLink to="/dashboard/myOrders" className={navLinkStyles}>
                       My Orders
-                    </Link>
+                    </NavLink>
                   </li>
-
                   <li>
-                    <Link
+                    <NavLink
                       to="/dashboard/myReviews"
-                      className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
+                      className={navLinkStyles}
                     >
                       My Reviews
-                    </Link>
+                    </NavLink>
                   </li>
-
                   <li>
-                    <Link
+                    <NavLink
                       to="/dashboard/favoriteMeals"
-                      className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
+                      className={navLinkStyles}
                     >
                       Favorite Meals
-                    </Link>
+                    </NavLink>
                   </li>
                 </>
               )}
 
-              {/* Only for ADMIN */}
+              {/* ADMIN Section */}
               {user?.data?.role === "admin" && (
                 <>
                   <li>
-                    <Link
+                    <NavLink
                       to="/dashboard/manageUser"
-                      className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
+                      className={navLinkStyles}
                     >
                       Manage Users
-                    </Link>
+                    </NavLink>
                   </li>
-
                   <li>
-                    <Link
+                    <NavLink
                       to="/dashboard/manageRequest"
-                      className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
+                      className={navLinkStyles}
                     >
                       Manage Requests
-                    </Link>
+                    </NavLink>
                   </li>
-
                   <li>
-                    <Link
+                    <NavLink
                       to="/dashboard/platformStatistic"
-                      className="flex items-center px-4 py-2.5 rounded-md text-neutral-300 hover:bg-neutral-800/40"
+                      className={navLinkStyles}
                     >
                       Platform Statistics
-                    </Link>
+                    </NavLink>
                   </li>
                 </>
               )}
