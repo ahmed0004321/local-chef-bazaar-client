@@ -64,11 +64,14 @@ const CountUsers = () => {
             </div>
 
             {/* User Info */}
-            <div>
+            <div className="flex flex-col">
               <p className="font-semibold text-gray-800">
                 {u.displayName || u.name}
               </p>
               <p className="text-gray-500 text-sm">{u.email}</p>
+              <p className="text-xs text-gray-400 uppercase">
+                {u.role || "user"}
+              </p>
             </div>
           </div>
         ))}

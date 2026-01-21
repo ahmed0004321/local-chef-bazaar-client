@@ -18,6 +18,9 @@ import OrderRequests from "../Dashboard/Chef/OrderRequests";
 import ManageUser from "../Dashboard/Admin/ManageUser";
 import ManageRequest from "../Dashboard/Admin/ManageRequest";
 import PlatformStatistic from "../Dashboard/Admin/PlatformStatistic";
+import OrderPayment from "../Page/PaymentCheckout/OrderPayment";
+import PaymentSuccess from "../Page/PaymentCheckout/PaymentSuccess";
+import PaymentCancelled from "../Page/PaymentCheckout/PaymentCancelled";
 
 export const router = createBrowserRouter([
   {
@@ -118,7 +121,25 @@ export const router = createBrowserRouter([
         element: <PrivateRoutes>
           <PlatformStatistic></PlatformStatistic>
         </PrivateRoutes>
-      }
+      },
+      {
+        path: "/dashboard/orderPayment/:id",
+        element: <PrivateRoutes>
+          <OrderPayment></OrderPayment>
+        </PrivateRoutes>
+      },
+      {
+        path: "/dashboard/orderPayment-success",
+        element: <PrivateRoutes>
+          <PaymentSuccess></PaymentSuccess>
+        </PrivateRoutes>
+      },
+      {
+        path: "/dashboard/orderPayment-cancelled",
+        element: <PrivateRoutes>
+           <PaymentCancelled></PaymentCancelled>
+        </PrivateRoutes>
+      },
     ]
   },
 ]);

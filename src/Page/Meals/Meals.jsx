@@ -1,31 +1,41 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useState } from "react";
 import useAxiosSecure from "../../Hooks/AxiosSecure";
 import Loading from "../../Components/Loading/Loading";
 import { Link } from "react-router";
 
 const Meals = () => {
   const axiosSecure = useAxiosSecure();
-  const { data: meals = [], isLoading } = useQuery({
-    queryKey: ["meals"],
+  const [page, setPage] = useState(1);
+  const limit = 10; // meals per page
+
+  const { data, isLoading, isFetching } = useQuery({
+    queryKey: ["meals", page],
     queryFn: async () => {
-      const res = await axiosSecure.get("/meals");
+      const res = await axiosSecure.get(`/meals?page=${page}&limit=${limit}`);
       return res.data;
     },
+    keepPreviousData: true,
   });
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loading></Loading>
+        <Loading />
       </div>
     );
   }
+
+  const { meals, totalMeals } = data;
+  const totalPages = Math.ceil(totalMeals / limit);
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h1 className="text-2xl font-semibold mb-6 text-white">
-        Total Meals: {meals.length}
+        Total Meals: {totalMeals}
       </h1>
 
+      {/* Meals Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {meals.map((meal) => (
           <div
@@ -37,22 +47,17 @@ const Meals = () => {
               alt={meal.foodName}
               className="w-full h-44 object-cover rounded-xl mb-4"
             />
-
             <h2 className="text-lg font-semibold text-white">
               {meal.foodName}
             </h2>
-
             <p className="text-sm text-gray-200 mt-1">Chef: {meal.chefName}</p>
-
             <p className="text-sm text-gray-200">
               Delivery Area: {meal.deliveryArea}
             </p>
-
             <div className="flex items-center justify-between mt-4">
               <span className="text-lg font-bold text-white">
                 $ {meal.price}
               </span>
-
               <span className="text-sm text-yellow-300">
                 ⭐ {meal.rating || 0}
               </span>
@@ -65,6 +70,27 @@ const Meals = () => {
           </div>
         ))}
       </div>
+
+      {/* Pagination */}
+      <div className="flex justify-center mt-8 gap-2 flex-wrap">
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+          <button
+            key={p}
+            onClick={() => setPage(p)}
+            className={`px-4 py-2 rounded-lg ${
+              p === page
+                ? "bg-blue-600 text-white"
+                : "bg-white/20 text-white hover:bg-white/30"
+            } transition`}
+          >
+            {p}
+          </button>
+        ))}
+      </div>
+
+      {isFetching && (
+        <p className="text-center mt-2 text-gray-300">Loading...</p>
+      )}
     </div>
   );
 };

@@ -23,11 +23,22 @@ const OrderRequests = () => {
     },
   });
 
-  const handleUpdate = async (orderId, status) => {
+  const handleUpdate = async (orderId, status, paymentStatus) => {
+    // --- NEW LOGIC ADDED HERE ---
+    if (status === "delivered" && paymentStatus !== "paid") {
+      return Swal.fire({
+        title: "Payment Required",
+        text: "You cannot deliver this order because the payment status is still unpaid.",
+        icon: "warning",
+        confirmButtonColor: "#d33",
+        confirmButtonText: "Understand",
+      });
+    }
+    // --- END OF NEW LOGIC ---
+
     try {
       await axiosSecure.patch(`/dashboard/orderUpdate/${orderId}`, { status });
 
-      // Optional: alert
       Swal.fire({
         title: "Success",
         text: `Order ${status} successfully`,
@@ -36,7 +47,7 @@ const OrderRequests = () => {
         showConfirmButton: false,
       });
 
-      refetch(); // Live update for chef and user
+      refetch();
     } catch (err) {
       console.error(err);
       Swal.fire({
@@ -48,7 +59,6 @@ const OrderRequests = () => {
     }
   };
 
-  console.log(orderRequest);
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -92,28 +102,31 @@ const OrderRequests = () => {
 
               {/* Action Buttons */}
               <div className="flex gap-3 pt-4">
-                {/* Cancel */}
                 <button
                   disabled={isAccepted || isDelivered || isCancelled}
-                  onClick={() => handleUpdate(order._id, "cancelled")}
+                  onClick={() =>
+                    handleUpdate(order._id, "cancelled", order.paymentStatus)
+                  }
                   className="flex-1 py-2 rounded-lg bg-red-600/80 text-white disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Cancel
                 </button>
 
-                {/* Accept */}
                 <button
                   disabled={isAccepted || isDelivered || isCancelled}
-                  onClick={() => handleUpdate(order._id, "accepted")}
+                  onClick={() =>
+                    handleUpdate(order._id, "accepted", order.paymentStatus)
+                  }
                   className="flex-1 py-2 rounded-lg bg-blue-600/80 text-white disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Accept
                 </button>
 
-                {/* Deliver */}
                 <button
                   disabled={!isAccepted || isDelivered || isCancelled}
-                  onClick={() => handleUpdate(order._id, "delivered")}
+                  onClick={() =>
+                    handleUpdate(order._id, "delivered", order.paymentStatus)
+                  }
                   className="flex-1 py-2 rounded-lg bg-green-600/80 text-white disabled:opacity-40 disabled:cursor-not-allowed"
                 >
                   Deliver

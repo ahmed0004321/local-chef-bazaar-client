@@ -111,7 +111,7 @@ const MealDetails = () => {
         price: totalPrice,
         quantity: quantity,
         chefId: mealDetails.chefId,
-        paymentStatus: "Pending",
+        paymentStatus: "unpaid",
         userEmail: user?.data?.email,
         userAddress: userAddress,
         orderStatus: "pending",
