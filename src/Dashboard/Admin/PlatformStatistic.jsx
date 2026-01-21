@@ -8,9 +8,9 @@ const PlatformStatistic = () => {
     return (
         <div>
             <MiniHero></MiniHero>
+            <DashboardMetrics></DashboardMetrics>
             <CountUsers></CountUsers>
             <OrderPending></OrderPending>
-            <DashboardMetrics></DashboardMetrics>
         </div>
     );
 };
