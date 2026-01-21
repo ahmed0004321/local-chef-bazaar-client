@@ -42,7 +42,8 @@ const AuthProvider = ({ children }) => {
       photoURL: photoURL,
     };
     const res = await updateProfile(auth.currentUser, img);
-    setUser(auth.currentUser);
+    await auth.currentUser.reload();
+    setUser({ ...auth.currentUser });
     console.log(res, img);
   };
 
