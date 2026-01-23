@@ -57,7 +57,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 relative">
-      {/* Fixed Back Button */}
+
       <button
         onClick={() => navigate("/")}
         className="fixed top-4 left-4 z-50 px-4 py-2 bg-white/20 text-white rounded-lg hover:bg-white/30 transition duration-300"
@@ -71,7 +71,7 @@ const Login = () => {
         </h2>
 
         <form onSubmit={handleSubmit(handleLogin)} className="space-y-5">
-          {/* Email */}
+
           <div>
             <label className="block text-white text-sm font-medium mb-2">
               Email Address
@@ -95,7 +95,6 @@ const Login = () => {
             )}
           </div>
 
-          {/* Password */}
           <div>
             <label className="block text-white text-sm font-medium mb-2">
               Password
@@ -113,7 +112,6 @@ const Login = () => {
             )}
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             className="w-full py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-white/90 transition duration-300 shadow-lg"
@@ -122,7 +120,6 @@ const Login = () => {
           </button>
 
 
-          {/* Register Link */}
           <p className="text-center text-white/80 text-sm mt-4">
             Don't have an account?{" "}
             <a

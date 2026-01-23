@@ -22,7 +22,6 @@ const CustomerReviews = () => {
 
   return (
     <div className="py-12 bg-transparent w-full max-w-6xl mx-auto px-4">
-      {/* Subtle Header */}
       <div className="flex items-center justify-between mb-8 border-b border-white/5 pb-4">
         <div>
           <h2 className="text-xl font-semibold text-white">
@@ -53,7 +52,6 @@ const CustomerReviews = () => {
           <SwiperSlide key={review._id}>
             <div className="h-full bg-[#161926] border border-white/5 p-6 rounded-2xl hover:border-white/10 transition-all duration-300 flex flex-col justify-between group">
               <div>
-                {/* USER PROFILE SECTION AT TOP */}
                 <div className="flex items-center gap-3 mb-6">
                   {review.userImage ? (
                     <img
@@ -76,7 +74,6 @@ const CustomerReviews = () => {
                   </div>
                 </div>
 
-                {/* RATING */}
                 <div className="flex gap-0.5 mb-3">
                   {[...Array(5)].map((_, i) => (
                     <span
@@ -87,14 +84,10 @@ const CustomerReviews = () => {
                     </span>
                   ))}
                 </div>
-
-                {/* FEEDBACK TEXT */}
                 <p className="text-neutral-300 text-sm leading-relaxed line-clamp-4 italic">
                   "{review.feedback || review.text}"
                 </p>
               </div>
-
-              {/* VERIFIED FOOTER */}
               <div className="mt-6 pt-4 border-t border-white/5 flex justify-between items-center">
                 <span className="text-[10px] font-bold text-neutral-600 uppercase tracking-tighter">
                   Verified Review

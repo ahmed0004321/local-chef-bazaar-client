@@ -5,12 +5,10 @@ import GoogleLogin from "./googleLogin";
 import { AuthContext } from "../Context/AuthContext";
 import axios from "axios";
 import Swal from "sweetalert2";
-// import useAxiosSecure from "../Hooks/AxiosSecure";
 
 const Register = () => {
   const { createUser, updateUserProfile, } = use(AuthContext);
   const navigate = useNavigate();
-  // const axiosSecure = useAxiosSecure();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -34,18 +32,13 @@ const Register = () => {
     setIsSubmitting(true);
 
     try {
-      
-      // 2️⃣ Upload image
       const formData = new FormData();
       formData.append("image", data.photo[0]);
 
       const image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_KEY}`;
       const imgRes = await axios.post(image_API_URL, formData);
-      
-      // 1️⃣ Create user
       await createUser(data.email, data.password);
       await updateUserProfile (data.name, imgRes.data.data.url);
-      // 5️⃣ Success message
       await Swal.fire({
         title: "Registration Successful!",
         text: `Welcome, ${data.name}!`,
@@ -73,7 +66,6 @@ const Register = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
-      {/* Back Button */}
       <button
         onClick={() => navigate("/")}
         className="mb-6 px-4 py-2 bg-white/20 text-white rounded-lg hover:bg-white/30 transition duration-300"
@@ -87,7 +79,7 @@ const Register = () => {
         </h2>
 
         <form onSubmit={handleSubmit(handleRegister)} className="space-y-5">
-          {/* Name */}
+        
           <div>
             <label className="block text-white text-sm font-medium mb-2">
               Full Name
@@ -102,8 +94,6 @@ const Register = () => {
               <p className="text-red-300 text-sm mt-1">{errors.name.message}</p>
             )}
           </div>
-
-          {/* Email */}
           <div>
             <label className="block text-white text-sm font-medium mb-2">
               Email Address
@@ -115,8 +105,6 @@ const Register = () => {
               placeholder="Enter your email"
             />
           </div>
-
-          {/* Photo */}
           <div>
             <label className="block text-white text-sm font-medium mb-2">
               Profile Photo
@@ -147,8 +135,6 @@ const Register = () => {
     "
             />
           </div>
-
-          {/* Address */}
           <div>
             <label className="block text-white text-sm font-medium mb-2">
               Address
@@ -160,8 +146,6 @@ const Register = () => {
               placeholder="Enter your address"
             ></textarea>
           </div>
-
-          {/* Password */}
           <div>
             <label className="block text-white text-sm font-medium mb-2">
               Password
@@ -173,8 +157,6 @@ const Register = () => {
               placeholder="Enter password"
             />
           </div>
-
-          {/* Confirm Password */}
           <div>
             <label className="block text-white text-sm font-medium mb-2">
               Confirm Password
@@ -186,8 +168,6 @@ const Register = () => {
               placeholder="Confirm password"
             />
           </div>
-
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={isSubmitting}
@@ -195,9 +175,6 @@ const Register = () => {
           >
             {isSubmitting ? "Creating account..." : "Register"}
           </button>
-
-
-          {/* Login Link */}
           <p className="text-center text-white/80 text-sm mt-4">
             Already have an account?{" "}
             <Link to="/login" className="text-white font-semibold">

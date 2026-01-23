@@ -19,7 +19,6 @@ const Hero = () => {
         loop={true}
         className="h-[80vh]"
       >
-        {/* Slide 1 */}
         <SwiperSlide>
           <div
             className="h-full bg-cover bg-center flex items-center"
@@ -41,8 +40,6 @@ const Hero = () => {
             </div>
           </div>
         </SwiperSlide>
-
-        {/* Slide 2 */}
         <SwiperSlide>
           <div
             className="h-full bg-cover bg-center flex items-center"
@@ -64,8 +61,6 @@ const Hero = () => {
             </div>
           </div>
         </SwiperSlide>
-
-        {/* Slide 3 */}
         <SwiperSlide>
           <div
             className="h-full bg-cover bg-center flex items-center"
