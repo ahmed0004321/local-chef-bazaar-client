@@ -2,6 +2,7 @@ import React, { use } from "react";
 import { NavLink, Outlet } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
 import Loading from "../../Components/Loading/Loading";
+import Swal from "sweetalert2";
 
 const DashboardLayout = () => {
   const { user, loading } = use(AuthContext);
@@ -13,6 +14,17 @@ const DashboardLayout = () => {
         ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/20 translate-x-2" // Active State
         : "text-neutral-400 hover:bg-neutral-800/60 hover:text-neutral-200" // Inactive State
     }`;
+
+  const handleDisabledButton = () => {
+    Swal.fire({
+      title: "sorry!",
+      text: "You are Fraud. You can't Create any meal at all!.",
+      icon: "error",
+      confirmButtonText: "OK",
+      background: "#1f2937",
+      color: "#ffffff",
+    });
+  };
 
   if (loading) {
     return (
@@ -86,14 +98,22 @@ const DashboardLayout = () => {
               {/* CHEF Section */}
               {user?.data?.role === "chef" && (
                 <>
-                  <li>
+                  {user?.data?.status !== "fraud" ? (
                     <NavLink
                       to="/dashboard/createMeals"
                       className={navLinkStyles}
                     >
                       Create Meals
                     </NavLink>
-                  </li>
+                  ) : (
+                    /* Fraud State: Shows the style but blocks navigation and triggers Swal */
+                    <div
+                      onClick={handleDisabledButton}
+                      className={`${navLinkStyles} opacity-50 cursor-not-allowed`}
+                    >
+                      Create Meals
+                    </div>
+                  )}
                   <li>
                     <NavLink to="/dashboard/myMeals" className={navLinkStyles}>
                       My Meals

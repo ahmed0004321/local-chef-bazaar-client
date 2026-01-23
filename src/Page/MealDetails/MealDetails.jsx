@@ -10,10 +10,10 @@ const MealDetails = () => {
   const [reviews, setReviews] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [userAddress, setUserAddress] = useState("");
-  console.log(reviews);
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
   const { user } = use(AuthContext);
+  console.log(reviews, user);
   console.log(user?.data?.email);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -187,6 +187,17 @@ const MealDetails = () => {
       }
     }
   };
+
+  const handleDisabledButtonForOrder = () => {
+    Swal.fire({
+      title: "sorry!",
+      text: "You are Fraud. You can't Order anything!.",
+      icon: "error",
+      confirmButtonText: "OK",
+      background: "#1f2937",
+      color: "#ffffff",
+    });
+  };
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -257,12 +268,26 @@ const MealDetails = () => {
                 </div>
               </div>
               <div className="space-y-3">
-                <button
-                  onClick={() => setIsOrderModalOpen(true)}
-                  className="w-full py-4 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 text-white text-lg font-bold hover:from-green-600 hover:to-emerald-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
-                >
-                  🛒 Order Now
-                </button>
+                {user?.data?.status !== "fraud" ? (
+                  <button
+                    onClick={() => setIsOrderModalOpen(true)}
+                    className="w-full py-4 rounded-xl bg-gradient-to-r from-green-500 to-emerald-500 text-white text-lg font-bold hover:from-green-600 hover:to-emerald-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+                  >
+                     Order Now
+                  </button>
+                ) : (
+                  <div
+                    onClick={handleDisabledButtonForOrder}
+                    className="w-full cursor-not-allowed"
+                  >
+                    <button
+                      disabled
+                      className="w-full py-4 rounded-xl bg-gray-400 text-white text-lg font-bold opacity-70 pointer-events-none shadow-none"
+                    >
+                       Order Now (Disabled)
+                    </button>
+                  </div>
+                )}
                 <button
                   onClick={handleFavoriteMeal}
                   className="w-full py-4 rounded-xl backdrop-blur-md bg-white/10 text-white font-semibold hover:bg-white/20 transition-all duration-300 border border-white/20 shadow-lg"

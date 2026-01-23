@@ -211,7 +211,7 @@ const MyProfile = () => {
               </div>
               <div>
                 <p className="text-slate-400 text-xs">Account Status</p>
-                <p className="text-green-400 font-medium">Active</p>
+                <p className="text-green-400 font-medium">{user?.data?.status}</p>
               </div>
             </div>
           </div>
