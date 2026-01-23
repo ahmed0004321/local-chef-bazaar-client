@@ -21,6 +21,7 @@ import PlatformStatistic from "../Dashboard/Admin/PlatformStatistic";
 import OrderPayment from "../Page/PaymentCheckout/OrderPayment";
 import PaymentSuccess from "../Page/PaymentCheckout/PaymentSuccess";
 import PaymentCancelled from "../Page/PaymentCheckout/PaymentCancelled";
+import Page404 from "../Components/Error/Page404";
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
       {
         path: "/meals",
         element: <Meals></Meals>,
+      },
+      {
+        path: "*",
+        element: <Page404></Page404>
       },
       {
         path: "/mealDetails/:id",
