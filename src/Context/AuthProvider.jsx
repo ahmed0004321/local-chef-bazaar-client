@@ -58,7 +58,7 @@ const AuthProvider = ({ children }) => {
       if (currentUser) {
         if (currentUser?.photoURL) {
           const user = await axios.post(
-            "http://localhost:3000/users",
+            "https://local-chef-bazaar-server-one.vercel.app/users",
             currentUser
           );
           setUser(user);
