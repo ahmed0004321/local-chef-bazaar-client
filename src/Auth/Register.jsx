@@ -1,7 +1,6 @@
 import React, { use, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
-import GoogleLogin from "./googleLogin";
 import { AuthContext } from "../Context/AuthContext";
 import axios from "axios";
 import Swal from "sweetalert2";
