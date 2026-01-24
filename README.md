@@ -1,16 +1,54 @@
-# React + Vite
+🍳 Local Chef Bazaar
+Local Chef Bazaar is a modern full-stack marketplace designed to bridge the gap between talented home chefs and local food lovers. Built with React 19, Vite, and Tailwind CSS, it offers a seamless, high-performance experience for discovering and ordering authentic home-cooked meals.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🌐 Live Links
+Frontend: https://local-chef-bazaar-client.vercel.app/
 
-Currently, two official plugins are available:
+✨ Features
+🔐 Secure Authentication: Integrated with Firebase for Google Social Login.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+📊 Interactive Dashboards: Visual data representation using Recharts for chefs to track sales.
 
-## React Compiler
+🛍️ Dynamic Marketplace: Real-time food listings with optimized searching and filtering.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+📱 Premium UI/UX:
 
-## Expanding the ESLint configuration
+Smooth animations with Framer Motion.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Touch-friendly carousels using Swiper.
+
+Modern, responsive components via DaisyUI.
+
+Beautiful notifications with SweetAlert2.
+
+⚡ High Performance: Data fetching and caching powered by TanStack React Query.
+
+🛠️ Tech Stack
+Frontend (The Client)
+Framework: React 19 (Vite)
+
+State Management: TanStack React Query (Server State)
+
+Styling: Tailwind CSS 4.0 & DaisyUI 5.0
+
+Forms: React Hook Form
+
+Navigation: React Router 7
+
+Animations: Framer Motion & React Confetti
+
+Backend (The Server)
+Environment: Node.js
+
+Framework: Express.js
+
+Deployment: Vercel
+
+
+Package,Purpose
+Axios,Handling API requests to the backend.
+Firebase,Authentication and real-time services.
+Recharts,Rendering data charts for chef analytics.
+Lucide React,"Modern, consistent iconography throughout the app."
+React Spinners,Elegant loading states for better UX.
+Swiper,High-performance sliders for featured dishes.
