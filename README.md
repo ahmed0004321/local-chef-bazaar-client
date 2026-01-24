@@ -1,6 +1,19 @@
 🍳 Local Chef Bazaar
 Local Chef Bazaar is a modern full-stack marketplace designed to bridge the gap between talented home chefs and local food lovers. Built with React 19, Vite, and Tailwind CSS, it offers a seamless, high-performance experience for discovering and ordering authentic home-cooked meals.
 
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Firebase](https://img.shields.io/badge/firebase-%23039BE5.svg?style=for-the-badge&logo=firebase)
+![Vercel](https://img.shields.io/badge/vercel-%23000000.svg?style=for-the-badge&logo=vercel&logoColor=white)
+
+Project Structure
+src/
+ ├── Auth/           # Firebase logic & Login/Register components
+ ├── Components/     # Reusable UI (Buttons, Cards, Spinners)
+ ├── Hooks/          # Custom TanStack Query logic
+ ├── Pages/          # Main views (Home, Bazaar, Dashboard)
+ └── Utils/          # Axios instance and helper functions
+
 🌐 Live Links
 Frontend: https://local-chef-bazaar-client.vercel.app/
 
