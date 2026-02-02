@@ -60,7 +60,7 @@ const AuthProvider = ({ children }) => {
           const token = await currentUser.getIdToken();
 
           const res = await axios.post(
-            "http://localhost:3000/users",
+            "https://local-chef-bazaar-server-nine.vercel.app/users",
             currentUser
           );
 

@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import Loading from "../Components/Loading/Loading";
 import { Input, Button, Card } from "../Components/UI";
-import GoogleLogin from "./googleLogin";
 import { FaArrowLeft } from "react-icons/fa";
 
 const Login = () => {
@@ -92,7 +91,6 @@ const Login = () => {
           <div className="divider text-foreground/40 text-sm">Or continue with</div>
 
           <div className="flex justify-center">
-            <GoogleLogin />
           </div>
 
           <p className="text-center text-sm text-foreground/70 mt-6">
