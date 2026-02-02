@@ -2,6 +2,8 @@
 
 A modern, high-performance full-stack marketplace designed to bridge the gap between talented local chefs and food lovers. This repository contains the **Frontend (Client)** implementation.
 
+**Live Demo**: [https://local-chef-bazaar-client.vercel.app](https://local-chef-bazaar-client.vercel.app)
+
 ## ✨ Key Features
 
 ### 👨‍💻 Multi-Role Dashboard
