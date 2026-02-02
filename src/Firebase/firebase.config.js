@@ -12,8 +12,16 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_APP_ID,
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
+// Initialize Firebase with safety check
+let app;
+try {
+  if (!firebaseConfig.apiKey) {
+    throw new Error("VITE_API_KEY is missing. Check your .env or Vercel environment variables.");
+  }
+  app = initializeApp(firebaseConfig);
+} catch (error) {
+  console.error("Firebase initialization failed:", error.message);
+}
 
 // Export auth instance
-export const auth = getAuth(app);
+export const auth = app ? getAuth(app) : null;
