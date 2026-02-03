@@ -19,6 +19,9 @@ import ManageRequests from "../Dashboard/Admin/ManageRequests";
 import PlatformStats from "../Dashboard/Admin/PlatformStats";
 import DashboardHome from "../Dashboard/DashboardHome/DashboardHome";
 
+import PaymentSuccess from "../Dashboard/MyOrderPage/PaymentSuccess";
+import PaymentCancelled from "../Dashboard/MyOrderPage/PaymentCancelled";
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -39,6 +42,14 @@ export const router = createBrowserRouter([
             <MealDetails></MealDetails>
           </PrivateRoutes>
         ),
+      },
+      {
+        path: "/payment-success",
+        element: <PaymentSuccess />
+      },
+      {
+        path: "/payment-cancel",
+        element: <PaymentCancelled />
       },
     ],
   },
@@ -63,43 +74,43 @@ export const router = createBrowserRouter([
         element: <DashboardHome />
       },
       {
-        path: '/dashboard/myProfile',
+        path: 'myProfile',
         element: <MyProfile></MyProfile>
       },
       {
-        path: '/dashboard/myOrders',
+        path: 'myOrders',
         element: <MyOrderPage></MyOrderPage>
       },
       {
-        path: "/dashboard/myReviews",
+        path: "myReviews",
         element: <MyReviewPage></MyReviewPage>
       },
       {
-        path: "/dashboard/favoriteMeals",
+        path: "favoriteMeals",
         element: <FavMeals></FavMeals>
       },
       {
-        path: "/dashboard/createMeals",
+        path: "createMeals",
         element: <CreateMeal></CreateMeal>
       },
       {
-        path: "/dashboard/myMeals",
+        path: "myMeals",
         element: <MyMeals></MyMeals>
       },
       {
-        path: "/dashboard/orderRequest",
+        path: "orderRequest",
         element: <OrderRequests></OrderRequests>
       },
       {
-        path: "/dashboard/manageUsers",
+        path: "manageUsers",
         element: <ManageUsers></ManageUsers>
       },
       {
-        path: "/dashboard/manageRequests",
+        path: "manageRequests",
         element: <ManageRequests></ManageRequests>
       },
       {
-        path: "/dashboard/platformStats",
+        path: "platformStats",
         element: <PlatformStats></PlatformStats>
       }
     ]

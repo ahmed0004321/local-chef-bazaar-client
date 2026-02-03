@@ -14,10 +14,12 @@ import axios from "axios";
 const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const savedUser = localStorage.getItem("auth-user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
   const [loading, setLoading] = useState(true);
-  // const [role, setRole] = useState("");
-  // console.log(user?.data?.role);
+
   // Google sign in
   const googleSignIn = () => {
     return signInWithPopup(auth, googleProvider);
@@ -25,13 +27,11 @@ const AuthProvider = ({ children }) => {
 
   // Register
   const createUser = (email, password) => {
-    setLoading(true)
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   // Login
   const signInUser = (email, password) => {
-    setLoading(true)
     return signInWithEmailAndPassword(auth, email, password);
   };
 
@@ -41,43 +41,99 @@ const AuthProvider = ({ children }) => {
       displayName: name,
       photoURL: photoURL,
     };
-    const res = await updateProfile(auth.currentUser, img);
-    setUser(auth.currentUser);
-    console.log(res, img);
+    await updateProfile(auth.currentUser, img);
+
+    // Force reload to ensure Firebase internal state is updated
+    await auth.currentUser.reload();
+    const updatedUser = auth.currentUser;
+
+    // Immediately update local state
+    setUser(prev => ({
+      ...prev,
+      displayName: updatedUser.displayName,
+      photoURL: updatedUser.photoURL,
+      data: {
+        ...prev?.data,
+        displayName: updatedUser.displayName,
+        photoURL: updatedUser.photoURL
+      }
+    }));
   };
 
   // Logout
   const logOut = () => {
+    localStorage.removeItem("auth-user");
     return signOut(auth);
   };
+
+  // Persist user to localStorage
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("auth-user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("auth-user");
+    }
+  }, [user]);
 
   // Auth state observer
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        try {
-          // Get fresh token
-          const token = await currentUser.getIdToken();
+        // Get fresh token
+        const token = await currentUser.getIdToken();
+        const basicUser = {
+          uid: currentUser.uid,
+          email: currentUser.email,
+          displayName: currentUser.displayName,
+          photoURL: currentUser.photoURL,
+          accessToken: token,
+        };
 
+        // Use functional update to avoid stale closure issues with 'user' variable
+        setUser(prev => {
+          // If the user hasn't changed, we might want to preserve existing 'data'
+          if (prev && prev.uid === currentUser.uid) {
+            return {
+              ...prev,
+              ...basicUser,
+              // Prioritize Firebase data for core fields if they are updated
+              displayName: currentUser.displayName || prev.displayName,
+              photoURL: currentUser.photoURL || prev.photoURL,
+              data: {
+                ...prev.data,
+                displayName: currentUser.displayName || prev.data?.displayName,
+                photoURL: currentUser.photoURL || prev.data?.photoURL,
+              }
+            };
+          }
+          return basicUser;
+        });
+
+        try {
           const res = await axios.post(
-            "https://local-chef-bazaar-server-nine.vercel.app/users",
-            currentUser
+            `${import.meta.env.VITE_API_URL}/users`,
+            {
+              uid: currentUser.uid,
+              email: currentUser.email,
+              displayName: currentUser.displayName,
+              photoURL: currentUser.photoURL,
+            }
           );
 
-          // Create a clean user object with all needed properties
-          const userData = {
-            uid: currentUser.uid,
-            email: currentUser.email,
-            displayName: currentUser.displayName,
-            photoURL: currentUser.photoURL,
-            accessToken: token,
-            data: res.data // Database profile (role, status, etc.)
-          };
+          // Full sync with backend data
+          setUser(prev => {
+            if (!prev || prev.uid !== currentUser.uid) return prev;
 
-          setUser(userData);
+            return {
+              ...prev,
+              data: res.data,
+              // Merge backend data but keep fresh optimistic values if backend is old/null
+              displayName: currentUser.displayName || res.data.displayName || prev.displayName,
+              photoURL: currentUser.photoURL || res.data.photoURL || prev.photoURL,
+            };
+          });
         } catch (err) {
           console.error("Error fetching user data:", err);
-          setUser(currentUser);
         }
       } else {
         setUser(null);

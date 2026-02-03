@@ -34,20 +34,33 @@ const MyOrderPage = () => {
     }
   });
 
-  const handlePay = (id) => {
-    Swal.fire({
-      title: 'Confirm Payment?',
-      text: "This will process a mock payment.",
-      icon: 'info',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, Pay'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        mutation.mutate(id);
+  const [payingId, setPayingId] = React.useState(null);
+
+  const handlePay = async (orderItem) => {
+    setPayingId(orderItem._id);
+    try {
+      const paymentData = {
+        orderId: orderItem._id,
+        mealName: orderItem.mealName,
+        price: orderItem.price,
+        userEmail: user?.data?.email,
+      };
+
+      const res = await axiosSecure.post('/create-checkout-session', paymentData);
+      if (res.data.url) {
+        window.location.href = res.data.url;
       }
-    });
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'Failed to initiate payment.',
+        icon: 'error',
+        confirmButtonColor: "#f38b0c", background: 'var(--surface)', color: 'var(--foreground)'
+      });
+    } finally {
+      setPayingId(null);
+    }
   };
 
   console.log(order);
@@ -73,8 +86,8 @@ const MyOrderPage = () => {
             {/* Status Badge */}
             <div className="absolute top-4 right-4 z-10 block">
               <span className={`badge font-bold border-0 ${order.orderStatus === 'active' || order.orderStatus === 'accepted' ? 'bg-green-500 text-white' :
-                  order.orderStatus === 'cancelled' ? 'bg-red-500 text-white' :
-                    order.orderStatus === 'delivered' ? 'bg-blue-500 text-white' : 'bg-yellow-500 text-black'
+                order.orderStatus === 'cancelled' ? 'bg-red-500 text-white' :
+                  order.orderStatus === 'delivered' ? 'bg-blue-500 text-white' : 'bg-yellow-500 text-black'
                 }`}>
                 {order.orderStatus}
               </span>
@@ -121,12 +134,13 @@ const MyOrderPage = () => {
                   </span>
                 </div>
 
-                {order.orderStatus === 'accepted' && order.paymentStatus !== 'paid' && (
+                {(order.orderStatus === 'accepted' || order.orderStatus === 'pending') && order.paymentStatus !== 'paid' && (
                   <button
-                    onClick={() => handlePay(order._id)}
+                    onClick={() => handlePay(order)}
+                    disabled={payingId === order._id}
                     className="btn btn-sm btn-primary shadow-lg shadow-primary/20"
                   >
-                    Pay Now
+                    {payingId === order._id ? <span className="loading loading-spinner loading-xs"></span> : 'Pay Now'}
                   </button>
                 )}
               </div>

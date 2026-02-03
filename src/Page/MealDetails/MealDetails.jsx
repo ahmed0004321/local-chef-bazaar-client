@@ -9,12 +9,19 @@ import { Button, Container, Card, Input } from "../../Components/UI";
 import { FaStar, FaMapMarkerAlt, FaUser, FaClock, FaShoppingCart, FaHeart, FaCommentAlt, FaTimes } from "react-icons/fa";
 
 const MealDetails = () => {
-  const [reviews, setReviews] = useState([]);
   const [quantity, setQuantity] = useState(1);
   const [userAddress, setUserAddress] = useState("");
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
   const { user } = use(AuthContext);
+
+  const { data: reviews = [], refetch: refetchReviews } = useQuery({
+    queryKey: ["mealReviews", id],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/mealReviews?mealId=${id}`);
+      return res.data;
+    },
+  });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
@@ -55,10 +62,7 @@ const MealDetails = () => {
         timer: 1500,
         customClass: { popup: 'bg-surface text-foreground' }
       });
-      setReviews((prev) => [
-        ...prev,
-        { ...reviewData, _id: res.data.insertedId, created_at: new Date() },
-      ]);
+      refetchReviews();
     } catch (error) {
       Swal.fire({
         icon: "error",
@@ -119,17 +123,6 @@ const MealDetails = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const res = await axiosSecure.get(`/mealReviews?mealId=${id}`);
-        setReviews(res.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-    fetchReviews();
-  }, [axiosSecure, id]);
 
   const handleFavoriteMeal = async () => {
     try {

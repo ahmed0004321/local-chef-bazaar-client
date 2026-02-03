@@ -109,7 +109,7 @@ const Navbar = () => {
               </div>
               <div className="avatar ring-2 ring-primary ring-offset-2 ring-offset-surface rounded-full transition-transform hover:scale-105 cursor-pointer">
                 <div className="w-9 rounded-full">
-                  <img src={user?.data?.photoURL || "https://ui-avatars.com/api/?name=User"} alt="User" />
+                  <img src={user?.data?.photoURL || user?.photoURL || "https://ui-avatars.com/api/?name=User"} alt="User" />
                 </div>
               </div>
               <Button onClick={handleLogOut} variant="outline" size="sm" className="hidden sm:inline-flex">
