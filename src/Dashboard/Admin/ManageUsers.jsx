@@ -3,6 +3,7 @@ import React from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import useAxiosSecure from '../../Hooks/AxiosSecure';
 import Swal from 'sweetalert2';
+import Loading from '../../Components/Loading/Loading';
 
 const ManageUsers = () => {
     const queryClient = useQueryClient();
@@ -54,12 +55,19 @@ const ManageUsers = () => {
         user.email?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    if (isLoading) return <div>Loading...</div>;
+    if (isLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <Loading></Loading>
+            </div>
+        );
+    }
+
 
     return (
-        <div className="w-full p-6">
+        <div className="w-full p-4 md:p-6">
             <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-                <h2 className="text-3xl font-bold text-foreground">Manage Users <span className="opacity-50 text-base font-normal">({users.length})</span></h2>
+                <h2 className="text-2xl md:text-3xl font-bold text-foreground">Manage Users <span className="opacity-50 text-xs md:text-base font-normal">({users.length})</span></h2>
                 <input
                     type="text"
                     placeholder="Search users..."

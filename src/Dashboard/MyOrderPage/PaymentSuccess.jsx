@@ -44,10 +44,10 @@ const PaymentSuccess = () => {
                 <div className="w-20 h-20 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
                     <FaCheckCircle className="text-5xl" />
                 </div>
-                <h1 className="text-3xl font-black mb-2 bg-gradient-to-r from-green-500 to-emerald-600 bg-clip-text text-transparent">
+                <h1 className="text-2xl md:text-3xl font-black mb-2 bg-gradient-to-r from-green-500 to-emerald-600 bg-clip-text text-transparent">
                     Payment Successful!
                 </h1>
-                <p className="text-foreground/60 mb-8">
+                <p className="text-sm md:text-base text-foreground/60 mb-8">
                     Thank you for your order. Your kitchen is now prepping your delicious meal!
                 </p>
 

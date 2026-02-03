@@ -72,9 +72,9 @@ const MyOrderPage = () => {
     );
   }
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <div className="max-w-7xl mx-auto px-4 py-6 md:py-8">
       <h1 className="text-3xl font-bold mb-8 text-foreground flex items-center gap-3">
-        My Orders <span className="badge badge-primary badge-lg">{order.length}</span>
+        My Orders <span className="badge badge-primary badge-sm md:badge-lg">{order.length}</span>
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

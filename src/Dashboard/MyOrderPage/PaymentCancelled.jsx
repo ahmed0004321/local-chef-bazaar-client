@@ -10,7 +10,7 @@ const PaymentCancelled = () => {
                 <div className="w-20 h-20 bg-red-500/20 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
                     <FaTimesCircle className="text-5xl" />
                 </div>
-                <h1 className="text-3xl font-black mb-2 bg-gradient-to-r from-red-500 to-orange-600 bg-clip-text text-transparent">
+                <h1 className="text-2xl md:text-3xl font-black mb-2 bg-gradient-to-r from-red-500 to-orange-600 bg-clip-text text-transparent">
                     Payment Cancelled
                 </h1>
                 <p className="text-foreground/60 mb-8 flex items-center justify-center gap-2">

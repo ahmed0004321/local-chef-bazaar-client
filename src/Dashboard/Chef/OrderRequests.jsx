@@ -42,8 +42,8 @@ const OrderRequests = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="w-full p-5">
-      <h2 className="text-3xl font-bold mb-5">Order Requests</h2>
+    <div className="w-full p-4 md:p-5">
+      <h2 className="text-2xl md:text-3xl font-bold mb-5">Order Requests</h2>
       <div className="overflow-x-auto">
         <table className="table w-full">
           <thead>
@@ -72,15 +72,15 @@ const OrderRequests = () => {
                 </td>
                 <td>
                   <span className={`badge ${order.orderStatus === 'active' ? 'badge-success' :
-                      order.orderStatus === 'cancelled' ? 'badge-error' :
-                        order.orderStatus === 'delivered' ? 'badge-info' : 'badge-ghost'
+                    order.orderStatus === 'cancelled' ? 'badge-error' :
+                      order.orderStatus === 'delivered' ? 'badge-info' : 'badge-ghost'
                     }`}>
                     {order.orderStatus}
                   </span>
                 </td>
                 <td className="capitalize">{order.paymentStatus}</td>
                 <td>
-                  <div className="join join-vertical lg:join-horizontal">
+                  <div className="join lg:join-horizontal join-vertical w-full lg:w-auto">
                     <button
                       disabled={order.orderStatus !== 'pending'}
                       onClick={() => handleStatusUpdate(order._id, 'accepted')}
