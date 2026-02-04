@@ -4,20 +4,20 @@
 @theme {
   /* Typography */
   --font-sans: "Outfit", sans-serif;
-  
+
   /* Colors - referencing CSS variables */
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
-  
+
   --color-secondary: var(--secondary);
   --color-secondary-foreground: var(--secondary-foreground);
-  
+
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
-  
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  
+
   --color-surface: var(--surface);
   --color-surface-foreground: var(--surface-foreground);
 
@@ -29,7 +29,7 @@
   --radius-lg: 0.75rem;
   --radius-md: 0.5rem;
   --radius-sm: 0.25rem;
-  
+
   /* Animations */
   --animate-fade-in: fade-in 0.3s ease-out;
   --animate-slide-up: slide-up 0.4s ease-out;
@@ -40,8 +40,9 @@
   .glass {
     @apply bg-white/10 backdrop-blur-lg border border-white/20 shadow-xl;
   }
-  .glass-dark {
-    @apply bg-black/30 backdrop-blur-lg border border-white/10 shadow-xl;
+
+  .glass-green {
+    @apply bg-[#2d4a22]/85 backdrop-blur-sm border border-white/10 shadow-2xl;
   }
 }
 
@@ -56,7 +57,8 @@
   --secondary: #1f2937;
   --secondary-foreground: #ffffff;
 
-  --accent: #fff7ed; /* Light orange tint */
+  --accent: #fff7ed;
+  /* Light orange tint */
   --accent-foreground: #f38b0c;
 
   --background: #fdfdfd;
@@ -81,7 +83,8 @@
     --secondary: #f3f4f6;
     --secondary-foreground: #111827;
 
-    --accent: #372818; /* Darkened orange */
+    --accent: #372818;
+    /* Darkened orange */
     --accent-foreground: #f38b0c;
 
     --background: #0f0f0f;
@@ -99,25 +102,40 @@ body {
 
 /* Animation Keyframes */
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slide-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Scrollbar Polish */
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   @apply bg-transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   @apply bg-neutral-300 dark:bg-neutral-700 rounded-full;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   @apply bg-primary/70;
 }
