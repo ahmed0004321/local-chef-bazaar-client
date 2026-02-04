@@ -6,10 +6,11 @@ import { Navigate, useNavigate } from "react-router";
 const axiosSecure = axios.create({
     baseURL: import.meta.env.VITE_API_URL
 })
+console.log("API URL:", import.meta.env.VITE_API_URL);
 
 const useAxiosSecure = () => {
     const navigate = useNavigate();
-    const {user, setUser, logOut, loading} = use(AuthContext);
+    const { user, setUser, logOut, loading } = use(AuthContext);
     //client side theke jwt token ta pathacci server side e 
     //to intercept request
     useEffect(() => {
@@ -25,12 +26,12 @@ const useAxiosSecure = () => {
         }, (error) => {
             console.log(error);
             const statusCode = error.response?.status;
-            if(statusCode === 401 || statusCode === 403){
+            if (statusCode === 401 || statusCode === 403) {
                 logOut()
-                .then(() => {
-                    setUser(null);
-                    navigate('/login');
-                })
+                    .then(() => {
+                        setUser(null);
+                        navigate('/login');
+                    })
             }
             return Promise.reject(error)
         })
