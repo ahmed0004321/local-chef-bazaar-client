@@ -114,147 +114,88 @@ const Register = () => {
                 }}
               >
                 <motion.div
-                  className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                  className="space-y-4"
+                  initial="hidden"
+                  animate="visible"
                   variants={{
                     hidden: { opacity: 0, y: 20 },
-                    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } }
+                    visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.1 } }
                   }}
                 >
-                  <div className="form-control">
-                    <label className="label py-1"><span className="label-text text-white/90 text-xs">Full Name</span></label>
-                    <input
-                      type="text"
-                      placeholder="Enter your full name"
-                      className="input input-sm w-full bg-white text-gray-800 placeholder:text-gray-400 focus:outline-none"
-                      {...register("name", { required: "Name is required" })}
-                    />
-                    {errors.name && <span className="text-red-400 text-[10px] mt-1">{errors.name.message}</span>}
-                  </div>
-                  <div className="form-control">
-                    <label className="label py-1"><span className="label-text text-white/90 text-xs">Phone Number</span></label>
-                    <input
-                      type="text"
-                      placeholder="Enter phone number"
-                      className="input input-sm w-full bg-white text-gray-800 placeholder:text-gray-400 focus:outline-none"
-                      {...register("phone", { required: "Phone is required" })}
-                    />
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  className="grid grid-cols-1 md:grid-cols-2 gap-4"
-                  variants={{
-                    hidden: { opacity: 0, y: 20 },
-                    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } }
-                  }}
-                >
-                  <div className="form-control">
-                    <label className="label py-1"><span className="label-text text-white/90 text-xs">Gender</span></label>
-                    <select
-                      className="select select-sm w-full bg-white text-gray-800 focus:outline-none"
-                      {...register("gender")}
-                    >
-                      <option value="">Select Gender</option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
-                  <div className="form-control">
-                    <label className="label py-1"><span className="label-text text-white/90 text-xs">Email</span></label>
-                    <input
-                      type="email"
-                      placeholder="Enter email"
-                      className="input input-sm w-full bg-white text-gray-800 placeholder:text-gray-400 focus:outline-none"
-                      {...register("email", { required: "Email is required" })}
-                    />
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  className="grid grid-cols-1 md:grid-cols-2 gap-4"
-                  variants={{
-                    hidden: { opacity: 0, y: 20 },
-                    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } }
-                  }}
-                >
-                  <div className="form-control">
-                    <label className="label py-1"><span className="label-text text-white/90 text-xs">Sub District</span></label>
-                    <select
-                      className="select select-sm w-full bg-white text-gray-800 focus:outline-none"
-                      {...register("subDistrict")}
-                    >
-                      <option value="">Select Sub District</option>
-                      <option value="dhaka">Dhaka</option>
-                      {/* Add more options as needed */}
-                    </select>
-                  </div>
-                  <div className="form-control">
-                    <label className="label py-1"><span className="label-text text-white/90 text-xs">Provider Number (Optional)</span></label>
-                    <input
-                      type="text"
-                      placeholder="Enter provider number"
-                      className="input input-sm w-full bg-white text-gray-800 placeholder:text-gray-400 focus:outline-none"
-                      {...register("providerNumber")}
-                    />
-                  </div>
-                </motion.div>
-
-                <div className="form-control">
-                  <label className="label py-1"><span className="label-text text-white/90 text-xs">Address</span></label>
-                  <input
-                    type="text"
-                    placeholder="Enter your address"
-                    className="input input-sm w-full bg-white text-gray-800 placeholder:text-gray-400 focus:outline-none"
-                    {...register("address", { required: "Address is required" })}
-                  />
-                </div>
-
-                <div className="form-control">
-                  <label className="label py-1"><span className="label-text text-white/90 text-xs">Profile Photo</span></label>
-                  <div className="relative border-2 border-dashed border-white/20 rounded-lg p-4 bg-white/5 hover:bg-white/10 transition text-center cursor-pointer">
-                    <input
-                      type="file"
-                      {...register("photo", { required: "Photo is required" })}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                    />
-                    <div className="flex flex-col items-center gap-1 text-white/60">
-                      <FaCloudUploadAlt className="text-2xl" />
-                      <span className="text-xs">
-                        {photoValue && photoValue[0] ? photoValue[0].name : "Click to upload"}
-                      </span>
+                  {/* Name & Email Field */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="form-control">
+                      <label className="label py-1"><span className="label-text text-white/90 text-xs">Full Name</span></label>
+                      <input
+                        type="text"
+                        placeholder="Enter your full name"
+                        className="input input-sm w-full bg-white text-gray-800 placeholder:text-gray-400 focus:outline-none"
+                        {...register("name", { required: "Name is required" })}
+                      />
+                      {errors.name && <span className="text-red-400 text-[10px] mt-1">{errors.name.message}</span>}
+                    </div>
+                    <div className="form-control">
+                      <label className="label py-1"><span className="label-text text-white/90 text-xs">Email Address</span></label>
+                      <input
+                        type="email"
+                        placeholder="Enter email"
+                        className="input input-sm w-full bg-white text-gray-800 placeholder:text-gray-400 focus:outline-none"
+                        {...register("email", { required: "Email is required" })}
+                      />
+                      {errors.email && <span className="text-red-400 text-[10px] mt-1">{errors.email.message}</span>}
                     </div>
                   </div>
-                  {errors.photo && <span className="text-red-400 text-[10px] mt-1">{errors.photo.message}</span>}
-                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {/* Profile Photo Upload */}
                   <div className="form-control">
-                    <label className="label py-1"><span className="label-text text-white/90 text-xs">Password</span></label>
-                    <input
-                      type="password"
-                      placeholder="••••••••"
-                      className="input input-sm w-full bg-white text-gray-800 focus:outline-none"
-                      {...register("password", { required: "Password is required" })}
-                    />
+                    <label className="label py-1"><span className="label-text text-white/90 text-xs">Profile Photo</span></label>
+                    <div className="relative border-2 border-dashed border-white/20 rounded-lg p-4 bg-white/5 hover:bg-white/10 transition text-center cursor-pointer">
+                      <input
+                        type="file"
+                        {...register("photo", { required: "Photo is required" })}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                      />
+                      <div className="flex flex-col items-center gap-1 text-white/60">
+                        <FaCloudUploadAlt className="text-2xl" />
+                        <span className="text-xs">
+                          {photoValue && photoValue[0] ? photoValue[0].name : "Click to upload your image"}
+                        </span>
+                      </div>
+                    </div>
+                    {errors.photo && <span className="text-red-400 text-[10px] mt-1">{errors.photo.message}</span>}
                   </div>
-                  <div className="form-control">
-                    <label className="label py-1"><span className="label-text text-white/90 text-xs">Confirm Password</span></label>
-                    <input
-                      type="password"
-                      placeholder="••••••••"
-                      className="input input-sm w-full bg-white text-gray-800 focus:outline-none"
-                      {...register("confirmPassword", {
-                        required: "Confirm Password is required",
-                        validate: (value) => value === password || "Passwords do not match"
-                      })}
-                    />
-                  </div>
-                </div>
 
-                <Button type="submit" className="w-full bg-[#1e3a15] hover:bg-[#152a0f] text-white border-none py-4 mt-2 font-semibold" disabled={isSubmitting}>
-                  {isSubmitting ? <span className="loading loading-spinner"></span> : "Register"}
-                </Button>
+                  {/* Password & Confirm Password */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="form-control">
+                      <label className="label py-1"><span className="label-text text-white/90 text-xs">Password</span></label>
+                      <input
+                        type="password"
+                        placeholder="••••••••"
+                        className="input input-sm w-full bg-white text-gray-800 focus:outline-none"
+                        {...register("password", { required: "Password is required" })}
+                      />
+                      {errors.password && <span className="text-red-400 text-[10px] mt-1">{errors.password.message}</span>}
+                    </div>
+                    <div className="form-control">
+                      <label className="label py-1"><span className="label-text text-white/90 text-xs">Confirm Password</span></label>
+                      <input
+                        type="password"
+                        placeholder="••••••••"
+                        className="input input-sm w-full bg-white text-gray-800 focus:outline-none"
+                        {...register("confirmPassword", {
+                          required: "Confirm Password is required",
+                          validate: (value) => value === password || "Passwords do not match"
+                        })}
+                      />
+                      {errors.confirmPassword && <span className="text-red-400 text-[10px] mt-1">{errors.confirmPassword.message}</span>}
+                    </div>
+                  </div>
+
+                  <Button type="submit" className="w-full bg-[#1e3a15] hover:bg-[#152a0f] text-white border-none py-4 mt-2 font-semibold" disabled={isSubmitting}>
+                    {isSubmitting ? <span className="loading loading-spinner"></span> : "Create Account"}
+                  </Button>
+                </motion.div>
 
                 <div className="text-center text-xs text-white/60">Or Sign in with</div>
 

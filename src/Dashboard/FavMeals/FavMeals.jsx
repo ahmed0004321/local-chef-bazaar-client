@@ -76,7 +76,7 @@ const FavMeals = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {favMeals.map((fav) => (
             <Card key={fav._id} className="p-0 overflow-hidden flex flex-col h-full bg-surface border border-white/5 shadow-xl group hover:shadow-2xl transition-all duration-300">
-              <div className="relative h-52">
+              <div className="relative h-52 rounded-2xl m-2 overflow-hidden">
                 <img
                   src={fav.mealDetails?.foodImage}
                   alt={fav.mealDetails?.foodName}

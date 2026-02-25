@@ -2,6 +2,7 @@ import { use, useState, useEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
 import { Button, Container } from "../UI";
+import ThemeToggle from "../ThemeToggle";
 
 const Navbar = () => {
   const { user, logOut } = use(AuthContext);
@@ -80,6 +81,13 @@ const Navbar = () => {
               tabIndex={-1}
               className="menu menu-sm dropdown-content mt-3 p-2 shadow-xl bg-surface/90 backdrop-blur-md rounded-box w-52 border border-white/10"
             >
+              <li>
+                <div className="flex items-center justify-between px-4 py-2 mb-2 lg:hidden">
+                  <span className="text-sm font-medium">Theme</span>
+                  <ThemeToggle />
+                </div>
+              </li>
+              <div className="divider my-0 lg:hidden"></div>
               {links}
             </ul>
           </div>
@@ -99,6 +107,10 @@ const Navbar = () => {
         </div>
 
         <div className="flex items-center gap-3">
+          <div className="hidden lg:block mr-1">
+            <ThemeToggle />
+          </div>
+
           {user ? (
             <div className="flex items-center gap-3">
               <div className="hidden md:flex flex-col items-end mr-1">

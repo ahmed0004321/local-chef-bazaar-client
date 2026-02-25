@@ -47,10 +47,11 @@
 }
 
 /* Base Styles & Variables */
-:root {
-  color-scheme: light dark;
+/* Light Mode Palette (Default) */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
 
-  /* Light Mode Palette */
   --primary: #f38b0c;
   --primary-foreground: #ffffff;
 
@@ -61,7 +62,7 @@
   /* Light orange tint */
   --accent-foreground: #f38b0c;
 
-  --background: #fdfdfd;
+  --background: #f4f4f5; /* Not fully white as requested */
   --foreground: #1f2937;
 
   --surface: #ffffff;
@@ -74,25 +75,25 @@
   --radius: 0.5rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Dark Mode Palette */
-    --primary: #f38b0c;
-    --primary-foreground: #ffffff;
+/* Dark Mode Palette */
+[data-theme="dark"] {
+  color-scheme: dark;
 
-    --secondary: #f3f4f6;
-    --secondary-foreground: #111827;
+  --primary: #f38b0c;
+  --primary-foreground: #ffffff;
 
-    --accent: #372818;
-    /* Darkened orange */
-    --accent-foreground: #f38b0c;
+  --secondary: #f3f4f6;
+  --secondary-foreground: #111827;
 
-    --background: #0f0f0f;
-    --foreground: #f3f4f6;
+  --accent: #372818;
+  /* Darkened orange */
+  --accent-foreground: #f38b0c;
 
-    --surface: #18181b;
-    --surface-foreground: #f3f4f6;
-  }
+  --background: #0f0f0f;
+  --foreground: #f3f4f6;
+
+  --surface: #18181b;
+  --surface-foreground: #f3f4f6;
 }
 
 body {

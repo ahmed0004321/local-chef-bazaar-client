@@ -117,7 +117,7 @@ const Meals = () => {
                   className="p-0 border-0 shadow-lg hover:shadow-2xl transition-all duration-300 group flex flex-col h-full bg-surface dark:bg-neutral-900 border border-neutral-100 dark:border-white/5"
                   compact
                 >
-                  <div className="relative overflow-hidden h-52">
+                  <div className="relative overflow-hidden h-52 rounded-2xl m-2">
                     <img
                       src={meal.foodImage}
                       alt={meal.foodName}
