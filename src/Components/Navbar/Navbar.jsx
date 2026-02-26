@@ -1,5 +1,5 @@
 import { use, useState, useEffect } from "react";
-import { Link, NavLink, useLocation } from "react-router";
+import { Link, NavLink } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
 import { Button, Container } from "../UI";
 import ThemeToggle from "../ThemeToggle";
@@ -7,7 +7,6 @@ import ThemeToggle from "../ThemeToggle";
 const Navbar = () => {
   const { user, logOut } = use(AuthContext);
   const [scrolled, setScrolled] = useState(false);
-  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,6 +35,12 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink to="/meals" className={navLinkClass}>Meals</NavLink>
+      </li>
+      <li>
+        <NavLink to="/about" className={navLinkClass}>About</NavLink>
+      </li>
+      <li>
+        <NavLink to="/FAQ" className={navLinkClass}>FAQ</NavLink>
       </li>
       {user && (
         <li>

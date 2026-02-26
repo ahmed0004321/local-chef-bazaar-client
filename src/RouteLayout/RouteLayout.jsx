@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { use } from 'react';
 import Navbar from '../Components/Navbar/Navbar';
 import { Outlet, useLocation } from 'react-router';
 import { AnimatePresence, motion } from "framer-motion";
 import Footer from '../Components/Footer/Footer';
+import { AuthContext } from '../Context/AuthContext';
 
 const RouteLayout = () => {
+    const { user } = use(AuthContext);
     const location = useLocation();
 
     React.useEffect(() => {

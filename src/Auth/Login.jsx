@@ -34,8 +34,8 @@ const Login = () => {
           text: `Logged in as ${result.user.displayName || "User"}`,
           icon: "success",
           confirmButtonColor: "#f38b0c",
-          background: 'var(--surface)',
-          color: 'var(--foreground)'
+          background: "var(--surface)",
+          color: "var(--foreground)",
         });
         navigate(location?.state?.from || "/");
       })
@@ -54,7 +54,12 @@ const Login = () => {
     reset();
   };
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center"><Loading /></div>;
+  if (loading)
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loading />
+      </div>
+    );
 
   return (
     <>
@@ -77,20 +82,40 @@ const Login = () => {
           {isError ? (
             <div className="text-center py-8">
               <div className="w-16 h-16 bg-error/20 text-error rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-10 h-10">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  stroke="currentColor"
+                  className="w-10 h-10"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
+                  />
                 </svg>
               </div>
-              <h2 className="text-2xl font-bold text-white mb-2">Login Failed</h2>
-              <p className="text-white/80 mb-8">{errorMessage || "Invalid email or password. Please try again."}</p>
-              <Button onClick={handleRetry} className="w-full bg-[#1e3a15] hover:bg-[#152a0f] text-white border-none py-6">
+              <h2 className="text-2xl font-bold text-white mb-2">
+                Login Failed
+              </h2>
+              <p className="text-white/80 mb-8">
+                {errorMessage || "Invalid email or password. Please try again."}
+              </p>
+              <Button
+                onClick={handleRetry}
+                className="w-full bg-[#1e3a15] hover:bg-[#152a0f] text-white border-none py-6"
+              >
                 Try Again
               </Button>
             </div>
           ) : (
             <>
               <div className="text-center mb-8">
-                <h1 className="text-3xl font-bold text-white mb-2">Login to your Account</h1>
+                <h1 className="text-3xl font-bold text-white mb-2">
+                  Login to your Account
+                </h1>
                 <p className="text-white/80">In cook, personal for better</p>
               </div>
 
@@ -101,23 +126,29 @@ const Login = () => {
                   animate="visible"
                   variants={{
                     hidden: {},
-                    visible: { transition: { staggerChildren: 0.1 } }
+                    visible: { transition: { staggerChildren: 0.1 } },
                   }}
                 >
                   <motion.div
                     className="form-control"
                     variants={{
                       hidden: { opacity: 0, y: 20 },
-                      visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } }
+                      visible: {
+                        opacity: 1,
+                        y: 0,
+                        transition: { type: "spring", stiffness: 100 },
+                      },
                     }}
                   >
                     <label className="label py-1">
-                      <span className="label-text text-white/90 text-sm">Email Address</span>
+                      <span className="label-text text-white/90 text-sm">
+                        Email Address
+                      </span>
                     </label>
                     <input
                       type="email"
                       placeholder="Enter your email"
-                      className={`input w-full bg-white text-gray-800 placeholder:text-gray-400 focus:outline-none ${errors.email ? 'border-red-500' : 'border-transparent'}`}
+                      className={`input w-full bg-white text-gray-800 placeholder:text-gray-400 focus:outline-none ${errors.email ? "border-red-500" : "border-transparent"}`}
                       {...register("email", {
                         required: "Email is required",
                         pattern: {
@@ -126,63 +157,118 @@ const Login = () => {
                         },
                       })}
                     />
-                    {errors.email && <span className="text-red-400 text-xs mt-1">{errors.email.message}</span>}
+                    {errors.email && (
+                      <span className="text-red-400 text-xs mt-1">
+                        {errors.email.message}
+                      </span>
+                    )}
                   </motion.div>
 
                   <motion.div
                     className="form-control"
                     variants={{
                       hidden: { opacity: 0, y: 20 },
-                      visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } }
+                      visible: {
+                        opacity: 1,
+                        y: 0,
+                        transition: { type: "spring", stiffness: 100 },
+                      },
                     }}
                   >
                     <label className="label py-1">
-                      <span className="label-text text-white/90 text-sm">Password</span>
+                      <span className="label-text text-white/90 text-sm">
+                        Password
+                      </span>
                     </label>
                     <input
                       type="password"
                       placeholder="••••••••"
-                      className={`input w-full bg-white text-gray-800 placeholder:text-gray-400 focus:outline-none ${errors.password ? 'border-red-500' : 'border-transparent'}`}
+                      className={`input w-full bg-white text-gray-800 placeholder:text-gray-400 focus:outline-none ${
+                        errors.password
+                          ? "border-red-500"
+                          : "border-transparent"
+                      }`}
                       {...register("password", {
                         required: "Password is required",
                         minLength: {
                           value: 6,
-                          message: "Password must be at least 6 characters"
-                        }
+                          message: "Password must be at least 6 characters",
+                        },
+                        validate: {
+                          hasUppercase: (value) =>
+                            /[A-Z]/.test(value) ||
+                            "Password must contain at least one uppercase letter",
+                        },
                       })}
                     />
-                    {errors.password && <span className="text-red-400 text-xs mt-1">{errors.password.message}</span>}
+                    {errors.password && (
+                      <span className="text-red-400 text-xs mt-1">
+                        {errors.password.message}
+                      </span>
+                    )}
                   </motion.div>
                 </motion.div>
 
                 <div className="flex items-center justify-between text-xs text-white/90">
                   <label className="flex items-center gap-2 cursor-pointer">
-                    <input type="checkbox" className="checkbox checkbox-xs border-white/40" />
+                    <input
+                      type="checkbox"
+                      className="checkbox checkbox-xs border-white/40"
+                    />
                     <span>Remember me</span>
                   </label>
-                  <a href="#" className="hover:underline">Forgot Password?</a>
+                  <a href="#" className="hover:underline">
+                    Forgot Password?
+                  </a>
                 </div>
 
-                <Button type="submit" className="w-full bg-[#1e3a15] hover:bg-[#152a0f] text-white border-none py-6 text-lg font-semibold" disabled={isSubmitting}>
-                  {isSubmitting ? <span className="loading loading-spinner"></span> : "Login"}
+                <Button
+                  type="submit"
+                  className="w-full bg-[#1e3a15] hover:bg-[#152a0f] text-white border-none py-6 text-lg font-semibold"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <span className="loading loading-spinner"></span>
+                  ) : (
+                    "Login"
+                  )}
                 </Button>
 
-                <div className="text-center text-xs text-white/60">Or Sign in with</div>
+                <div className="text-center text-xs text-white/60">
+                  Or Sign in with
+                </div>
 
                 <div className="flex gap-4">
-                  <button type="button" className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 py-2 rounded-lg hover:bg-white/90 transition shadow-sm">
-                    <img src="https://www.facebook.com/favicon.ico" className="w-4 h-4" alt="FB" />
+                  <button
+                    type="button"
+                    className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 py-2 rounded-lg hover:bg-white/90 transition shadow-sm"
+                  >
+                    <img
+                      src="https://www.facebook.com/favicon.ico"
+                      className="w-4 h-4"
+                      alt="FB"
+                    />
                     <span className="font-medium">Facebook</span>
                   </button>
-                  <button type="button" className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 py-2 rounded-lg hover:bg-white/90 transition shadow-sm">
-                    <img src="https://www.google.com/favicon.ico" className="w-4 h-4" alt="Google" />
+                  <button
+                    type="button"
+                    className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 py-2 rounded-lg hover:bg-white/90 transition shadow-sm"
+                  >
+                    <img
+                      src="https://www.google.com/favicon.ico"
+                      className="w-4 h-4"
+                      alt="Google"
+                    />
                     <span className="font-medium">Google</span>
                   </button>
                 </div>
 
                 <p className="text-center text-sm text-white/80 mt-6">
                   Already have an account?{" "}
-                  <Link to="/register" className="text-white font-bold hover:underline">
+                  <Link
+                    to="/register"
+                    className="text-white font-bold hover:underline"
+                  >
                     Register here?
                   </Link>
                 </p>

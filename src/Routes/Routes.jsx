@@ -21,6 +21,9 @@ import DashboardHome from "../Dashboard/DashboardHome/DashboardHome";
 
 import PaymentSuccess from "../Dashboard/MyOrderPage/PaymentSuccess";
 import PaymentCancelled from "../Dashboard/MyOrderPage/PaymentCancelled";
+import Error404 from "../Components/Error404";
+import About from "../Components/About/About";
+import FAQ from "../Components/FAQ/FAQ";
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +37,14 @@ export const router = createBrowserRouter([
       {
         path: "/meals",
         element: <Meals></Meals>,
+      },
+      {
+        path: '/about',
+        element: <About></About>
+      },
+      {
+        path: '/FAQ',
+        element: <FAQ></FAQ>
       },
       {
         path: "/mealDetails/:id",
@@ -60,6 +71,10 @@ export const router = createBrowserRouter([
   {
     path: "/login",
     Component: Login,
+  },
+  {
+    path: '*',
+    element: <Error404></Error404>
   },
   {
     path: "/dashboard",
