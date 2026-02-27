@@ -23,7 +23,6 @@ const MealForHome = () => {
       </div>
     );
   }
-
   return (
     <section className="py-16 md:py-24 relative bg-background">
       <Container>

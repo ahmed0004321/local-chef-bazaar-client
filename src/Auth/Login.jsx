@@ -63,219 +63,124 @@ const Login = () => {
 
   return (
     <>
-      <div
-        className="min-h-screen flex items-center justify-center p-4 relative bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: "url('/auth-bg.png')" }}
-      >
-        {/* Overlay for better readability if needed */}
-        <div className="absolute inset-0 bg-black/10 pointer-events-none"></div>
+      <div className="min-h-screen flex items-center justify-center bg-background font-sans p-4 relative overflow-hidden transition-colors duration-300">
+        {/* Subtle Decorative Background Element */}
+        <div className="absolute top-1/4 -left-20 w-80 h-80 bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
+        <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-foreground/5 rounded-full blur-[120px] pointer-events-none"></div>
 
         <Button
           onClick={() => navigate("/")}
           variant="ghost"
-          className="fixed top-6 left-6 z-10 gap-2 text-white hover:bg-white/10"
+          className="absolute top-6 left-6 z-10 gap-2 text-foreground/50 hover:text-primary transition-colors hover:bg-foreground/5"
         >
           <FaArrowLeft /> Back to Home
         </Button>
 
-        <div className="w-full max-w-lg glass-green p-8 rounded-2xl relative z-10 border border-white/20">
-          {isError ? (
-            <div className="text-center py-8">
-              <div className="w-16 h-16 bg-error/20 text-error rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2}
-                  stroke="currentColor"
-                  className="w-10 h-10"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
-                  />
-                </svg>
-              </div>
-              <h2 className="text-2xl font-bold text-white mb-2">
-                Login Failed
-              </h2>
-              <p className="text-white/80 mb-8">
-                {errorMessage || "Invalid email or password. Please try again."}
-              </p>
-              <Button
-                onClick={handleRetry}
-                className="w-full bg-[#1e3a15] hover:bg-[#152a0f] text-white border-none py-6"
-              >
-                Try Again
-              </Button>
-            </div>
-          ) : (
-            <>
-              <div className="text-center mb-8">
-                <h1 className="text-3xl font-bold text-white mb-2">
-                  Login to your Account
-                </h1>
-                <p className="text-white/80">In cook, personal for better</p>
-              </div>
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          className="w-full max-w-md"
+        >
+          <div className="text-center mb-10">
+            <h2 className="text-primary text-xl font-bold tracking-widest uppercase mb-2">LocalChef Bazaar</h2>
+            <h1 className="text-4xl font-bold text-foreground mb-3">Sign In</h1>
+            <p className="text-foreground/50 text-sm italic">"Good food is the foundation of genuine happiness."</p>
+          </div>
 
+          <div className="bg-surface/50 backdrop-blur-sm border border-foreground/5 p-8 rounded-2xl shadow-2xl relative z-10">
+            {isError ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-center py-4"
+              >
+                <div className="w-12 h-12 bg-error/10 text-error rounded-full flex items-center justify-center mx-auto mb-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+                  </svg>
+                </div>
+                <h2 className="text-lg font-semibold text-foreground mb-1">Login Failed</h2>
+                <p className="text-sm text-foreground/50 mb-6">{errorMessage || "Invalid details. Please try again."}</p>
+                <Button onClick={handleRetry} className="w-full bg-primary hover:bg-primary/90 text-white rounded-lg h-12">
+                  Try Again
+                </Button>
+              </motion.div>
+            ) : (
               <form onSubmit={handleSubmit(handleLogin)} className="space-y-6">
-                <motion.div
-                  className="space-y-4"
-                  initial="hidden"
-                  animate="visible"
-                  variants={{
-                    hidden: {},
-                    visible: { transition: { staggerChildren: 0.1 } },
-                  }}
-                >
-                  <motion.div
-                    className="form-control"
-                    variants={{
-                      hidden: { opacity: 0, y: 20 },
-                      visible: {
-                        opacity: 1,
-                        y: 0,
-                        transition: { type: "spring", stiffness: 100 },
-                      },
-                    }}
-                  >
+                <div className="space-y-4">
+                  <div className="form-control">
                     <label className="label py-1">
-                      <span className="label-text text-white/90 text-sm">
-                        Email Address
-                      </span>
+                      <span className="label-text font-medium text-foreground/70">Email Address</span>
                     </label>
                     <input
                       type="email"
-                      placeholder="Enter your email"
-                      className={`input w-full bg-white text-gray-800 placeholder:text-gray-400 focus:outline-none ${errors.email ? "border-red-500" : "border-transparent"}`}
+                      placeholder="chef@example.com"
+                      className={`input input-bordered w-full h-12 bg-background border-foreground/10 text-foreground placeholder:text-foreground/30 focus:border-primary focus:ring-1 focus:ring-primary transition-all ${errors.email ? "border-error" : ""}`}
                       {...register("email", {
                         required: "Email is required",
-                        pattern: {
-                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                          message: "Invalid email address",
-                        },
+                        pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: "Invalid email" },
                       })}
                     />
-                    {errors.email && (
-                      <span className="text-red-400 text-xs mt-1">
-                        {errors.email.message}
-                      </span>
-                    )}
-                  </motion.div>
+                    {errors.email && <span className="text-error text-xs mt-1">{errors.email.message}</span>}
+                  </div>
 
-                  <motion.div
-                    className="form-control"
-                    variants={{
-                      hidden: { opacity: 0, y: 20 },
-                      visible: {
-                        opacity: 1,
-                        y: 0,
-                        transition: { type: "spring", stiffness: 100 },
-                      },
-                    }}
-                  >
-                    <label className="label py-1">
-                      <span className="label-text text-white/90 text-sm">
-                        Password
-                      </span>
-                    </label>
+                  <div className="form-control">
+                    <div className="flex justify-between items-center mb-1">
+                      <label className="label p-0 py-1">
+                        <span className="label-text font-medium text-foreground/70">Password</span>
+                      </label>
+                      <a href="#" className="text-xs text-primary hover:underline font-medium">Forgot?</a>
+                    </div>
                     <input
                       type="password"
                       placeholder="••••••••"
-                      className={`input w-full bg-white text-gray-800 placeholder:text-gray-400 focus:outline-none ${
-                        errors.password
-                          ? "border-red-500"
-                          : "border-transparent"
-                      }`}
-                      {...register("password", {
-                        required: "Password is required",
-                        minLength: {
-                          value: 6,
-                          message: "Password must be at least 6 characters",
-                        },
-                        validate: {
-                          hasUppercase: (value) =>
-                            /[A-Z]/.test(value) ||
-                            "Password must contain at least one uppercase letter",
-                        },
-                      })}
+                      className={`input input-bordered w-full h-12 bg-background border-foreground/10 text-foreground placeholder:text-foreground/30 focus:border-primary focus:ring-1 focus:ring-primary transition-all ${errors.password ? "border-error" : ""}`}
+                      {...register("password", { required: "Password is required" })}
                     />
-                    {errors.password && (
-                      <span className="text-red-400 text-xs mt-1">
-                        {errors.password.message}
-                      </span>
-                    )}
-                  </motion.div>
-                </motion.div>
+                    {errors.password && <span className="text-error text-xs mt-1">{errors.password.message}</span>}
+                  </div>
+                </div>
 
-                <div className="flex items-center justify-between text-xs text-white/90">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="checkbox checkbox-xs border-white/40"
-                    />
-                    <span>Remember me</span>
-                  </label>
-                  <a href="#" className="hover:underline">
-                    Forgot Password?
-                  </a>
+                <div className="flex items-center gap-2">
+                  <input type="checkbox" className="checkbox checkbox-sm checkbox-primary rounded border-foreground/20 bg-background" />
+                  <span className="text-xs text-foreground/50">Keep me logged in</span>
                 </div>
 
                 <Button
                   type="submit"
-                  className="w-full bg-[#1e3a15] hover:bg-[#152a0f] text-white border-none py-6 text-lg font-semibold"
+                  className="w-full bg-primary hover:bg-primary/90 text-white h-12 rounded-lg font-bold text-lg shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? (
-                    <span className="loading loading-spinner"></span>
-                  ) : (
-                    "Login"
-                  )}
+                  {isSubmitting ? <span className="loading loading-spinner"></span> : "Sign In"}
                 </Button>
 
-                <div className="text-center text-xs text-white/60">
-                  Or Sign in with
+                <div className="relative py-2">
+                  <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-foreground/10"></div></div>
+                  <div className="relative flex justify-center text-xs uppercase"><span className="bg-surface px-3 text-foreground/30 font-medium">Or continue with</span></div>
                 </div>
 
-                <div className="flex gap-4">
-                  <button
-                    type="button"
-                    className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 py-2 rounded-lg hover:bg-white/90 transition shadow-sm"
-                  >
-                    <img
-                      src="https://www.facebook.com/favicon.ico"
-                      className="w-4 h-4"
-                      alt="FB"
-                    />
-                    <span className="font-medium">Facebook</span>
+                <div className="grid grid-cols-2 gap-4">
+                  <button type="button" className="flex items-center justify-center gap-2 py-2.5 border border-foreground/10 rounded-lg hover:bg-foreground/5 transition-colors">
+                    <img src="https://www.google.com/favicon.ico" className="w-4 h-4" alt="G" />
+                    <span className="text-sm font-medium text-foreground/70">Google</span>
                   </button>
-                  <button
-                    type="button"
-                    className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 py-2 rounded-lg hover:bg-white/90 transition shadow-sm"
-                  >
-                    <img
-                      src="https://www.google.com/favicon.ico"
-                      className="w-4 h-4"
-                      alt="Google"
-                    />
-                    <span className="font-medium">Google</span>
+                  <button type="button" className="flex items-center justify-center gap-2 py-2.5 border border-foreground/10 rounded-lg hover:bg-foreground/5 transition-colors">
+                    <img src="https://www.facebook.com/favicon.ico" className="w-4 h-4" alt="F" />
+                    <span className="text-sm font-medium text-foreground/70">Facebook</span>
                   </button>
                 </div>
 
-                <p className="text-center text-sm text-white/80 mt-6">
-                  Already have an account?{" "}
-                  <Link
-                    to="/register"
-                    className="text-white font-bold hover:underline"
-                  >
-                    Register here?
+                <p className="text-center text-sm text-foreground/50">
+                  Don't have an account?{" "}
+                  <Link to="/register" className="text-primary font-bold hover:underline">
+                    Create one now
                   </Link>
                 </p>
               </form>
-            </>
-          )}
-        </div>
+            )}
+          </div>
+        </motion.div>
       </div>
       <Footer />
     </>

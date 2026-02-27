@@ -28,7 +28,6 @@ const Meals = () => {
     },
     keepPreviousData: true,
   });
-
   const meals = mealData.meals || [];
   const totalMeals = mealData.totalMeals || 0;
   const totalPages = Math.ceil(totalMeals / limit);
@@ -63,7 +62,6 @@ const Meals = () => {
       </div>
     );
   }
-
   return (
     <div className="min-h-screen py-12 md:py-16 bg-background">
       <Container>

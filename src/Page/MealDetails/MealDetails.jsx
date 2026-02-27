@@ -229,8 +229,13 @@ const MealDetails = () => {
                 </div>
 
                 <div className="space-y-3">
-                  <Button onClick={() => setIsOrderModalOpen(true)} size="lg" className="w-full text-lg shadow-xl shadow-primary/20 py-6">
-                    <FaShoppingCart className="mr-2" /> Order Now
+                  <Button
+                    onClick={() => setIsOrderModalOpen(true)}
+                    size="lg"
+                    className={`w-full text-lg shadow-xl py-6 ${user?.data?.status === 'fraud' ? 'opacity-50 grayscale' : 'shadow-primary/20'}`}
+                    disabled={user?.data?.status === 'fraud'}
+                  >
+                    {user?.data?.status === 'fraud' ? 'Account Restricted' : <><FaShoppingCart className="mr-2" /> Order Now</>}
                   </Button>
                   <Button onClick={handleFavoriteMeal} variant="ghost" size="lg" className="w-full">
                     <FaHeart className="mr-2" /> Add to Favorites

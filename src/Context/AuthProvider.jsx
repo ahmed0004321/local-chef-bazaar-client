@@ -8,6 +8,8 @@ import {
   signInWithPopup,
   signOut,
   updateProfile,
+  updatePassword,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth } from "../Firebase/firebase.config";
 import axios from "axios";
@@ -58,6 +60,16 @@ const AuthProvider = ({ children }) => {
         photoURL: updatedUser.photoURL
       }
     }));
+  };
+
+  // Update password
+  const updateUserPassword = (newPassword) => {
+    return updatePassword(auth.currentUser, newPassword);
+  };
+
+  // Reset password
+  const resetPassword = (email) => {
+    return sendPasswordResetEmail(auth, email);
   };
 
   // Logout
@@ -152,7 +164,9 @@ const AuthProvider = ({ children }) => {
     googleSignIn,
     user,
     loading,
-    setUser
+    setUser,
+    updateUserPassword,
+    resetPassword
   };
 
   return (

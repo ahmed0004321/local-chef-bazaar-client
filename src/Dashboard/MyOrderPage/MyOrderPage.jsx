@@ -48,8 +48,6 @@ const MyOrderPage = () => {
   });
 
   const [payingId, setPayingId] = useState(null);
-  const [selectedOrders, setSelectedOrders] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All Status");
 
   // Pagination State
@@ -88,23 +86,6 @@ const MyOrderPage = () => {
     }
   };
 
-  // Selection Logic
-  const toggleSelectAll = (e) => {
-    if (e.target.checked) {
-      setSelectedOrders(orders.map(o => o._id));
-    } else {
-      setSelectedOrders([]);
-    }
-  };
-
-  const toggleSelectOrder = (id) => {
-    if (selectedOrders.includes(id)) {
-      setSelectedOrders(selectedOrders.filter(oId => oId !== id));
-    } else {
-      setSelectedOrders([...selectedOrders, id]);
-    }
-  };
-
   // View / Edit Order Logic
   const handleViewOrder = (order) => {
     setSelectedOrder(order);
@@ -126,10 +107,8 @@ const MyOrderPage = () => {
 
   // Filtered Data Logic
   const filteredOrders = orders.filter(order => {
-    const matchesSearch = order.mealName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order._id?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === "All Status" || order.orderStatus === statusFilter.toLowerCase();
-    return matchesSearch && matchesStatus;
+    return matchesStatus;
   });
 
   // Pagination Calculations
@@ -159,45 +138,9 @@ const MyOrderPage = () => {
       {/* Order List Container */}
       <div className="bg-surface rounded-xl shadow-sm border border-neutral-200 dark:border-white/10 overflow-hidden">
 
-        {/* List Header & Search */}
+        {/* List Header */}
         <div className="p-4 border-b border-neutral-200 dark:border-white/10 space-y-4">
           <h2 className="text-lg font-bold">Order list</h2>
-
-          <div className="relative w-full">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-              <FaSearch />
-            </div>
-            <input
-              type="text"
-              placeholder="Search by Parcel ID, Name, or Phone..."
-              className="input input-bordered w-full pl-10 bg-transparent focus:outline-none focus:border-primary"
-              value={searchTerm}
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-                setCurrentPage(1); // Reset to page 1
-              }}
-            />
-          </div>
-
-          {/* Bulk Selection Bar */}
-          {selectedOrders.length > 0 && (
-            <div className="flex flex-wrap items-center justify-between gap-4 bg-blue-500/10 p-3 rounded-lg border border-blue-500/20 text-blue-700 dark:text-blue-400">
-              <span className="font-semibold">{selectedOrders.length} Orders Selected</span>
-              <div className="flex gap-2">
-                <button className="btn btn-sm bg-white border-0 hover:bg-gray-50 text-gray-700 shadow-sm gap-2">
-                  <FaFileInvoice /> Invoice Print
-                </button>
-                <button className="btn btn-sm bg-white border-0 hover:bg-gray-50 text-gray-700 shadow-sm gap-2">
-                  <FaFileExport /> Export(CSV)
-                </button>
-                <div className="dropdown dropdown-end">
-                  <button tabIndex={0} className="btn btn-sm bg-white border-0 hover:bg-gray-50 text-gray-700 shadow-sm gap-2">
-                    Bulk Action <FaAngleDown />
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* Table */}
@@ -206,12 +149,7 @@ const MyOrderPage = () => {
             {/* head */}
             <thead className="bg-primary text-white">
               <tr>
-                <th className="w-12">
-                  <label>
-                    <input type="checkbox" className="checkbox checkbox-sm border-white" onChange={toggleSelectAll} checked={selectedOrders.length === orders.length && orders.length > 0} />
-                  </label>
-                </th>
-                <th>Order ID</th>
+                <th className="pl-8">Order ID</th>
                 <th>Customer Info</th>
                 <th>Date</th>
                 <th>Total</th>
@@ -222,24 +160,14 @@ const MyOrderPage = () => {
             <tbody>
               {filteredOrders.length === 0 ? (
                 <tr>
-                  <td colSpan="7" className="text-center py-10 text-gray-500">
-                    No orders found matching your criteria.
+                  <td colSpan="6" className="text-center py-10 text-gray-500">
+                    No orders found.
                   </td>
                 </tr>
               ) : (
                 paginatedOrders.map((order) => (
                   <tr key={order._id} className="hover:bg-neutral-50 dark:hover:bg-white/5 border-b border-neutral-100 dark:border-white/5 transition-colors">
-                    <th>
-                      <label>
-                        <input
-                          type="checkbox"
-                          className="checkbox checkbox-sm"
-                          checked={selectedOrders.includes(order._id)}
-                          onChange={() => toggleSelectOrder(order._id)}
-                        />
-                      </label>
-                    </th>
-                    <td>
+                    <td className="pl-8">
                       <span className="font-bold text-gray-700 dark:text-gray-300">#{order._id.slice(-6).toUpperCase()}</span>
                     </td>
                     <td>

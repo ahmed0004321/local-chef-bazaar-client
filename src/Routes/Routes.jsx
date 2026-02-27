@@ -17,6 +17,7 @@ import OrderRequests from "../Dashboard/Chef/OrderRequests";
 import ManageUsers from "../Dashboard/Admin/ManageUsers";
 import ManageRequests from "../Dashboard/Admin/ManageRequests";
 import PlatformStats from "../Dashboard/Admin/PlatformStats";
+import ManageBlogs from "../Dashboard/Admin/ManageBlogs";
 import DashboardHome from "../Dashboard/DashboardHome/DashboardHome";
 
 import PaymentSuccess from "../Dashboard/MyOrderPage/PaymentSuccess";
@@ -24,6 +25,8 @@ import PaymentCancelled from "../Dashboard/MyOrderPage/PaymentCancelled";
 import Error404 from "../Components/Error404";
 import About from "../Components/About/About";
 import FAQ from "../Components/FAQ/FAQ";
+import Blog from "../Components/Blog/Blog";
+import BlogDetails from "../Components/Blog/BlogDetails";
 
 export const router = createBrowserRouter([
   {
@@ -47,11 +50,17 @@ export const router = createBrowserRouter([
         element: <FAQ></FAQ>
       },
       {
+        path: '/blog',
+        element: <Blog></Blog>
+      },
+      {
+        path: '/blog/:id',
+        element: <BlogDetails></BlogDetails>
+      },
+      {
         path: "/mealDetails/:id",
         element: (
-          <PrivateRoutes>
-            <MealDetails></MealDetails>
-          </PrivateRoutes>
+          <MealDetails></MealDetails>
         ),
       },
       {
@@ -127,6 +136,10 @@ export const router = createBrowserRouter([
       {
         path: "platformStats",
         element: <PlatformStats></PlatformStats>
+      },
+      {
+        path: "manageBlogs",
+        element: <ManageBlogs></ManageBlogs>
       }
     ]
   },

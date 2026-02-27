@@ -154,9 +154,26 @@ const CreateMeal = () => {
           <input type="hidden" value={user?.data?.chefId} {...register("chefId")} />
           <input type="hidden" value={user?.data?.email} {...register("userEmail")} />
 
-          <div className="pt-4 flex justify-end">
-            <Button type="submit" variant="primary" size="lg" className="min-w-[200px]" disabled={isSubmitting}>
-              {isSubmitting ? <span className="loading loading-spinner"></span> : <><FaSave className="mr-2" /> Save Meal</>}
+          <div className="pt-4 flex flex-col items-end gap-3">
+            {user?.data?.status === 'fraud' && (
+              <p className="text-error text-sm font-bold animate-pulse px-4 py-2 bg-error/10 rounded-xl border border-error/20">
+                Your account is restricted. You cannot create new meals.
+              </p>
+            )}
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              className={`min-w-[200px] ${user?.data?.status === 'fraud' ? 'grayscale opacity-50' : ''}`}
+              disabled={isSubmitting || user?.data?.status === 'fraud'}
+            >
+              {isSubmitting ? (
+                <span className="loading loading-spinner"></span>
+              ) : user?.data?.status === 'fraud' ? (
+                "Action Restricted"
+              ) : (
+                <><FaSave className="mr-2" /> Save Meal</>
+              )}
             </Button>
           </div>
         </form>

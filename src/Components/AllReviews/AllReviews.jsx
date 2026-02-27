@@ -5,7 +5,7 @@ import { FaStar, FaRegStar, FaQuoteLeft } from 'react-icons/fa';
 import axios from 'axios';
 
 const fetchAllReviews = async () => {
-    const { data } = await axios.get('https://local-chef-bazaar-client.vercel.app/reviews');
+    const { data } = await axios.get('http://localhost:3000/reviews');
     return Array.isArray(data) ? data : [];
 };
 

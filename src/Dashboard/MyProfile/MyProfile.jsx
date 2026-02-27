@@ -1,13 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import Loading from "../../Components/Loading/Loading";
 import { Card, Button } from "../../Components/UI";
 import useAxiosSecure from "../../Hooks/AxiosSecure";
 import Swal from "sweetalert2";
-import { FaUser, FaEnvelope, FaIdBadge, FaCheckCircle, FaUtensils, FaUserShield } from "react-icons/fa";
+import { FaUser, FaEnvelope, FaIdBadge, FaCheckCircle, FaUtensils, FaUserShield, FaCloudUploadAlt } from "react-icons/fa";
+import axios from "axios";
 
 const MyProfile = () => {
-  const { user, loading } = useContext(AuthContext);
+  const { user, loading, updateUserProfile, resetPassword } = useContext(AuthContext);
+  const [photoValue, setPhotoValue] = useState(null);
+  const [updatingPhoto, setUpdatingPhoto] = useState(false);
+  const [updatingPassword, setUpdatingPassword] = useState(false);
 
   const axiosSecure = useAxiosSecure(); // Ensure you import this hook
 
@@ -45,6 +49,71 @@ const MyProfile = () => {
           confirmButtonColor: "#f38b0c", background: 'var(--surface)', color: 'var(--foreground)'
         });
       }
+    }
+  };
+
+  const handleUpdatePhoto = async (e) => {
+    e.preventDefault();
+    if (!photoValue) {
+      Swal.fire({
+        title: 'Warning',
+        text: 'Please select an image first.',
+        icon: 'warning',
+        confirmButtonColor: "#f38b0c", background: 'var(--surface)', color: 'var(--foreground)'
+      });
+      return;
+    }
+    setUpdatingPhoto(true);
+    try {
+      const formData = new FormData();
+      formData.append("image", photoValue);
+
+      const image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_KEY}`;
+      const imgRes = await axios.post(image_API_URL, formData);
+      const photoURL = imgRes.data.data.url;
+
+      await updateUserProfile(user?.data?.displayName || user?.displayName, photoURL);
+
+      Swal.fire({
+        title: 'Success!',
+        text: 'Profile picture updated successfully.',
+        icon: 'success',
+        confirmButtonColor: "#f38b0c", background: 'var(--surface)', color: 'var(--foreground)'
+      });
+      setPhotoValue(null);
+    } catch (error) {
+      console.error("Update error:", error);
+      Swal.fire({
+        title: 'Error!',
+        text: 'Failed to update profile picture.',
+        icon: 'error',
+        confirmButtonColor: "#f38b0c", background: 'var(--surface)', color: 'var(--foreground)'
+      });
+    } finally {
+      setUpdatingPhoto(false);
+    }
+  };
+
+  const handleUpdatePassword = async (e) => {
+    e.preventDefault();
+    setUpdatingPassword(true);
+    try {
+      await resetPassword(user?.email);
+      Swal.fire({
+        title: 'Email Sent!',
+        text: 'A password reset link has been sent to your email.',
+        icon: 'success',
+        confirmButtonColor: "#f38b0c", background: 'var(--surface)', color: 'var(--foreground)'
+      });
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Failed to send reset email.',
+        icon: 'error',
+        confirmButtonColor: "#f38b0c", background: 'var(--surface)', color: 'var(--foreground)'
+      });
+    } finally {
+      setUpdatingPassword(false);
     }
   };
 
@@ -135,6 +204,58 @@ const MyProfile = () => {
           </Card>
         )}
       </div>
+
+      <Card className="mt-6">
+        <h3 className="text-lg font-bold mb-4 flex items-center gap-2 text-foreground/80">
+          <FaUser className="text-primary" /> Update Profile
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* File Upload for Photo */}
+          <form onSubmit={handleUpdatePhoto} className="space-y-4 text-center md:text-left">
+            <div>
+              <label className="text-xs text-foreground/50 uppercase font-bold tracking-wider mb-2 block">Profile Photo</label>
+              <div className="relative border-2 border-dashed border-primary/20 rounded-xl p-6 bg-surface/50 hover:bg-surface transition text-center cursor-pointer group">
+                <input
+                  type="file"
+                  onChange={(e) => setPhotoValue(e.target.files[0])}
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                />
+                <div className="flex flex-col items-center gap-2 group-hover:scale-105 transition-transform">
+                  <FaCloudUploadAlt className="text-3xl text-primary/60" />
+                  <span className="text-sm font-medium text-foreground/70">
+                    {photoValue ? photoValue.name : "Click or drag image to upload"}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <Button
+              type="submit"
+              disabled={updatingPhoto}
+              className="w-full bg-primary text-white"
+            >
+              {updatingPhoto ? "Uploading..." : "Update Image"}
+            </Button>
+          </form>
+
+          {/* Password Reset Email Button */}
+          <div className="space-y-4">
+            <div>
+              <label className="text-xs text-foreground/50 uppercase font-bold tracking-wider mb-2 block">Security</label>
+              <div className="bg-surface/50 p-6 rounded-xl border border-neutral-100 dark:border-white/5 h-[100px] flex flex-col justify-center">
+                <p className="text-sm text-foreground/70 mb-1">Update your password securely via email.</p>
+                <p className="text-xs text-foreground/40 italic">We'll send a reset link to: {user?.email}</p>
+              </div>
+            </div>
+            <Button
+              onClick={handleUpdatePassword}
+              disabled={updatingPassword}
+              className="w-full bg-neutral-800 text-white hover:bg-neutral-900 h-[45px]"
+            >
+              {updatingPassword ? "Sending..." : "Send Reset Email"}
+            </Button>
+          </div>
+        </div>
+      </Card>
     </div>
   );
 };

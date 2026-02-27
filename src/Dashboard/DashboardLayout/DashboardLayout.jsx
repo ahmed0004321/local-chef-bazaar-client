@@ -3,6 +3,7 @@ import { Link, Outlet, NavLink, useLocation } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
 import Loading from "../../Components/Loading/Loading";
 import { FaHome, FaUser, FaList, FaPlusCircle, FaUtensils, FaClipboardList, FaHeart, FaStar, FaBars, FaChartBar, FaUsers, FaTasks } from "react-icons/fa";
+import ThemeToggle from "../../Components/ThemeToggle";
 
 const DashboardLayout = () => {
   const { user, loading } = use(AuthContext);
@@ -89,6 +90,9 @@ const DashboardLayout = () => {
             <NavLink to="/dashboard/manageRequests" className={navLinkClass}>
               <FaTasks /> Manage Requests
             </NavLink>
+            <NavLink to="/dashboard/manageBlogs" className={navLinkClass}>
+              <FaClipboardList /> Manage Blogs
+            </NavLink>
           </>
         )}
       </div>
@@ -96,10 +100,11 @@ const DashboardLayout = () => {
       <div className="p-4 border-t border-neutral-200 dark:border-white/5">
         <div className="flex items-center gap-3 bg-surface/50 p-3 rounded-xl border border-neutral-200 dark:border-white/5">
           <img src={user?.photoURL || "https://ui-avatars.com/api/?name=User"} alt="" className="w-10 h-10 rounded-full" />
-          <div className="overflow-hidden">
+          <div className="overflow-hidden flex-1">
             <p className="text-sm font-bold truncate">{user?.displayName}</p>
             <p className="text-xs text-foreground/50 truncate capitalize">{user?.data?.role || "Member"}</p>
           </div>
+          <ThemeToggle />
         </div>
       </div>
     </>
@@ -120,6 +125,7 @@ const DashboardLayout = () => {
       '/dashboard/manageUsers': 'Local Chef Bazaar - Manage Users',
       '/dashboard/manageRequests': 'Local Chef Bazaar - Manage Requests',
       '/dashboard/platformStats': 'Local Chef Bazaar - Platform Stats',
+      '/dashboard/manageBlogs': 'Local Chef Bazaar - Manage Blogs',
     };
     const defaultTitle = 'Local Chef Bazaar - Dashboard';
     document.title = titles[location.pathname] || defaultTitle;
