@@ -18,6 +18,8 @@ import ManageUsers from "../Dashboard/Admin/ManageUsers";
 import ManageRequests from "../Dashboard/Admin/ManageRequests";
 import PlatformStats from "../Dashboard/Admin/PlatformStats";
 import ManageBlogs from "../Dashboard/Admin/ManageBlogs";
+import ManageComplaints from "../Dashboard/Admin/ManageComplaints";
+import Settings from "../Dashboard/Settings/Settings";
 import DashboardHome from "../Dashboard/DashboardHome/DashboardHome";
 
 import PaymentSuccess from "../Dashboard/MyOrderPage/PaymentSuccess";
@@ -140,6 +142,14 @@ export const router = createBrowserRouter([
       {
         path: "manageBlogs",
         element: <ManageBlogs></ManageBlogs>
+      },
+      {
+        path: "manageComplaints",
+        element: <ManageComplaints></ManageComplaints>
+      },
+      {
+        path: "settings",
+        element: <Settings></Settings>
       }
     ]
   },

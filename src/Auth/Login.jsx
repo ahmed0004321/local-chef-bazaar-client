@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import Loading from "../Components/Loading/Loading";
 import { Input, Button, Card } from "../Components/UI";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
 import Footer from "../Components/Footer/Footer";
 import { motion } from "framer-motion";
 
@@ -16,6 +16,7 @@ const Login = () => {
   const [isError, setIsError] = React.useState(false);
   const [errorMessage, setErrorMessage] = React.useState("");
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [showPassword, setShowPassword] = React.useState(false);
 
   const {
     register,
@@ -52,6 +53,15 @@ const Login = () => {
     setIsError(false);
     setErrorMessage("");
     reset();
+  };
+
+  const handleAutoFill = (email, password) => {
+    reset({
+      email: email,
+      password: password,
+    });
+    setIsError(false);
+    setErrorMessage("");
   };
 
   if (loading)
@@ -132,12 +142,21 @@ const Login = () => {
                       </label>
                       <a href="#" className="text-xs text-primary hover:underline font-medium">Forgot?</a>
                     </div>
-                    <input
-                      type="password"
-                      placeholder="••••••••"
-                      className={`input input-bordered w-full h-12 bg-background border-foreground/10 text-foreground placeholder:text-foreground/30 focus:border-primary focus:ring-1 focus:ring-primary transition-all ${errors.password ? "border-error" : ""}`}
-                      {...register("password", { required: "Password is required" })}
-                    />
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="••••••••"
+                        className={`input input-bordered w-full h-12 bg-background border-foreground/10 text-foreground placeholder:text-foreground/30 focus:border-primary focus:ring-1 focus:ring-primary transition-all pr-12 ${errors.password ? "border-error" : ""}`}
+                        {...register("password", { required: "Password is required" })}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-foreground/30 hover:text-primary transition-colors focus:outline-none"
+                      >
+                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                      </button>
+                    </div>
                     {errors.password && <span className="text-error text-xs mt-1">{errors.password.message}</span>}
                   </div>
                 </div>
@@ -154,6 +173,36 @@ const Login = () => {
                 >
                   {isSubmitting ? <span className="loading loading-spinner"></span> : "Sign In"}
                 </Button>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  <Button
+                    type="button"
+                    onClick={() => handleAutoFill("ahmed@gmail.com", "Ahmed123")}
+                    variant="outline"
+                    className="border-primary/20 hover:border-primary/50 text-primary/70 hover:text-primary h-10 rounded-lg font-medium text-xs transition-all"
+                    disabled={isSubmitting}
+                  >
+                    Demo User
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={() => handleAutoFill("riyan@gmail.com", "Riyan123")}
+                    variant="outline"
+                    className="border-primary/20 hover:border-primary/50 text-primary/70 hover:text-primary h-10 rounded-lg font-medium text-xs transition-all"
+                    disabled={isSubmitting}
+                  >
+                    Demo Chef
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={() => handleAutoFill("admin@gmail.com", "Admin123")}
+                    variant="outline"
+                    className="border-primary/20 hover:border-primary/50 text-primary/70 hover:text-primary h-10 rounded-lg font-medium text-xs transition-all"
+                    disabled={isSubmitting}
+                  >
+                    Demo Admin
+                  </Button>
+                </div>
 
                 <div className="relative py-2">
                   <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-foreground/10"></div></div>

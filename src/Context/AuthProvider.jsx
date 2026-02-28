@@ -14,14 +14,12 @@ import {
 import { auth } from "../Firebase/firebase.config";
 import axios from "axios";
 const googleProvider = new GoogleAuthProvider();
-
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem("auth-user");
     return savedUser ? JSON.parse(savedUser) : null;
   });
   const [loading, setLoading] = useState(true);
-
   // Google sign in
   const googleSignIn = () => {
     return signInWithPopup(auth, googleProvider);
@@ -86,13 +84,14 @@ const AuthProvider = ({ children }) => {
       localStorage.removeItem("auth-user");
     }
   }, [user]);
-
+  console.log(user);
   // Auth state observer
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         // Get fresh token
         const token = await currentUser.getIdToken();
+        console.log(token);
         const basicUser = {
           uid: currentUser.uid,
           email: currentUser.email,
@@ -155,7 +154,6 @@ const AuthProvider = ({ children }) => {
 
     return () => unsubscribe();
   }, []);
-
   const authInfo = {
     signInUser,
     logOut,

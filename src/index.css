@@ -62,7 +62,8 @@
   /* Light orange tint */
   --accent-foreground: #f38b0c;
 
-  --background: #f4f4f5; /* Not fully white as requested */
+  --background: #f4f4f5;
+  /* Not fully white as requested */
   --foreground: #1f2937;
 
   --surface: #ffffff;

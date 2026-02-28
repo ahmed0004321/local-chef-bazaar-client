@@ -62,6 +62,7 @@ const Meals = () => {
       </div>
     );
   }
+  console.log(meals);
   return (
     <div className="min-h-screen py-12 md:py-16 bg-background">
       <Container>

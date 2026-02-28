@@ -2,11 +2,14 @@ import React, { use } from "react";
 import { Link, Outlet, NavLink, useLocation } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
 import Loading from "../../Components/Loading/Loading";
-import { FaHome, FaUser, FaList, FaPlusCircle, FaUtensils, FaClipboardList, FaHeart, FaStar, FaBars, FaChartBar, FaUsers, FaTasks } from "react-icons/fa";
+import { FaHome, FaUser, FaList, FaPlusCircle, FaUtensils, FaClipboardList, FaHeart, FaStar, FaBars, FaChartBar, FaUsers, FaTasks, FaExclamationTriangle, FaCog } from "react-icons/fa";
 import ThemeToggle from "../../Components/ThemeToggle";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../Hooks/AxiosSecure";
 
 const DashboardLayout = () => {
   const { user, loading } = use(AuthContext);
+  const axiosSecure = useAxiosSecure();
 
   if (loading) {
     return (
@@ -93,8 +96,17 @@ const DashboardLayout = () => {
             <NavLink to="/dashboard/manageBlogs" className={navLinkClass}>
               <FaClipboardList /> Manage Blogs
             </NavLink>
+            <NavLink to="/dashboard/manageComplaints" className={navLinkClass}>
+              <FaExclamationTriangle className="text-error/70" /> Manage Complaints
+            </NavLink>
           </>
         )}
+
+        <div className="pt-4 mt-4 border-t border-foreground/5">
+          <NavLink to="/dashboard/settings" className={navLinkClass}>
+            <FaCog /> Settings
+          </NavLink>
+        </div>
       </div>
 
       <div className="p-4 border-t border-neutral-200 dark:border-white/5">
@@ -126,6 +138,7 @@ const DashboardLayout = () => {
       '/dashboard/manageRequests': 'Local Chef Bazaar - Manage Requests',
       '/dashboard/platformStats': 'Local Chef Bazaar - Platform Stats',
       '/dashboard/manageBlogs': 'Local Chef Bazaar - Manage Blogs',
+      '/dashboard/settings': 'Local Chef Bazaar - Settings',
     };
     const defaultTitle = 'Local Chef Bazaar - Dashboard';
     document.title = titles[location.pathname] || defaultTitle;

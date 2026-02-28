@@ -27,7 +27,7 @@ const MealForHome = () => {
     <section className="py-16 md:py-24 relative bg-background">
       <Container>
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-primary to-orange-600 bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 text-primary">
             Featured Kitchens
           </h2>
           <p className="text-foreground/70 text-lg">

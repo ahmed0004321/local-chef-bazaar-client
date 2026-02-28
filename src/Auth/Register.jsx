@@ -5,7 +5,7 @@ import { AuthContext } from "../Context/AuthContext";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { Input, Button, Card } from "../Components/UI";
-import { FaArrowLeft, FaCloudUploadAlt } from "react-icons/fa";
+import { FaArrowLeft, FaCloudUploadAlt, FaEye, FaEyeSlash } from "react-icons/fa";
 import Footer from "../Components/Footer/Footer";
 import { motion } from "framer-motion";
 
@@ -15,6 +15,8 @@ const Register = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const {
     register,
@@ -39,6 +41,15 @@ const Register = () => {
       const image_API_URL = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_KEY}`;
       const imgRes = await axios.post(image_API_URL, formData);
 
+      // 1. Notify backend to create user and hash password securely
+      await axios.post(`${import.meta.env.VITE_API_URL}/users`, {
+        email: data.email,
+        displayName: data.name,
+        photoURL: imgRes.data.data.url,
+        password: data.password, // Transmitted for backend hashing
+      });
+
+      // 2. Create Firebase Auth account
       await createUser(data.email, data.password);
       await updateUserProfile(data.name, imgRes.data.data.url);
 
@@ -165,31 +176,49 @@ const Register = () => {
                     <label className="label py-1">
                       <span className="label-text font-medium text-foreground/70">Password</span>
                     </label>
-                    <input
-                      type="password"
-                      placeholder="••••••••"
-                      className={`input input-bordered w-full h-11 bg-background border-foreground/10 text-foreground placeholder:text-foreground/30 focus:border-primary transition-all ${errors.password ? "border-error" : ""}`}
-                      {...register("password", {
-                        required: "Password is required",
-                        minLength: { value: 6, message: "Min 6 chars" },
-                        validate: { hasUppercase: (v) => /[A-Z]/.test(v) || "Needs uppercase" }
-                      })}
-                    />
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        placeholder="••••••••"
+                        className={`input input-bordered w-full h-11 bg-background border-foreground/10 text-foreground placeholder:text-foreground/30 focus:border-primary transition-all pr-12 ${errors.password ? "border-error" : ""}`}
+                        {...register("password", {
+                          required: "Password is required",
+                          minLength: { value: 6, message: "Min 6 chars" },
+                          validate: { hasUppercase: (v) => /[A-Z]/.test(v) || "Needs uppercase" }
+                        })}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-foreground/30 hover:text-primary transition-colors focus:outline-none"
+                      >
+                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                      </button>
+                    </div>
                     {errors.password && <span className="text-error text-xs mt-1">{errors.password.message}</span>}
                   </div>
                   <div className="form-control">
                     <label className="label py-1">
                       <span className="label-text font-medium text-foreground/70">Confirm</span>
                     </label>
-                    <input
-                      type="password"
-                      placeholder="••••••••"
-                      className={`input input-bordered w-full h-11 bg-background border-foreground/10 text-foreground placeholder:text-foreground/30 focus:border-primary transition-all ${errors.confirmPassword ? "border-error" : ""}`}
-                      {...register("confirmPassword", {
-                        required: "Required",
-                        validate: (v) => v === password || "Match failed"
-                      })}
-                    />
+                    <div className="relative">
+                      <input
+                        type={showConfirmPassword ? "text" : "password"}
+                        placeholder="••••••••"
+                        className={`input input-bordered w-full h-11 bg-background border-foreground/10 text-foreground placeholder:text-foreground/30 focus:border-primary transition-all pr-12 ${errors.confirmPassword ? "border-error" : ""}`}
+                        {...register("confirmPassword", {
+                          required: "Required",
+                          validate: (v) => v === password || "Match failed"
+                        })}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 text-foreground/30 hover:text-primary transition-colors focus:outline-none"
+                      >
+                        {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                      </button>
+                    </div>
                     {errors.confirmPassword && <span className="text-error text-xs mt-1">{errors.confirmPassword.message}</span>}
                   </div>
                 </div>

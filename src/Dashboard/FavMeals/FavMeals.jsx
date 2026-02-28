@@ -120,7 +120,6 @@ const FavMeals = () => {
         </div>
       ) : (
         <div className="text-center py-24 bg-surface/30 rounded-3xl border border-dashed border-white/10 max-w-2xl mx-auto">
-          <div className="text-7xl mb-6">💖</div>
           <h3 className="text-2xl font-bold text-foreground">Nothing here yet</h3>
           <p className="text-foreground/50 mt-2 max-w-sm mx-auto">
             You haven't saved any meals yet. Start exploring and click the heart icon on any meal you like!

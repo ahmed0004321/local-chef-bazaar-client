@@ -22,12 +22,30 @@ const PlatformStats = () => {
 
     // Process daily sales to day names
     const chartData = React.useMemo(() => {
-        if (!dailySales.length) return [];
         const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        return dailySales.map(item => ({
-            ...item,
-            name: days[new Date(item.date).getDay()]
-        }));
+        const last7Days = [];
+
+        // Generate last 7 days with 0 revenue
+        for (let i = 6; i >= 0; i--) {
+            const date = new Date();
+            date.setDate(date.getDate() - i);
+            const dateStr = date.toISOString().split('T')[0];
+            last7Days.push({
+                date: dateStr,
+                name: days[date.getDay()],
+                revenue: 0
+            });
+        }
+
+        // Merge actual data if exists
+        if (dailySales.length > 0) {
+            return last7Days.map(day => {
+                const actualData = dailySales.find(d => d.date === day.date);
+                return actualData ? { ...day, revenue: actualData.revenue } : day;
+            });
+        }
+
+        return last7Days;
     }, [dailySales]);
 
     if (isLoading) {

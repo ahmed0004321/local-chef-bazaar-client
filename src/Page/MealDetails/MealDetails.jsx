@@ -14,7 +14,6 @@ const MealDetails = () => {
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
   const { user } = use(AuthContext);
-
   const { data: reviews = [], refetch: refetchReviews } = useQuery({
     queryKey: ["mealReviews", id],
     queryFn: async () => {

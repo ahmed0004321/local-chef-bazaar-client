@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import { FaSearch, FaChevronDown, FaEnvelope, FaExclamationTriangle, FaQuestionCircle, FaUser, FaUtensils } from 'react-icons/fa';
 import { Container, Button, Card, Input } from '../UI';
+import axios from 'axios';
 
 const FAQ = () => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -43,17 +44,28 @@ const FAQ = () => {
         )
     })).filter(cat => cat.questions.length > 0);
 
-    const onSubmit = (data) => {
-        console.log(data);
-        Swal.fire({
-            title: 'Submitted!',
-            text: 'Your question/complaint has been received. We will get back to you shortly.',
-            icon: 'success',
-            confirmButtonColor: '#f38b0c',
-            background: 'var(--surface)',
-            color: 'var(--foreground)'
-        });
-        reset();
+    const onSubmit = async (data) => {
+        try {
+            await axios.post(`${import.meta.env.VITE_API_URL}/complaints`, data);
+            Swal.fire({
+                title: 'Submitted!',
+                text: 'Your question/complaint has been received. We will get back to you shortly.',
+                icon: 'success',
+                confirmButtonColor: '#f38b0c',
+                background: 'var(--surface)',
+                color: 'var(--foreground)'
+            });
+            reset();
+        } catch (error) {
+            Swal.fire({
+                title: 'Error',
+                text: 'Failed to submit complaint. Please try again.',
+                icon: 'error',
+                confirmButtonColor: '#f38b0c',
+                background: 'var(--surface)',
+                color: 'var(--foreground)'
+            });
+        }
     };
 
     return (
@@ -221,7 +233,7 @@ const FAQ = () => {
                                     </div>
                                     <div>
                                         <p className="font-bold">Email us at</p>
-                                        <p>support@localchefbazaar.com</p>
+                                        <p>oasifrk451@gmail.com</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-4 text-foreground/60 text-sm">
@@ -230,7 +242,7 @@ const FAQ = () => {
                                     </div>
                                     <div>
                                         <p className="font-bold">Quality Hotline</p>
-                                        <p>+1 (555) 123-4567</p>
+                                        <p>+8801812926106</p>
                                     </div>
                                 </div>
                             </div>

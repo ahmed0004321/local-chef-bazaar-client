@@ -1,20 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-const Button = ({ 
-  children, 
-  variant = 'primary', 
-  size = 'md', 
-  className = '', 
+const Button = ({
+  children,
+  variant = 'primary',
+  size = 'md',
+  className = '',
   isLoading = false,
   disabled = false,
   to,
   type = 'button',
   onClick,
-  ...props 
+  ...props
 }) => {
   const baseStyles = 'inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed active:scale-[0.98]';
-  
+
   const variants = {
     primary: 'bg-primary text-primary-foreground hover:brightness-110 shadow-lg shadow-primary/20 focus:ring-primary',
     secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary/80 focus:ring-secondary',
@@ -42,9 +42,9 @@ const Button = ({
   }
 
   return (
-    <button 
-      type={type} 
-      className={classes} 
+    <button
+      type={type}
+      className={classes}
       disabled={disabled || isLoading}
       onClick={onClick}
       {...props}
