@@ -211,11 +211,11 @@ const Login = () => {
 
                 <div className="grid grid-cols-2 gap-4">
                   <button type="button" className="flex items-center justify-center gap-2 py-2.5 border border-foreground/10 rounded-lg hover:bg-foreground/5 transition-colors">
-                    <img src="https://www.google.com/favicon.ico" className="w-4 h-4" alt="G" />
+                    <img loading="lazy" src="https://www.google.com/favicon.ico" className="w-4 h-4" alt="G" />
                     <span className="text-sm font-medium text-foreground/70">Google</span>
                   </button>
                   <button type="button" className="flex items-center justify-center gap-2 py-2.5 border border-foreground/10 rounded-lg hover:bg-foreground/5 transition-colors">
-                    <img src="https://www.facebook.com/favicon.ico" className="w-4 h-4" alt="F" />
+                    <img loading="lazy" src="https://www.facebook.com/favicon.ico" className="w-4 h-4" alt="F" />
                     <span className="text-sm font-medium text-foreground/70">Facebook</span>
                   </button>
                 </div>

@@ -111,7 +111,7 @@ const DashboardLayout = () => {
 
       <div className="p-4 border-t border-neutral-200 dark:border-white/5">
         <div className="flex items-center gap-3 bg-surface/50 p-3 rounded-xl border border-neutral-200 dark:border-white/5">
-          <img src={user?.photoURL || "https://ui-avatars.com/api/?name=User"} alt="" className="w-10 h-10 rounded-full" />
+          <img loading="lazy" src={user?.photoURL || "https://ui-avatars.com/api/?name=User"} alt="" className="w-10 h-10 rounded-full" />
           <div className="overflow-hidden flex-1">
             <p className="text-sm font-bold truncate">{user?.displayName}</p>
             <p className="text-xs text-foreground/50 truncate capitalize">{user?.data?.role || "Member"}</p>

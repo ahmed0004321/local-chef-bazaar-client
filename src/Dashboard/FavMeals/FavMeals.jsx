@@ -77,7 +77,7 @@ const FavMeals = () => {
           {favMeals.map((fav) => (
             <Card key={fav._id} className="p-0 overflow-hidden flex flex-col h-full bg-surface border border-white/5 shadow-xl group hover:shadow-2xl transition-all duration-300">
               <div className="relative h-52 rounded-2xl m-2 overflow-hidden">
-                <img
+                <img loading="lazy"
                   src={fav.mealDetails?.foodImage}
                   alt={fav.mealDetails?.foodName}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

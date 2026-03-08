@@ -43,7 +43,7 @@ const MealForHome = () => {
               compact
             >
               <div className="relative overflow-hidden h-52 rounded-2xl m-2">
-                <img
+                <img loading="lazy"
                   src={meal.foodImage}
                   alt={meal.foodName}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

@@ -30,7 +30,7 @@ const ReviewCard = ({ review }) => (
         </p>
         <StarRating rating={review.rating} />
         <div className="flex items-center gap-3 pt-2 border-t border-white/10">
-            <img
+            <img loading="lazy"
                 src={review.userPhoto || `https://ui-avatars.com/api/?name=${encodeURIComponent(review.userName || 'U')}&background=random`}
                 alt={review.userName || 'User'}
                 className="w-9 h-9 rounded-full object-cover border-2 border-primary/20"

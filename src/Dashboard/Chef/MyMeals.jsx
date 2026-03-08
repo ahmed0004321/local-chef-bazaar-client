@@ -172,7 +172,7 @@ const MyMeals = () => {
         {myMeals.map((meal) => (
           <Card key={meal._id} className="p-0 overflow-hidden flex flex-col h-full bg-surface border border-white/5 shadow-xl group hover:shadow-2xl transition-all duration-300">
             <div className="relative h-56 overflow-hidden">
-              <img
+              <img loading="lazy"
                 src={meal.foodImage}
                 alt={meal.foodName}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

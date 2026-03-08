@@ -103,7 +103,7 @@ const ManageBlogs = () => {
                                         <td className="py-4">
                                             <div className="flex items-center gap-4">
                                                 <div className="w-12 h-12 rounded-xl overflow-hidden shadow-md">
-                                                    <img src={blog.image} alt={blog.title} className="w-full h-full object-cover" />
+                                                    <img loading="lazy" src={blog.image} alt={blog.title} className="w-full h-full object-cover" />
                                                 </div>
                                                 <div>
                                                     <div className="font-bold text-sm line-clamp-1">{blog.title}</div>

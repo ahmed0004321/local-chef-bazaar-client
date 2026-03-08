@@ -2,11 +2,14 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../Hooks/AxiosSecure';
 import {
-    AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
+    AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+    PieChart, Pie, Cell, Legend
 } from 'recharts';
 import Loading from "../../Components/Loading/Loading";
 import { Card } from '../../Components/UI';
-import { FaShoppingCart, FaMoneyBillWave, FaChartLine, FaChevronDown, FaExpandAlt } from 'react-icons/fa';
+import { FaShoppingCart, FaMoneyBillWave, FaChartLine, FaChevronDown, FaExpandAlt, FaUsers } from 'react-icons/fa';
+
+const COLORS = ['var(--primary)', '#10B981', '#3B82F6', '#F59E0B'];
 
 const PlatformStats = () => {
     const axiosSecure = useAxiosSecure();
@@ -48,6 +51,13 @@ const PlatformStats = () => {
         return last7Days;
     }, [dailySales]);
 
+    const pieData = React.useMemo(() => {
+        return roleDistribution.map(item => ({
+            name: item._id?.charAt(0).toUpperCase() + item._id?.slice(1) + 's',
+            value: item.count
+        }));
+    }, [roleDistribution]);
+
     if (isLoading) {
         return (
             <div className="h-[60vh] flex items-center justify-center">
@@ -66,17 +76,23 @@ const PlatformStats = () => {
     return (
         <div className="max-w-7xl mx-auto space-y-8 pb-12">
             {/* Header */}
-            <div>
-                <h1 className="text-3xl font-bold tracking-tight">Platform Insights</h1>
-                <p className="text-foreground/50 mt-1">Detailed performance metrics and growth analytics</p>
+            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                <div>
+                    <h1 className="text-3xl font-bold tracking-tight">Platform Insights</h1>
+                    <p className="text-foreground/50 mt-1">Detailed performance metrics and growth analytics</p>
+                </div>
+                <div className="bg-surface p-1 rounded-2xl border border-foreground/5 shadow-sm inline-flex">
+                    <button className="px-4 py-2 bg-primary text-white rounded-xl text-xs font-bold shadow-lg shadow-primary/20">All Time</button>
+                    <button className="px-4 py-2 text-foreground/40 hover:text-foreground/70 rounded-xl text-xs font-bold transition-colors">This Month</button>
+                </div>
             </div>
 
             {/* Quick Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {statCards.map((item, i) => (
-                    <Card key={i} className="!p-6 !bg-surface border-foreground/5 shadow-xl rounded-3xl">
+                    <Card key={i} className="!p-6 !bg-surface border-foreground/5 shadow-xl rounded-3xl group hover:scale-[1.02] transition-all duration-300">
                         <div className="flex justify-between items-start mb-4">
-                            <div className={`p-3 rounded-2xl bg-foreground/5 ${item.color}`}>
+                            <div className={`p-3 rounded-2xl bg-foreground/5 ${item.color} group-hover:bg-primary group-hover:text-white transition-colors`}>
                                 <item.icon size={20} />
                             </div>
                             <span className="text-[10px] font-bold text-success bg-success/10 px-2 py-1 rounded-full">{item.trend}</span>
@@ -87,7 +103,7 @@ const PlatformStats = () => {
                 ))}
             </div>
 
-            {/* Row 2: Sales Chart & Top Selling Products */}
+            {/* Row 2: Sales Chart & Pie Chart */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Sales Chart */}
                 <Card className="lg:col-span-2 !p-8 !bg-surface border-foreground/5 shadow-xl rounded-3xl relative overflow-hidden">
@@ -97,10 +113,7 @@ const PlatformStats = () => {
                             <p className="text-xs text-foreground/40 font-medium mt-1">Daily revenue performance over the last week</p>
                         </div>
                         <div className="flex gap-3">
-                            <button className="px-4 py-2 bg-primary text-white rounded-2xl text-sm font-bold shadow-lg shadow-primary/20">Last 7 Days</button>
-                            <button className="flex items-center gap-2 px-4 py-2 bg-foreground/5 text-foreground/60 rounded-2xl text-sm font-bold border border-foreground/5">
-                                Monthly <FaChevronDown size={12} />
-                            </button>
+                            <button className="px-4 py-2 bg-primary/10 text-primary border border-primary/20 rounded-2xl text-sm font-bold transition-all hover:bg-primary hover:text-white">Last 7 Days</button>
                         </div>
                     </div>
 
@@ -148,39 +161,47 @@ const PlatformStats = () => {
                             </AreaChart>
                         </ResponsiveContainer>
                     </div>
-                    <div className="flex justify-center mt-6 gap-2 items-center text-foreground/40 text-[10px] uppercase tracking-widest font-bold">
-                        <div className="w-3 h-3 rounded-full bg-primary/20 border-2 border-primary"></div> Revenue (BDT)
-                    </div>
                 </Card>
 
-                {/* Top Selling Products */}
+                {/* Role Distribution Pie Chart */}
                 <Card className="!p-8 !bg-surface border-foreground/5 shadow-xl rounded-3xl">
-                    <h2 className="text-xl font-bold mb-8">Top Selling Meals</h2>
-                    <div className="space-y-6">
-                        {topMeals.length > 0 ? topMeals.map((meal, idx) => (
-                            <div key={idx} className="flex items-center gap-4 group">
-                                <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300">
-                                    <img
-                                        src={meal.image || "/placeholder.jpg"}
-                                        alt={meal.name}
-                                        className="w-full h-full object-cover"
-                                    />
-                                </div>
-                                <div>
-                                    <h4 className="font-bold text-sm line-clamp-1">{meal.name}</h4>
-                                    <div className="flex items-center gap-2 mt-1">
-                                        <span className="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-md uppercase">{meal.sales} Sold</span>
-                                    </div>
-                                </div>
-                            </div>
-                        )) : (
-                            <div className="text-center py-10 text-foreground/30 font-medium">No sales data recorded</div>
-                        )}
+                    <h2 className="text-xl font-bold mb-2">User Distribution</h2>
+                    <p className="text-xs text-foreground/40 font-medium mb-8">Platform composition by user role</p>
+                    <div className="h-[300px] w-full">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <PieChart>
+                                <Pie
+                                    data={pieData}
+                                    innerRadius={70}
+                                    outerRadius={90}
+                                    paddingAngle={5}
+                                    dataKey="value"
+                                >
+                                    {pieData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <Tooltip
+                                    contentStyle={{
+                                        backgroundColor: 'var(--surface)',
+                                        borderRadius: '16px',
+                                        border: 'none',
+                                        boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)',
+                                    }}
+                                />
+                                <Legend verticalAlign="bottom" height={36} iconType="circle" />
+                            </PieChart>
+                        </ResponsiveContainer>
+                    </div>
+                    <div className="mt-8 pt-8 border-t border-foreground/5 text-center">
+                        <div className="inline-flex items-center gap-2 p-2 px-4 rounded-2xl bg-primary/5 text-primary text-[10px] uppercase font-black tracking-widest">
+                            <FaUsers /> {stats.totalUsers} Active Members
+                        </div>
                     </div>
                 </Card>
             </div>
 
-            {/* Row 3: Recent Orders & Growth Alerts */}
+            {/* Row 3: Recent Orders & Top Meals */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 {/* Recent Orders */}
                 <Card className="lg:col-span-2 !p-0 !bg-surface border-foreground/5 shadow-xl rounded-3xl overflow-hidden">
@@ -194,7 +215,6 @@ const PlatformStats = () => {
                                 <tr className="bg-foreground/5 text-foreground/70 uppercase text-[10px] tracking-widest font-bold border-b border-foreground/5">
                                     <th className="px-8 py-5">Order ID</th>
                                     <th className="px-8 py-5">Customer</th>
-                                    <th className="px-8 py-5">Date</th>
                                     <th className="px-8 py-5">Amount</th>
                                     <th className="px-8 py-5 text-right">Status</th>
                                 </tr>
@@ -204,9 +224,6 @@ const PlatformStats = () => {
                                     <tr key={idx} className="hover:bg-foreground/[0.02] transition-colors border-b border-foreground/5 last:border-0">
                                         <td className="px-8 py-5 font-bold text-[11px] uppercase opacity-40">#{order.orderId?.toString().slice(-6)}</td>
                                         <td className="px-8 py-5 text-xs font-bold">{order.customer}</td>
-                                        <td className="px-8 py-5 text-xs text-foreground/50 font-medium">
-                                            {order.date ? new Date(order.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : 'N/A'}
-                                        </td>
                                         <td className="px-8 py-5 text-xs font-black text-primary">৳{order.amount?.toLocaleString()}</td>
                                         <td className="px-8 py-5 text-right font-bold">
                                             <span className={`
@@ -226,31 +243,33 @@ const PlatformStats = () => {
                     </div>
                 </Card>
 
-                {/* User Growth */}
-                <Card className="!p-8 !bg-primary border-none shadow-xl rounded-3xl relative overflow-hidden group">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 group-hover:scale-110 transition-transform duration-500"></div>
-                    <div className="relative z-10 text-white">
-                        <div className="flex justify-between items-center mb-8">
-                            <h2 className="text-xl font-bold">Community Growth</h2>
-                            <FaExpandAlt className="opacity-50" />
-                        </div>
-                        <div className="space-y-4">
-                            {roleDistribution.map((item, idx) => (
-                                <div key={idx} className="p-4 rounded-2xl bg-white/10 border border-white/10 backdrop-blur-md flex justify-between items-center hover:bg-white/20 transition-all cursor-default">
-                                    <div>
-                                        <h4 className="font-bold capitalize text-sm">{item._id}s</h4>
-                                        <p className="text-[10px] font-medium opacity-70 uppercase tracking-widest">{item.count} Active</p>
-                                    </div>
-                                    <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center font-black text-xs">
-                                        {Math.round((item.count / stats.totalUsers) * 100)}%
+                {/* Top Selling Products */}
+                <Card className="!p-8 !bg-surface border-foreground/5 shadow-xl rounded-3xl">
+                    <h2 className="text-xl font-bold mb-8">Top Selling Meals</h2>
+                    <div className="space-y-6">
+                        {topMeals.length > 0 ? topMeals.map((meal, idx) => (
+                            <div key={idx} className="flex items-center gap-4 group cursor-pointer hover:bg-foreground/5 p-2 rounded-2xl transition-all">
+                                <div className="w-14 h-14 rounded-2xl overflow-hidden shadow-md group-hover:scale-105 transition-transform duration-300">
+                                    <img loading="lazy"
+                                        src={meal.image || "/placeholder.jpg"}
+                                        alt={meal.name}
+                                        className="w-full h-full object-cover"
+                                    />
+                                </div>
+                                <div className="flex-1 overflow-hidden">
+                                    <h4 className="font-bold text-sm truncate">{meal.name}</h4>
+                                    <div className="flex items-center justify-between mt-1">
+                                        <span className="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-md uppercase">{meal.sales} Sold</span>
+                                        <span className="text-[10px] font-medium text-foreground/40">{Math.round((meal.sales / stats.totalOrders) * 100)}% of total</span>
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-                        <div className="mt-8 pt-8 border-t border-white/10 text-center">
-                            <p className="text-[10px] font-black uppercase tracking-[0.3em] opacity-60">Total Active Souls</p>
-                            <h4 className="text-4xl font-black mt-1">{stats.totalUsers}</h4>
-                        </div>
+                            </div>
+                        )) : (
+                            <div className="text-center py-10 text-foreground/30 font-medium">No sales data recorded</div>
+                        )}
+                    </div>
+                    <div className="mt-8 pt-6 border-t border-foreground/5">
+                        <button className="w-full py-3 bg-foreground/5 hover:bg-foreground/10 text-foreground/70 rounded-2xl text-xs font-bold transition-all">View All Products</button>
                     </div>
                 </Card>
             </div>

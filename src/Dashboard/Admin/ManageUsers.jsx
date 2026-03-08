@@ -71,7 +71,7 @@ const ManageUsers = () => {
                                     <td className="py-4">
                                         <div className="flex items-center gap-4">
                                             <div className="w-10 h-10 rounded-full overflow-hidden border border-foreground/10 shadow-sm">
-                                                <img src={user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName || user.name}`} alt="" className="w-full h-full object-cover" />
+                                                <img loading="lazy" src={user.photoURL || `https://ui-avatars.com/api/?name=${user.displayName || user.name}`} alt="" className="w-full h-full object-cover" />
                                             </div>
                                             <div>
                                                 <div className="font-bold text-sm">{user.displayName || user.name}</div>
@@ -154,7 +154,7 @@ const ManageUsers = () => {
                             <div className="p-8 pb-0 flex justify-between items-start">
                                 <div className="flex items-center gap-4">
                                     <div className="w-20 h-20 rounded-2xl overflow-hidden border-2 border-[#f38b0c]/20 shadow-sm">
-                                        <img src={viewUser.photoURL || `https://ui-avatars.com/api/?name=${viewUser.displayName || viewUser.name}`} alt="" className="w-full h-full object-cover" />
+                                        <img loading="lazy" src={viewUser.photoURL || `https://ui-avatars.com/api/?name=${viewUser.displayName || viewUser.name}`} alt="" className="w-full h-full object-cover" />
                                     </div>
                                     <div>
                                         <h2 className="text-2xl font-bold text-gray-900">{viewUser.displayName || viewUser.name}</h2>

@@ -74,7 +74,7 @@ const About = () => {
                         className="relative"
                     >
                         <div className="relative z-10 rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10">
-                            <img
+                            <img loading="lazy"
                                 src={aboutHero}
                                 alt="Diverse homemade meals"
                                 className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
@@ -113,7 +113,7 @@ const About = () => {
                 <Container className="grid lg:grid-cols-2 gap-16 items-center">
                     <motion.div {...fadeIn} className="order-2 lg:order-1 relative">
                         <div className="rounded-3xl overflow-hidden shadow-2xl">
-                            <img src={ourStoryImg} alt="Local home chef" className="w-full h-auto" />
+                            <img loading="lazy" src={ourStoryImg} alt="Local home chef" className="w-full h-auto" />
                         </div>
                         <div className="absolute -bottom-8 -right-8 glass p-6 rounded-2xl hidden md:block border border-white/20">
                             <p className="text-primary font-bold italic text-lg leading-tight">

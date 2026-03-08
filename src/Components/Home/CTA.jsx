@@ -47,7 +47,7 @@ const CTA = () => {
 
                         <div className="hidden lg:block relative">
                             <div className="w-80 h-80 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20 relative">
-                                <img
+                                <img loading="lazy"
                                     src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&q=80&w=800"
                                     alt="Chef cooking"
                                     className="w-72 h-72 rounded-full object-cover shadow-2xl rotate-3 group-hover:rotate-0 transition-transform duration-700"

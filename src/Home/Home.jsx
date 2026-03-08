@@ -6,11 +6,13 @@ import CTA from '../Components/Home/CTA';
 import Partners from '../Components/Partners/Partners';
 import AllReviews from '../Components/AllReviews/AllReviews';
 import Newsletter from '../Components/Home/Newsletter';
+import HowItWorks from '../Components/Home/HowItWorks';
 
 const Home = () => {
     return (
         <div>
             <Hero></Hero>
+            <HowItWorks />
             <MealForHome></MealForHome>
             <BlogPreview />
             <CTA />

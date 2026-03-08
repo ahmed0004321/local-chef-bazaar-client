@@ -174,7 +174,7 @@ const MyProfile = () => {
               {/* Avatar */}
               <div className="relative">
                 <div className="w-28 h-28 rounded-full border-2 border-foreground/10 shadow-md overflow-hidden bg-foreground/5">
-                  <img
+                  <img loading="lazy"
                     src={
                       user?.data?.photoURL ||
                       user?.photoURL ||

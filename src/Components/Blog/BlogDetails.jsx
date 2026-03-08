@@ -96,7 +96,7 @@ const BlogDetails = () => {
                             transition={{ delay: 0.2 }}
                             className="relative aspect-[21/9] rounded-[40px] overflow-hidden mb-16 shadow-2xl"
                         >
-                            <img
+                            <img loading="lazy"
                                 src={blog.image}
                                 alt={blog.title}
                                 className="w-full h-full object-cover"

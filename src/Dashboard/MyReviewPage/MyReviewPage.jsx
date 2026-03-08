@@ -136,7 +136,7 @@ const MyReviewPage = () => {
           >
             {/* Meal Image */}
             <div className="md:w-48 h-48 md:h-auto overflow-hidden">
-              <img
+              <img loading="lazy"
                 src={rev.mealDetails?.foodImage}
                 alt={rev.mealDetails?.foodName}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

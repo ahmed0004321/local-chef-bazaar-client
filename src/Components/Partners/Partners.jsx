@@ -16,7 +16,7 @@ const restaurants = [
 
 const RestaurantCard = ({ restaurant }) => (
     <div className="mx-4 flex flex-col items-center gap-3 px-6 py-4 bg-surface border border-white/10 rounded-2xl hover:border-primary/30 hover:-translate-y-1 transition-all duration-300 w-44 shrink-0">
-        <img
+        <img loading="lazy"
             src={restaurant.logo}
             alt={restaurant.name}
             className="w-14 h-14 rounded-2xl shadow-md"

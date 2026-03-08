@@ -147,7 +147,7 @@ const Blog = () => {
             {/* Hero Section */}
             <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
                 <div className="absolute inset-0">
-                    <img
+                    <img loading="lazy"
                         src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1920&q=80"
                         alt="Culinary Journal Hero"
                         className="w-full h-full object-cover"
@@ -225,7 +225,7 @@ const Blog = () => {
                                     className="group cursor-pointer"
                                 >
                                     <div className="relative aspect-[16/10] rounded-3xl overflow-hidden mb-5 shadow-lg">
-                                        <img
+                                        <img loading="lazy"
                                             src={blog.image}
                                             alt={blog.title}
                                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
@@ -344,7 +344,7 @@ const Blog = () => {
                                                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                                             />
                                             {imagePreview ? (
-                                                <img
+                                                <img loading="lazy"
                                                     src={imagePreview}
                                                     alt="Preview"
                                                     className="w-full h-48 object-cover rounded-xl"

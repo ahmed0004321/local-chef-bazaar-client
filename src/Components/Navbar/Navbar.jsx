@@ -125,20 +125,63 @@ const Navbar = () => {
 
           {user ? (
             <div className="flex items-center gap-3">
+              {/* Desktop User Info */}
               <div className="hidden md:flex flex-col items-end mr-1">
-                <span className="text-sm font-semibold">{user?.data?.displayName || 'User'}</span>
+                <span className="text-sm font-semibold text-foreground">{user?.displayName || user?.data?.displayName || 'User'}</span>
                 <span className="text-[10px] uppercase tracking-wider px-1.5 py-0.5 rounded bg-primary/10 text-primary font-bold">
                   {user?.data?.role || 'Member'}
                 </span>
               </div>
-              <div className="avatar ring-2 ring-primary ring-offset-2 ring-offset-surface rounded-full transition-transform hover:scale-105 cursor-pointer">
-                <div className="w-9 rounded-full">
-                  <img src={user?.data?.photoURL || user?.photoURL || "https://ui-avatars.com/api/?name=User"} alt="User" />
+
+              {/* Advanced Profile Dropdown */}
+              <div className="dropdown dropdown-end">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="avatar ring-2 ring-primary ring-offset-2 ring-offset-surface rounded-full transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                >
+                  <div className="w-9 rounded-full">
+                    <img loading="lazy" src={user?.photoURL || user?.data?.photoURL || "https://ui-avatars.com/api/?name=User"} alt="User" />
+                  </div>
                 </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content mt-3 z-50 p-2 shadow-2xl bg-surface/95 backdrop-blur-md rounded-2xl w-56 border border-white/10 animate-fade-in"
+                >
+                  <li className="px-4 py-3 border-b border-foreground/5 mb-2">
+                    <p className="text-sm font-bold truncate">{user?.displayName || user?.data?.displayName}</p>
+                    <p className="text-[10px] text-foreground/50 truncate uppercase tracking-widest">{user?.data?.role || 'Member'}</p>
+                  </li>
+                  <li>
+                    <Link to="/dashboard" className="flex items-center gap-3 px-4 py-2 hover:bg-primary/10 hover:text-primary rounded-xl transition-colors text-sm font-medium">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                      Dashboard
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/dashboard/myProfile" className="flex items-center gap-3 px-4 py-2 hover:bg-primary/10 hover:text-primary rounded-xl transition-colors text-sm font-medium">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
+                      My Profile
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/dashboard/settings" className="flex items-center gap-3 px-4 py-2 hover:bg-primary/10 hover:text-primary rounded-xl transition-colors text-sm font-medium">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                      Settings
+                    </Link>
+                  </li>
+                  <div className="divider my-1 opacity-10"></div>
+                  <li>
+                    <button
+                      onClick={handleLogOut}
+                      className="w-full flex items-center gap-3 px-4 py-2 hover:bg-error/10 text-error rounded-xl transition-colors text-sm font-medium text-left"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                      Sign Out
+                    </button>
+                  </li>
+                </ul>
               </div>
-              <Button onClick={handleLogOut} variant="outline" size="sm" className="hidden sm:inline-flex">
-                Log Out
-              </Button>
             </div>
           ) : (
             <div className="flex items-center gap-3">

@@ -1,34 +1,45 @@
 import { createBrowserRouter } from "react-router";
-import RouteLayout from "../RouteLayout/RouteLayout";
-import Home from "../Home/Home";
-import Meals from "../Page/Meals/Meals";
-import DashboardLayout from "../Dashboard/DashboardLayout/DashboardLayout";
-import Register from "../Auth/Register";
-import Login from "../Auth/Login";
-import PrivateRoutes from "./PrivateRoutes";
-import MealDetails from "../Page/MealDetails/MealDetails";
-import MyProfile from "../Dashboard/MyProfile/MyProfile";
-import MyOrderPage from "../Dashboard/MyOrderPage/MyOrderPage";
-import MyReviewPage from "../Dashboard/MyReviewPage/MyReviewPage";
-import FavMeals from "../Dashboard/FavMeals/FavMeals";
-import CreateMeal from "../Dashboard/Chef/CreateMeal";
-import MyMeals from "../Dashboard/Chef/MyMeals";
-import OrderRequests from "../Dashboard/Chef/OrderRequests";
-import ManageUsers from "../Dashboard/Admin/ManageUsers";
-import ManageRequests from "../Dashboard/Admin/ManageRequests";
-import PlatformStats from "../Dashboard/Admin/PlatformStats";
-import ManageBlogs from "../Dashboard/Admin/ManageBlogs";
-import ManageComplaints from "../Dashboard/Admin/ManageComplaints";
-import Settings from "../Dashboard/Settings/Settings";
-import DashboardHome from "../Dashboard/DashboardHome/DashboardHome";
+import { lazy, Suspense } from "react";
+import { SuspenseLoader } from "../Components/UI/SuspenseLoader";
 
-import PaymentSuccess from "../Dashboard/MyOrderPage/PaymentSuccess";
-import PaymentCancelled from "../Dashboard/MyOrderPage/PaymentCancelled";
+import RouteLayout from "../RouteLayout/RouteLayout";
+import DashboardLayout from "../Dashboard/DashboardLayout/DashboardLayout";
+import PrivateRoutes from "./PrivateRoutes";
 import Error404 from "../Components/Error404";
-import About from "../Components/About/About";
-import FAQ from "../Components/FAQ/FAQ";
-import Blog from "../Components/Blog/Blog";
-import BlogDetails from "../Components/Blog/BlogDetails";
+
+// Lazy loading all major pages
+const Home = lazy(() => import("../Home/Home"));
+const Meals = lazy(() => import("../Page/Meals/Meals"));
+const Register = lazy(() => import("../Auth/Register"));
+const Login = lazy(() => import("../Auth/Login"));
+const MealDetails = lazy(() => import("../Page/MealDetails/MealDetails"));
+const MyProfile = lazy(() => import("../Dashboard/MyProfile/MyProfile"));
+const MyOrderPage = lazy(() => import("../Dashboard/MyOrderPage/MyOrderPage"));
+const MyReviewPage = lazy(() => import("../Dashboard/MyReviewPage/MyReviewPage"));
+const FavMeals = lazy(() => import("../Dashboard/FavMeals/FavMeals"));
+const CreateMeal = lazy(() => import("../Dashboard/Chef/CreateMeal"));
+const MyMeals = lazy(() => import("../Dashboard/Chef/MyMeals"));
+const OrderRequests = lazy(() => import("../Dashboard/Chef/OrderRequests"));
+const ManageUsers = lazy(() => import("../Dashboard/Admin/ManageUsers"));
+const ManageRequests = lazy(() => import("../Dashboard/Admin/ManageRequests"));
+const PlatformStats = lazy(() => import("../Dashboard/Admin/PlatformStats"));
+const ManageBlogs = lazy(() => import("../Dashboard/Admin/ManageBlogs"));
+const ManageComplaints = lazy(() => import("../Dashboard/Admin/ManageComplaints"));
+const Settings = lazy(() => import("../Dashboard/Settings/Settings"));
+const DashboardHome = lazy(() => import("../Dashboard/DashboardHome/DashboardHome"));
+const PaymentSuccess = lazy(() => import("../Dashboard/MyOrderPage/PaymentSuccess"));
+const PaymentCancelled = lazy(() => import("../Dashboard/MyOrderPage/PaymentCancelled"));
+const About = lazy(() => import("../Components/About/About"));
+const FAQ = lazy(() => import("../Components/FAQ/FAQ"));
+const Blog = lazy(() => import("../Components/Blog/Blog"));
+const BlogDetails = lazy(() => import("../Components/Blog/BlogDetails"));
+
+// Helper component to wrap lazy components
+const Load = (Component) => (
+  <Suspense fallback={<SuspenseLoader />}>
+    <Component />
+  </Suspense>
+);
 
 export const router = createBrowserRouter([
   {
@@ -37,51 +48,49 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Home></Home>,
+        element: Load(Home),
       },
       {
         path: "/meals",
-        element: <Meals></Meals>,
+        element: Load(Meals),
       },
       {
         path: '/about',
-        element: <About></About>
+        element: Load(About)
       },
       {
         path: '/FAQ',
-        element: <FAQ></FAQ>
+        element: Load(FAQ)
       },
       {
         path: '/blog',
-        element: <Blog></Blog>
+        element: Load(Blog)
       },
       {
         path: '/blog/:id',
-        element: <BlogDetails></BlogDetails>
+        element: Load(BlogDetails)
       },
       {
         path: "/mealDetails/:id",
-        element: (
-          <MealDetails></MealDetails>
-        ),
+        element: Load(MealDetails),
       },
       {
         path: "/payment-success",
-        element: <PaymentSuccess />
+        element: Load(PaymentSuccess)
       },
       {
         path: "/payment-cancel",
-        element: <PaymentCancelled />
+        element: Load(PaymentCancelled)
       },
     ],
   },
   {
     path: "/register",
-    Component: Register,
+    element: Load(Register),
   },
   {
     path: "/login",
-    Component: Login,
+    element: Load(Login),
   },
   {
     path: '*',
@@ -97,59 +106,59 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <DashboardHome />
+        element: Load(DashboardHome)
       },
       {
         path: 'myProfile',
-        element: <MyProfile></MyProfile>
+        element: Load(MyProfile)
       },
       {
         path: 'myOrders',
-        element: <MyOrderPage></MyOrderPage>
+        element: Load(MyOrderPage)
       },
       {
         path: "myReviews",
-        element: <MyReviewPage></MyReviewPage>
+        element: Load(MyReviewPage)
       },
       {
         path: "favoriteMeals",
-        element: <FavMeals></FavMeals>
+        element: Load(FavMeals)
       },
       {
         path: "createMeals",
-        element: <CreateMeal></CreateMeal>
+        element: Load(CreateMeal)
       },
       {
         path: "myMeals",
-        element: <MyMeals></MyMeals>
+        element: Load(MyMeals)
       },
       {
         path: "orderRequest",
-        element: <OrderRequests></OrderRequests>
+        element: Load(OrderRequests)
       },
       {
         path: "manageUsers",
-        element: <ManageUsers></ManageUsers>
+        element: Load(ManageUsers)
       },
       {
         path: "manageRequests",
-        element: <ManageRequests></ManageRequests>
+        element: Load(ManageRequests)
       },
       {
         path: "platformStats",
-        element: <PlatformStats></PlatformStats>
+        element: Load(PlatformStats)
       },
       {
         path: "manageBlogs",
-        element: <ManageBlogs></ManageBlogs>
+        element: Load(ManageBlogs)
       },
       {
         path: "manageComplaints",
-        element: <ManageComplaints></ManageComplaints>
+        element: Load(ManageComplaints)
       },
       {
         path: "settings",
-        element: <Settings></Settings>
+        element: Load(Settings)
       }
     ]
   },
