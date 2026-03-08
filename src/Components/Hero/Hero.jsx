@@ -1,151 +1,169 @@
 import React from "react";
-import { Button, Container } from "../UI";
+import { Link } from "react-router";
 import { motion } from "framer-motion";
-import { FaUtensils, FaUsers, FaHeart, FaArrowRight, FaStar, FaShieldAlt, FaClock } from "react-icons/fa";
+import { FaArrowRight, FaPlay, FaStar, FaFire, FaUserTie } from "react-icons/fa";
+import { Container } from "../UI";
 
 const Hero = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2
+  // Animation for floating elements
+  const floatingAnimation = {
+    y: ["-10px", "10px"],
+    transition: {
+      y: {
+        duration: 3,
+        repeat: Infinity,
+        repeatType: "reverse",
+        ease: "easeInOut"
       }
     }
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+  const floatingAnimationDelayed = {
+    y: ["10px", "-10px"],
+    transition: {
+      y: {
+        duration: 3.5,
+        repeat: Infinity,
+        repeatType: "reverse",
+        ease: "easeInOut"
+      }
     }
   };
 
   return (
-    <section className="w-full relative min-h-[800px] py-20 lg:py-32 overflow-hidden bg-[#0A0A0B] flex items-center">
-      {/* Background Subtle Elements */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-primary/10 blur-[150px] rounded-full" />
-        <div className="absolute bottom-0 right-1/4 w-[400px] h-[400px] bg-orange-600/5 blur-[120px] rounded-full" />
-        <div className="absolute inset-0 opacity-[0.02]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 2px, transparent 0)', backgroundSize: '48px 48px' }} />
+    <section className="relative w-full min-h-[90vh] bg-[#050505] flex items-center pt-20 pb-12 overflow-hidden">
+      {/* Abstract Animated Background */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-primary/20 blur-[120px] mix-blend-screen animate-pulse" style={{ animationDuration: '8s' }} />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-orange-600/20 blur-[120px] mix-blend-screen animate-pulse" style={{ animationDuration: '10s' }} />
+        {/* Subtle grid pattern overlay */}
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 2px, transparent 0)', backgroundSize: '40px 40px' }} />
       </div>
 
-      <Container className="relative z-10 h-full">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2 gap-4 lg:gap-6 h-full"
-        >
-          {/* 1. MAIN HEADLINE TILE (Spans 2x2) */}
-          <motion.div
-            variants={itemVariants}
-            className="md:col-span-2 lg:row-span-2 p-8 md:p-12 rounded-[2.5rem] bg-gradient-to-br from-white/[0.05] to-transparent border border-white/10 flex flex-col justify-center items-start space-y-8 relative overflow-hidden group shadow-2xl"
-          >
-            <div className="absolute -top-24 -right-24 w-64 h-64 bg-primary/20 blur-[80px] rounded-full group-hover:bg-primary/30 transition-colors duration-700" />
+      <Container className="relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
 
-            <div className="space-y-4 relative z-10">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 border border-primary/30 text-primary text-[10px] font-black uppercase tracking-[0.2em]">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                Premium Home Cuisine
-              </div>
-              <h1 className="text-5xl md:text-7xl xl:text-8xl font-black text-white leading-[0.9] tracking-tighter">
-                Discover <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-400 italic">Authentic</span> <br />
-                Bazaar.
-              </h1>
-              <p className="text-lg md:text-xl text-white/50 font-medium leading-relaxed max-w-sm">
-                Connecting you with local artisanal chefs for the most soulful homemade experiences.
-              </p>
+          {/* Left Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="flex flex-col items-start space-y-8 max-w-2xl mx-auto lg:mx-0 text-center lg:text-left"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md">
+              <span className="w-2 h-2 rounded-full bg-primary animate-ping" />
+              <span className="w-2 h-2 rounded-full bg-primary absolute" />
+              <span className="text-xs font-semibold text-white/80 tracking-widest uppercase">100% Authentic Home Cooking</span>
             </div>
 
-            <div className="flex flex-wrap items-center gap-4 pt-4 relative z-10">
-              <Button
+            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black text-white leading-[1.05] tracking-tight">
+              Savor the <br className="hidden md:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-orange-400 to-yellow-500">
+                True Taste
+              </span> <br className="hidden md:block" />
+              of Home.
+            </h1>
+
+            <p className="text-lg md:text-xl text-white/50 font-medium leading-relaxed max-w-lg mx-auto lg:mx-0">
+              Skip the generic restaurant food. Discover passionate local chefs cooking authentic, hygienic, and soulful meals right in your neighborhood.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+              <Link
                 to="/meals"
-                className="h-16 px-10 rounded-2xl bg-primary text-white font-black text-lg shadow-xl shadow-primary/20 hover:scale-[1.03] transition-all flex items-center gap-3"
+                className="w-full sm:w-auto px-8 py-4 rounded-full bg-primary text-white font-bold text-lg hover:shadow-[0_0_30px_-5px_var(--fallback-p)] hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3"
               >
-                Get Started
-                <FaArrowRight />
-              </Button>
+                Explore Meals <FaArrowRight />
+              </Link>
+              <button
+                className="w-full sm:w-auto px-8 py-4 rounded-full bg-white/5 text-white border border-white/10 hover:bg-white/10 font-bold text-lg backdrop-blur-md transition-all duration-300 flex items-center justify-center gap-3"
+              >
+                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center">
+                  <FaPlay className="text-sm pl-0.5" />
+                </div>
+                Watch Video
+              </button>
             </div>
-          </motion.div>
 
-          {/* 2. CHEF SPOTLIGHT TILE */}
-          <motion.div
-            variants={itemVariants}
-            className="p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/5 flex flex-col justify-between hover:border-primary/20 transition-all group"
-          >
-            <div className="flex justify-between items-start">
-              <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-2xl text-primary group-hover:scale-110 transition-transform">
-                <FaUtensils />
-              </div>
+            {/* Social Proof */}
+            <div className="pt-6 border-t border-white/10 flex items-center gap-4 w-full justify-center lg:justify-start">
               <div className="flex -space-x-3">
-                {[1, 2, 3].map(i => (
-                  <div key={i} className="w-8 h-8 rounded-full border-2 border-[#0A0A0B] overflow-hidden">
-                    <img loading="lazy" src={`https://i.pravatar.cc/100?img=${i + 20}`} alt="" className="w-full h-full object-cover" />
-                  </div>
+                {[1, 2, 3, 4].map(i => (
+                  <img loading="lazy" key={i} src={`https://i.pravatar.cc/100?img=${i + 30}`} alt="User" className="w-10 h-10 rounded-full border-2 border-[#050505] object-cover" />
                 ))}
               </div>
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-2xl font-black text-white">500+ Chefs</h3>
-              <p className="text-xs font-bold text-white/30 uppercase tracking-widest">Local Artisans Joined</p>
-            </div>
-          </motion.div>
-
-          {/* 3. QUALITY/TRUST TILE */}
-          <motion.div
-            variants={itemVariants}
-            className="p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/5 flex flex-col justify-between hover:border-orange-500/20 transition-all group"
-          >
-            <div className="w-14 h-14 rounded-2xl bg-orange-500/10 flex items-center justify-center text-2xl text-orange-500 group-hover:rotate-12 transition-transform">
-              <FaShieldAlt />
-            </div>
-            <div className="space-y-4">
-              <div className="flex gap-1 text-orange-400">
-                {[...Array(5)].map((_, i) => <FaStar key={i} />)}
-              </div>
-              <div className="space-y-1">
-                <h3 className="text-xl font-black text-white">Hygiene First</h3>
-                <p className="text-xs font-bold text-white/30 uppercase tracking-widest">Certified Kitchens Only</p>
+              <div className="text-sm">
+                <p className="text-white font-bold">Trusted by 10k+ Foodies</p>
+                <div className="flex text-yellow-500 text-xs">
+                  {[...Array(5)].map((_, i) => <FaStar key={i} />)}
+                </div>
               </div>
             </div>
           </motion.div>
 
-          {/* 4. RECENT ACTIVITY TILE (WIDER) */}
+          {/* Right Content - Floating Elements Image Composition */}
           <motion.div
-            variants={itemVariants}
-            className="lg:col-span-2 p-8 rounded-[2.5rem] bg-white/[0.03] border border-white/5 flex items-center justify-between hover:border-blue-500/20 transition-all relative overflow-hidden group"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="relative w-full h-[450px] md:h-[600px] flex items-center justify-center mt-10 md:mt-0"
           >
-            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-[50px] rounded-full group-hover:bg-blue-500/20 transition-colors" />
+            {/* Main Central Image */}
+            <div className="relative w-64 h-64 md:w-96 md:h-96 rounded-full p-2 bg-gradient-to-tr from-primary/40 to-orange-500/40 backdrop-blur-3xl lg:animate-[spin_40s_linear_infinite]">
+              <div className="w-full h-full rounded-full overflow-hidden border-4 border-[#050505]">
+                <img loading="lazy" src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop" alt="Delicious Food" className="w-full h-full object-cover lg:animate-[spin_40s_linear_infinite_reverse]" />
+              </div>
+            </div>
 
-            <div className="flex items-center gap-6 relative z-10">
-              <div className="w-16 h-16 rounded-3xl bg-blue-500/10 text-blue-500 flex items-center justify-center text-3xl">
-                <FaClock />
+            {/* Floating Component 1: Top Right */}
+            <motion.div
+              animate={floatingAnimation}
+              className="absolute top-[5%] right-[0%] lg:right-[5%] bg-white/10 backdrop-blur-xl border border-white/20 p-4 rounded-2xl shadow-2xl flex items-center gap-4 z-20"
+            >
+              <div className="w-12 h-12 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center text-xl">
+                <FaStar />
               </div>
               <div>
-                <h4 className="text-2xl font-black text-white">35 Min Delivery</h4>
-                <p className="text-xs font-bold text-white/30 uppercase tracking-widest">Average Wait Time Now</p>
+                <p className="text-white font-black text-xl">4.9/5</p>
+                <p className="text-white/60 text-xs font-semibold uppercase tracking-wider">Average Rating</p>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="hidden sm:flex flex-col items-end relative z-10">
-              <span className="text-4xl font-black text-white leading-none">120+</span>
-              <span className="text-[10px] font-black text-blue-500 uppercase tracking-tighter">Live Orders</span>
-            </div>
+            {/* Floating Component 2: Bottom Left */}
+            <motion.div
+              animate={floatingAnimationDelayed}
+              className="absolute bottom-[5%] left-[0%] lg:left-[5%] bg-white/10 backdrop-blur-xl border border-white/20 p-4 rounded-2xl shadow-2xl flex items-center gap-4 z-20"
+            >
+              <div className="w-12 h-12 rounded-full bg-orange-500/20 text-orange-400 flex items-center justify-center text-xl">
+                <FaFire />
+              </div>
+              <div>
+                <p className="text-white font-black text-xl">Hot & Fresh</p>
+                <p className="text-white/60 text-xs font-semibold uppercase tracking-wider">Straight to you</p>
+              </div>
+            </motion.div>
+
+            {/* Floating Component 3: Center Left */}
+            <motion.div
+              animate={floatingAnimation}
+              className="absolute top-[40%] left-[-5%] lg:left-[-10%] bg-white/10 backdrop-blur-xl border border-white/20 p-3 rounded-2xl shadow-2xl items-center gap-3 z-20 hidden md:flex"
+            >
+              <div className="w-10 h-10 rounded-full bg-primary/20 text-primary flex items-center justify-center">
+                <FaUserTie />
+              </div>
+              <div>
+                <p className="text-white font-bold text-sm">500+ Local</p>
+                <p className="text-white/60 text-[10px] font-semibold uppercase">Verified Chefs</p>
+              </div>
+            </motion.div>
+
+            {/* Decorative Glow behind the image */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-primary/30 to-orange-500/30 blur-[100px] rounded-full -z-10 pointer-events-none" />
+
           </motion.div>
-        </motion.div>
-      </Container>
 
-      {/* Wave Separator */}
-      <div className="absolute bottom-0 left-0 w-full z-20 pointer-events-none opacity-50">
-        <svg viewBox="0 0 1440 320" className="w-full fill-background">
-          <path d="M0,256L60,240C120,224,240,192,360,192C480,192,600,224,720,224C840,224,960,192,1080,176C1200,160,1320,160,1380,160L1440,160L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
-        </svg>
-      </div>
+        </div>
+      </Container>
     </section>
   );
 };
