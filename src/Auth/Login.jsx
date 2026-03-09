@@ -10,7 +10,7 @@ import Footer from "../Components/Footer/Footer";
 import { motion } from "framer-motion";
 
 const Login = () => {
-  const { signInUser, loading } = useContext(AuthContext);
+  const { signInUser, loading, googleSignIn } = useContext(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
   const [isError, setIsError] = React.useState(false);
@@ -210,7 +210,28 @@ const Login = () => {
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <button type="button" className="flex items-center justify-center gap-2 py-2.5 border border-foreground/10 rounded-lg hover:bg-foreground/5 transition-colors">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      googleSignIn()
+                        .then((result) => {
+                          Swal.fire({
+                            title: "Welcome!",
+                            text: `Logged in as ${result.user.displayName || "User"}`,
+                            icon: "success",
+                            confirmButtonColor: "#f38b0c",
+                            background: "var(--surface)",
+                            color: "var(--foreground)",
+                          });
+                          navigate(location?.state?.from || "/");
+                        })
+                        .catch((err) => {
+                          setErrorMessage(err.message);
+                          setIsError(true);
+                        });
+                    }}
+                    className="flex items-center justify-center gap-2 py-2.5 border border-foreground/10 rounded-lg hover:bg-foreground/5 transition-colors"
+                  >
                     <img loading="lazy" src="https://www.google.com/favicon.ico" className="w-4 h-4" alt="G" />
                     <span className="text-sm font-medium text-foreground/70">Google</span>
                   </button>
