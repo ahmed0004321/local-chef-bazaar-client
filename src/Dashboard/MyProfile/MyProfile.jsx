@@ -19,7 +19,7 @@ import {
 import axios from "axios";
 
 const MyProfile = () => {
-  const { user, loading, updateUserProfile, resetPassword } =
+  const { user, updateUserProfile, resetPassword } =
     useContext(AuthContext);
   const [photoValue, setPhotoValue] = useState(null);
   const [updatingPhoto, setUpdatingPhoto] = useState(false);
@@ -148,12 +148,6 @@ const MyProfile = () => {
     }
   };
 
-  if (loading)
-    return (
-      <div className="h-full flex items-center justify-center">
-        <Loading />
-      </div>
-    );
 
   const role = user?.data?.role || "customer";
   const status = user?.data?.status || "active";
@@ -334,10 +328,12 @@ const MyProfile = () => {
                 type="submit"
                 variant="primary"
                 disabled={updatingPhoto}
-                className="w-full"
+                className="w-full h-11"
               >
                 {updatingPhoto ? (
-                  <span className="loading loading-spinner loading-sm"></span>
+                  <div className="flex items-center justify-center scale-75">
+                    <Loading inline color="#ffffff" height={10} width={3} radius={1} />
+                  </div>
                 ) : (
                   "Update Image"
                 )}
@@ -365,10 +361,12 @@ const MyProfile = () => {
                 onClick={handleUpdatePassword}
                 variant="ghost"
                 disabled={updatingPassword}
-                className="w-full border border-foreground/10"
+                className="w-full border border-foreground/10 h-11"
               >
                 {updatingPassword ? (
-                  <span className="loading loading-spinner loading-sm"></span>
+                  <div className="flex items-center justify-center scale-75">
+                    <Loading inline color="var(--primary)" height={10} width={3} radius={1} />
+                  </div>
                 ) : (
                   "Send Reset Email"
                 )}

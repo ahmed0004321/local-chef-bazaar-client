@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import Loading from '../Loading/Loading';
 
 const Button = ({
   children,
@@ -32,10 +33,16 @@ const Button = ({
 
   const classes = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`;
 
+  const renderLoader = () => (
+    <div className="mr-2 scale-[0.4] flex items-center justify-center -ml-4 -mr-2">
+      <Loading inline color="currentColor" height={10} width={3} radius={1} margin={-5} />
+    </div>
+  );
+
   if (to) {
     return (
       <Link to={to} className={classes} {...props}>
-        {isLoading ? <span className="loading loading-spinner loading-sm mr-2"></span> : null}
+        {isLoading ? renderLoader() : null}
         {children}
       </Link>
     );
@@ -49,7 +56,7 @@ const Button = ({
       onClick={onClick}
       {...props}
     >
-      {isLoading ? <span className="loading loading-spinner loading-sm mr-2"></span> : null}
+      {isLoading ? renderLoader() : null}
       {children}
     </button>
   );

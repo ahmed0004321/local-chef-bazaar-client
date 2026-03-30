@@ -99,8 +99,8 @@ const MyOrderPage = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Loading />
+      <div className="min-h-[400px] flex items-center justify-center animate-fade-in">
+        <Loading inline color="#f38b0c" />
       </div>
     );
   }
@@ -204,10 +204,16 @@ const MyOrderPage = () => {
                           <button
                             onClick={() => handlePay(order)}
                             disabled={payingId === order._id}
-                            className="btn btn-xs btn-primary text-white"
+                            className="btn btn-xs btn-primary text-white h-8"
                             title="Pay Now"
                           >
-                            {payingId === order._id ? <span className="loading loading-spinner loading-xs"></span> : <FaCreditCard />} Pay
+                            {payingId === order._id ? (
+                              <div className="flex items-center justify-center scale-50">
+                                <Loading inline color="#ffffff" height={10} width={3} radius={1} margin={-5} />
+                              </div>
+                            ) : (
+                              <div className="flex items-center gap-1"><FaCreditCard /> Pay</div>
+                            )}
                           </button>
                         )}
 

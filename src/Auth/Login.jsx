@@ -171,7 +171,13 @@ const Login = () => {
                   className="w-full bg-primary hover:bg-primary/90 text-white h-12 rounded-lg font-bold text-lg shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? <span className="loading loading-spinner"></span> : "Sign In"}
+                  {isSubmitting ? (
+                    <div className="flex items-center justify-center scale-[0.6] h-full transition-all">
+                      <Loading inline color="#ffffff" height={10} width={3} radius={1} margin={-5} />
+                    </div>
+                  ) : (
+                    "Sign In"
+                  )}
                 </Button>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">

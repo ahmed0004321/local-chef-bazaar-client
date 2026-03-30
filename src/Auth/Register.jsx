@@ -8,6 +8,7 @@ import { Input, Button, Card } from "../Components/UI";
 import { FaArrowLeft, FaCloudUploadAlt, FaEye, FaEyeSlash } from "react-icons/fa";
 import Footer from "../Components/Footer/Footer";
 import { motion } from "framer-motion";
+import Loading from "../Components/Loading/Loading";
 
 const Register = () => {
   const { createUser, updateUserProfile, googleSignIn } = use(AuthContext);
@@ -228,7 +229,13 @@ const Register = () => {
                   className="w-full bg-primary hover:bg-primary/90 text-white h-12 rounded-xl font-bold text-lg shadow-lg shadow-primary/20 mt-2 transition-all hover:-translate-y-0.5"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? <span className="loading loading-spinner"></span> : "Create Account"}
+                  {isSubmitting ? (
+                    <div className="flex items-center justify-center scale-[0.6] h-full">
+                      <Loading inline color="#ffffff" height={10} width={3} radius={1} margin={-5} />
+                    </div>
+                  ) : (
+                    "Create Account"
+                  )}
                 </Button>
 
                 <div className="relative py-2">

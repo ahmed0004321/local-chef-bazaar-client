@@ -8,16 +8,8 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/AxiosSecure";
 
 const DashboardLayout = () => {
-  const { user, loading } = use(AuthContext);
+  const { user } = use(AuthContext);
   const axiosSecure = useAxiosSecure();
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <Loading />
-      </div>
-    );
-  }
 
   const navLinkClass = ({ isActive }) =>
     `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 font-medium ${isActive

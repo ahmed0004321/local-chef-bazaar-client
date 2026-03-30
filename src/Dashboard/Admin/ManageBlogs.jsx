@@ -4,6 +4,7 @@ import { Container, Button } from "../../Components/UI";
 import Swal from "sweetalert2";
 import { FaTrash, FaEye } from "react-icons/fa";
 import { motion } from "framer-motion";
+import Loading from "../../Components/Loading/Loading";
 
 const ManageBlogs = () => {
     const [blogs, setBlogs] = useState([]);
@@ -76,8 +77,8 @@ const ManageBlogs = () => {
             </div>
 
             {loading ? (
-                <div className="flex justify-center items-center py-20">
-                    <span className="loading loading-spinner loading-lg text-primary"></span>
+                <div className="flex justify-center items-center py-20 animate-fade-in">
+                    <Loading inline color="#f38b0c" />
                 </div>
             ) : (
                 <div className="bg-surface rounded-3xl border border-foreground/5 overflow-hidden shadow-xl">

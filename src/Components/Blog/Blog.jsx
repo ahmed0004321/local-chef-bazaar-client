@@ -14,6 +14,7 @@ import {
     FaUser,
     FaTag,
 } from "react-icons/fa";
+import Loading from "../Loading/Loading";
 
 const Blog = () => {
     const navigate = useNavigate();
@@ -202,9 +203,7 @@ const Blog = () => {
 
                     {/* Loading State */}
                     {loading ? (
-                        <div className="flex justify-center items-center py-20">
-                            <span className="loading loading-spinner loading-lg text-primary"></span>
-                        </div>
+                        <Loading inline color="#f38b0c" />
                     ) : blogs.length === 0 ? (
                         <div className="text-center py-20">
                             <h3 className="text-2xl font-bold mb-2">No stories yet</h3>

@@ -1,4 +1,5 @@
 import React from 'react';
+import Loading from '../Loading/Loading';
 
 const Table = ({
     headers,
@@ -27,8 +28,8 @@ const Table = ({
                     <tbody className="relative">
                         {loading ? (
                             <tr>
-                                <td colSpan={headers.length} className="py-20 text-center">
-                                    <span className="loading loading-spinner loading-lg text-primary"></span>
+                                <td colSpan={headers.length} className="py-20 text-center animate-fade-in">
+                                    <Loading inline color="#f38b0c" />
                                 </td>
                             </tr>
                         ) : data.length > 0 ? (

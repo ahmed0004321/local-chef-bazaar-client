@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Container, Button } from "../UI";
 import useAxiosSecure from "../../Hooks/AxiosSecure";
 import { FaArrowLeft, FaCalendarAlt, FaUser, FaTag } from "react-icons/fa";
+import Loading from "../Loading/Loading";
 
 const BlogDetails = () => {
     const { id } = useParams();
@@ -29,8 +30,8 @@ const BlogDetails = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-background flex justify-center items-center">
-                <span className="loading loading-spinner loading-lg text-primary"></span>
+            <div className="min-h-screen bg-background flex flex-col justify-center items-center gap-4 animate-fade-in">
+                <Loading inline color="#f38b0c" />
             </div>
         );
     }

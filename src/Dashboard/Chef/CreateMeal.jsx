@@ -6,6 +6,7 @@ import { AuthContext } from "../../Context/AuthContext";
 import Swal from "sweetalert2";
 import { Input, Button, Card } from "../../Components/UI";
 import { FaCloudUploadAlt, FaSave, FaArrowLeft } from "react-icons/fa";
+import Loading from "../../Components/Loading/Loading";
 
 const CreateMeal = () => {
   const navigate = useNavigate();
@@ -164,15 +165,19 @@ const CreateMeal = () => {
               type="submit"
               variant="primary"
               size="lg"
-              className={`min-w-[200px] ${user?.data?.status === 'fraud' ? 'grayscale opacity-50' : ''}`}
+              className={`min-w-[200px] h-12 ${user?.data?.status === 'fraud' ? 'grayscale opacity-50' : ''}`}
               disabled={isSubmitting || user?.data?.status === 'fraud'}
             >
               {isSubmitting ? (
-                <span className="loading loading-spinner"></span>
+                <div className="flex items-center justify-center scale-75">
+                  <Loading inline color="#ffffff" height={10} width={3} radius={1} />
+                </div>
               ) : user?.data?.status === 'fraud' ? (
                 "Action Restricted"
               ) : (
-                <><FaSave className="mr-2" /> Save Meal</>
+                <div className="flex items-center justify-center gap-2">
+                  <FaSave /> Save Meal
+                </div>
               )}
             </Button>
           </div>
